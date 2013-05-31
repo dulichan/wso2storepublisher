@@ -1,0 +1,15 @@
+<%
+
+var console_controller = {	
+
+	dashboard : function (params) {     	
+        includeView(controller, view);
+    },
+    
+    configuration : function (params) {     	
+        includeView(controller, view);
+    },
+
+}
+
+%>

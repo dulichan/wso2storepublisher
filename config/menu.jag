@@ -1,0 +1,23 @@
+<%
+
+var site_main_menu = {
+	
+	"admin" :[
+		{ "name": t("dashboard"), "url" : "console/dashboard", "item": "dashboard"},
+		{ "name": t("configuration"), "url" : "console/configuration", "item": "configuration"},
+		{ "name": t("management"), "url" : "groups", "item": "management"}
+	]
+};
+
+
+var site_config_menu = 	
+	[
+		{ "name": t("user"), "url" : "console/dashboard", "item": "dashboard"},
+		{ "name": t("group"), "url" : "console/configuration", "item": "configuration"}		
+	]
+;
+
+
+
+
+%>

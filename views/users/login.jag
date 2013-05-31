@@ -1,0 +1,41 @@
+<% 
+require('../includes/main/header.jag');
+%>
+
+<div class="container-fluid">
+
+	<div class="span7">
+		<div id="login-front-image"> </div>
+		<div id="login-os-icons"> </div>
+	</div>
+
+	<div id="login-form" class="span5 pull-right">
+
+		<form id="form-signin" action="login" class="form-signin" method="post">
+			<h3 class="form-signin-heading"><% print(t("signin-prompt")); %></h3>
+			<input type="text" name="txtUsername" id="txtUsername" class="input-block-level" placeholder="<% print(t("username")); %>">
+			<input type="password" name="txtPassword" id="txtPassword" class="input-block-level" placeholder="<% print(t("password")); %>">
+			
+			
+			<%
+				if(request.getMethod() == "POST" & !isAuthenticate){
+    					print('<div id="login_error" class="alert alert-error">');
+						print('Invalid username or password');
+						print('</div>');
+    			}
+			%>
+			
+			
+			
+
+			<div class="raw">
+				<input value="<% print(t("signin")); %>"  class="btn btn-large btn-primary btn-mdm" type="submit"/>
+			</div>
+
+		</form>
+	</div>
+
+</div>
+
+<% require('../includes/main/footer.jag'); %>
+

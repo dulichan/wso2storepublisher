@@ -1,0 +1,14 @@
+<%
+
+var pages_controller = {
+	
+	 
+    index : function (params) {  
+        print("Welcome to Jaggery");
+    },
+    
+    
+      
+};
+
+%>

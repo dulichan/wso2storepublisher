@@ -1,0 +1,53 @@
+<%
+include("config/core.jag");
+	var requestURI = request.getRequestURI();
+
+		pageURL = requestURI.replace(_SERVER_URI, '');
+
+		//remove trailing slash
+		pageURL = pageURL.replace(/\/$/, "");
+
+		var uriArray = pageURL.split("/");
+
+		var controller = '';
+		var view = _DEFAULT_VIEW;
+		
+		
+		if(uriArray.length > 0){
+			if(uriArray[0] != null){			
+				controller = uriArray[0];
+			}
+		}
+		
+		
+		var log = new Log();
+		log.info(pageURL);
+
+
+if(pageURL != 'users/login'){
+	if(pageURL != 'config/core'){
+		if(session.get('isAuthenticate') != true){
+			response.sendRedirect(_SERVER_URI + 'users/login');
+		}
+	}	
+	
+}else{
+	if(session.get('isAuthenticate') == true){
+		session.put("isAuthenticate", false);
+		session.put("authenticatedUser", 'undefined');
+	}
+}
+
+var i18n = require("i18n");				
+i18n.init(request);		
+i18n.localeResourcesBasePath = "lang";
+
+function t(key, value){
+return i18n.localize(key, value);
+}
+
+function t(key){
+return i18n.localize(key, "value");
+}
+include("config/menu.jag");
+%>

@@ -1,0 +1,33 @@
+<header>
+	<div class=" navbar-inverse navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<a class="brand" href="#"><% print(t("site.heading")); %></a>
+			<ul class="nav">
+				<% 
+
+				var authenticatedUser = session.get("authenticatedUser");
+				
+				
+				if(!(authenticatedUser == 'undefined' | authenticatedUser == null)){
+					
+					auth_user_role = parse(authenticatedUser).group;	
+					
+					var site_menu = site_main_menu[auth_user_role];
+				
+					if(site_menu != null | site_menu != 'undefined'){
+						for(var i = 0; i < site_menu.length; i++){		
+							var is_active ='';
+							if(site_menu_item == site_menu[i].item){
+								is_active = 'class="active"';
+							}
+							print('<li '+ is_active + '><a href="'+ _SERVER_URI + site_menu[i].url +'">' + site_menu[i].name + '</a></li>');	
+						}
+						
+					}
+				}
+
+			%>
+			</ul>
+		</div>
+	</div>
+</header>

@@ -1,0 +1,23 @@
+{
+
+"site.title" : "ජංගම උපකරණ කළමනාකරණය",
+"site.heading" : "ජංගම උපකරණ කළමනාකරණය",
+
+"footer.text" : "Copyright 2013",
+
+"signin-prompt" : "Please Sign in",
+"signin" : "Sign in",
+"username" : "Username",
+"password" : "Password",
+
+
+"dashboard" : "Dashboard",
+"configuration" : "Configuration",
+"management" : "Management",
+
+
+"user" : "User",
+"group" : "Group",
+
+
+}

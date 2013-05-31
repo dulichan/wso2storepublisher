@@ -1,0 +1,12 @@
+<footer class="navbar navbar-fixed-bottom">
+	<div class="footer-text offset6 raw">
+		<div id="footer-logo"> </div>
+		<div id="footer-copyright"><% print(t("footer.text")); %></div>			
+	</div>
+	
+	
+		<script src="<% print(_SERVER_URI); %>assets/jquery/jquery-min.js"></script>
+		<script src="<% print(_SERVER_URI); %>assets/bootstrap/js/bootstrap.min.js"></script>
+		<script src="<% print(_SERVER_URI); %>assets/handlebars/handlebars.js"></script>
+		
+</footer>
