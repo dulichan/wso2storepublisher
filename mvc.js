@@ -120,6 +120,7 @@ var mvc = (function () {
         route: function (req) {
 			var reqURL = req.getRequestURI();
 			var pageURL = reqURL.replace(configs.SERVER_URL, '');
+			//Ignore the specified URIs
 			for (var i=0; i < configs.IGNORE.length; i++) {
 				if(pageURL==configs.IGNORE[i]){
 					include(pageURL);
@@ -128,31 +129,59 @@ var mvc = (function () {
 			};
 			log.info("Request url: "+reqURL);
 			log.info("Page url: "+pageURL);
+			
 			var pageParams = pageURL.split('/');
 			//Send the last part of the uri 
+			//Routing assets
 			if(isAsset(pageParams[pageParams.length-1])){
 				routeAsset(pageURL);
 				return;
 			}
+			
 			var controller = pageParams[0];
 			var view = "index";
 			if(pageParams.length>1 && pageParams[1]!=''){
 				view = pageParams[1];	
 			}
+			var viewName = view;
+			view = view+"."+configs.ENGINE;
+			log.info("View "+ view);
+			
+			//App controller
 			var appController;
 			if(isExists('/controller/app.js')){
 				appController =require('/controller/app.js');
 			}
-			var context = require('/controller/'+controller+".js")[view](appController);
-			view = view+"."+configs.ENGINE;
 			
-			log.info("View "+ view);
-			log.info('/views/'+controller+"/"+view);
-			log.info(Handle.partials);
-			var template = Handle.compile(getResource('/views/'+controller+"/"+view));
-			var b = template(context);
-			var layout = Handle.compile(getResource("/pages/"+context.layout+".hbs"));
-			print(layout({body:b, partials:context.partials}));
+			//Extracting the template from the view
+			var template;
+			var templateURI = '/views/'+controller+"/"+view;
+			if(isExists(templateURI)){
+				template = Handle.compile(getResource(templateURI));
+			}
+			
+			var context;
+			if(isExists('/controller/'+controller+".js") && require('/controller/'+controller+".js")[viewName] !=undefined){
+				context = require('/controller/'+controller+".js")[viewName](appController);
+				log.info("Current context "+context);
+			}		
+			//Extracting the layout from the controller
+			var layout;
+			if(context!=undefined && context.layout!=undefined){
+				layout = Handle.compile(getResource("/pages/"+context.layout+".hbs"));
+			}
+			//If we can't find a controller as well as a view we are sending a 404 error
+			if(template==undefined && context==undefined){
+				response.sendError(404);
+			}else{
+				var b = template(context);
+				if(layout==undefined){
+					//If the controller hasn't specified a layout
+					print(b);
+				}else{
+					print(layout({body:b, partials: context.partials}));
+				}
+			}
         }
     };
 // return module
