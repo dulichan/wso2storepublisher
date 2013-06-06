@@ -2,13 +2,15 @@ list = function(appController){
 	return {
 		layout:'1-column',
 		title:'Your Apps',
-		navigation:{
-			partial:'navigation',
-			context: appController.navigation()
+		partials:{
+			header:appController.navigation()
 		},
 		data:{
 			name:"Chan",
-			quote:"I was a king I had a gold throne"
+			quote:"I was a king I had a gold throne",
+			apps:[
+				{name:"Bookhub",status:"Published"}
+			]
 		}
 	};
 }

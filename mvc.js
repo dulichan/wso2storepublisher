@@ -57,6 +57,10 @@ var mvc = (function () {
 	}
 	
 	function registerHelpers(){
+		// Handlebars.registerHelper('include', function (contexts) {
+		// 		Handle.compile('')
+		// 		return new Handlebars.SafeString(html);
+		// 	});
 		// From Caramel core/caramel/scripts/caramel.handlebars.js
 		// Handlebars.registerHelper('include', function (contexts) {
 		// 		        var i, type,
@@ -141,13 +145,14 @@ var mvc = (function () {
 			}
 			var context = require('/controller/'+controller+".js")[view](appController);
 			view = view+"."+configs.ENGINE;
+			
 			log.info("View "+ view);
 			log.info('/views/'+controller+"/"+view);
+			log.info(Handle.partials);
 			var template = Handle.compile(getResource('/views/'+controller+"/"+view));
-			var b = template(context.data);
-			
+			var b = template(context);
 			var layout = Handle.compile(getResource("/pages/"+context.layout+".hbs"));
-			print(layout({body:b}));
+			print(layout({body:b, partials:context.partials}));
         }
     };
 // return module
