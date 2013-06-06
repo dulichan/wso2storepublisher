@@ -1,19 +1,8 @@
-<% include('init.jag'); %>	
-<!DOCTYPE html>
-<html>
-	<head>
-		<title><% print(t("site.title")); %></title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<script>
-			var _MDM_SERVER_URI = "<% print(_MDM_SERVER_URI); %>"
-		</script>
-	</head>
-	<body>
-		<% include('functions.jag'); %>	
-		<div id="modal-window" style="display:none" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
-		</div>
-		<link href="<% print(_SERVER_URI); %>assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" >
-		<link href="<% print(_SERVER_URI); %>assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" >
-		<link href="<% print(_SERVER_URI); %>templates/<% print(_TEMPLATE); %>/css/main.css" rel="stylesheet" >
-	</body>
-</html>
+<%
+var mvc = require ('mvc.js').mvc;
+var mvcp = new mvc({
+	SERVER_URL:"/publisher/",
+	IGNORE:["sso.jag", "login.jag"]
+});
+mvcp.route(request);
+%>

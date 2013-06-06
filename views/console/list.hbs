@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Publisher</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<link href="../assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+		<link href="../assets/bootstrap/css/bootstrap-fileupload.min.css" rel="stylesheet" media="screen">
+		<link href="../assets/css/main.css" rel="stylesheet">
+		<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+	</head>
+	<body>
+
+		<div class="navbar">
+			<div class="navbar-inner">
+				<a class="brand" href="#">{{name}}</a> 
+			</div>
+		</div>
+		<div class="container">
+			<div class="well">
+			<legend>
+				<span>Application list</span> <a class="btn btn-primary" href="upload"><i class="icon-user icon-white"></i>Add App</a>
+			</legend>
+			</hr>
+			<table class="table table-hover table-striped">
+				<thead>
+					<tr>
+						<td><b>Name</b></td>
+						<td><b>State</b></td>
+						<td><b>Operations</b></td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Bookhub</td>
+						<td>Published</td>
+						<td>
+							<div class="btn-group">
+							  <a class="btn" href="#"><i class="icon-user"></i> Publish</a>
+							  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+							  <ul class="dropdown-menu">
+							    <li><a href="#"><i class="icon-pencil"></i>Remove</a></li>
+							    <li><a href="#"><i class="icon-pencil"></i>Update</a></li>
+							    <li><a href="#"><i class="icon-trash"></i>Delete</a></li>
+							  </ul>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
+		</div>
+		<div id="footer">
+		      <div class="container">
+		        <p class="muted credit"> © 2013 WSO2Mobile Inc. All Rights Reserved <a href="http://wso2mobile.com">WSO2Mobile</a></p>
+		      </div>
+		    </div>
+		<script src="../assets/jquery/jquery-min.js"></script>		
+		<script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+		<script src="../assets/bootstrap/js/bootstrap-fileupload.min.js"></script>
+	</body>
+</html>

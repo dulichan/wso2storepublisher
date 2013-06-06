@@ -1,0 +1,1 @@
+new Log().info('Request received by the app default controller');
