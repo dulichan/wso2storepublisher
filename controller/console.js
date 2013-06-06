@@ -1,10 +1,10 @@
-list = function(){
+list = function(appController){
 	return {
 		layout:'1-column',
 		title:'Your Apps',
 		navigation:{
 			partial:'navigation',
-			context:
+			context: appController.navigation()
 		},
 		data:{
 			name:"Chan",

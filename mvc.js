@@ -8,6 +8,7 @@ var mvc = (function () {
 	var module = function (cf) {
 		mergeRecursive(configs,cf);
 		log= new Log();
+		registerPartials();
     };
 	function mergeRecursive(obj1, obj2) {
 	  for (var p in obj2) {
@@ -43,6 +44,46 @@ var mvc = (function () {
 		response.addHeader('Content-Type', mime(resourceURL));
 		print(getResource(resourceURL));
 	}
+	//Register all the partials in the views/partial directory
+	function registerPartials(){
+		var f = new File("/views/partials");
+		var partials = f.listFiles();
+		for (var i=0; i<partials.length; i++){
+			var partial = partials[i];
+			partial.open('r');
+			Handle.registerPartial(partial.getName().split('.')[0], partial.readAll());
+			log.info("Handle registered template -"+partial.getName().split('.')[0]);
+		}
+	}
+	
+	function registerHelpers(){
+		// From Caramel core/caramel/scripts/caramel.handlebars.js
+		// Handlebars.registerHelper('include', function (contexts) {
+		// 		        var i, type,
+		// 		            length = contexts ? contexts.length : 0,
+		// 		            html = '';
+		// 		        if (log.isDebugEnabled()) {
+		// 		            log.debug('Including : ' + stringify(contexts));
+		// 		        }
+		// 		        if (length == 0) {
+		// 		            return html;
+		// 		        }
+		// 		        type = typeof contexts;
+		// 		        if (contexts instanceof Array) {
+		// 		            for (i = 0; i < length; i++) {
+		// 		                html += renderData(contexts[i]);
+		// 		            }
+		// 		        } else if (contexts instanceof String || type === 'string' ||
+		// 		            contexts instanceof Number || type === 'number' ||
+		// 		            contexts instanceof Boolean || type === 'boolean') {
+		// 		            html = contexts.toString();
+		// 		        } else {
+		// 		            html = renderData(contexts);
+		// 		        }
+		// 		        return new Handlebars.SafeString(html);
+		// 		 });
+	}
+	
 	//If the path has a . return true
 	function isAsset(path){
 		return path.indexOf(".")!=-1
@@ -94,15 +135,19 @@ var mvc = (function () {
 			if(pageParams.length>1 && pageParams[1]!=''){
 				view = pageParams[1];	
 			}
+			var appController;
 			if(isExists('/controller/app.js')){
-				require('/controller/app.js');
+				appController =require('/controller/app.js');
 			}
-			var context = require('/controller/'+controller+".js")[view](req);
+			var context = require('/controller/'+controller+".js")[view](appController);
 			view = view+"."+configs.ENGINE;
 			log.info("View "+ view);
 			log.info('/views/'+controller+"/"+view);
 			var template = Handle.compile(getResource('/views/'+controller+"/"+view));
-	 		print(template(context));
+			var b = template(context.data);
+			
+			var layout = Handle.compile(getResource("/pages/"+context.layout+".hbs"));
+			print(layout({body:b}));
         }
     };
 // return module
