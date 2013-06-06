@@ -1,4 +1,4 @@
-var Handle = require("handlebars").Handlebars;
+var Handle = require("/modules/handlebars.js").Handlebars;
 var mvc = (function () {
 	var configs= {
 		SERVER_URL: "/",
