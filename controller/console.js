@@ -9,7 +9,7 @@ list = function(appController){
 			name:"Chan",
 			quote:"I was a king I had a gold throne",
 			apps:[
-				{name:"Bookhub",status:"Published"}
+				{name:"Bookhub",status:"Published", price:"Free", totalInstalls:2034, rating:5}
 			]
 		}
 	};
