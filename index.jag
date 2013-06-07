@@ -1,14 +1,14 @@
 <%
 var absolute = require ('modules/absolute.js').mvc;
 var goose = require('modules/goose.js').goose;
-var router = new goose({CONTEXT: "/publisher/"});
+var router = new goose({CONTEXT: "/publisher/api/"});
 var log =new Log();
 
 var mvc = new absolute({
 	SERVER_URL:"/publisher/",
 	IGNORE:["sso.jag", "login.jag"],
 	API:"api",
-	ROUTER: goose
+	ROUTER: router
 });
 
 router.get('users/', function(ctx){
