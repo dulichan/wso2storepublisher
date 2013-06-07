@@ -1,8 +1,8 @@
 <%
-var mvc = require ('mvc.js').mvc;
-var mvcp = new mvc({
+var absolute = require ('modules/absolute.js').mvc;
+var mvc = new absolute({
 	SERVER_URL:"/publisher/",
 	IGNORE:["sso.jag", "login.jag"]
 });
-mvcp.route(request);
+mvc.route(request);
 %>
