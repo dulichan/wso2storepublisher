@@ -191,6 +191,8 @@ var loginWithSAML = function (username) {
         username: username,
         tenantId: carbon.server.tenantId()
     }));
+	new Log().info('Login with SAML');
+	new Log().info(session.get(USER_REGISTRY));
     session.put(USER_SPACE, new carbon.user.Space(username, opts.userSpace.space, opts.userSpace.options));
     if (opts.login) {
         opts.login(user, "", session);

@@ -199,6 +199,12 @@ var mvc = (function () {
 			}
 			
 			var context;
+			//If controller is empty the request is for the app index page
+			if(controller==''){
+				if(appController.index!=undefined){
+					context = appController.index();	
+				}
+			}
 			if(isExists('/controller/'+controller+".js") && require('/controller/'+controller+".js")[viewName] !=undefined){
 				context = require('/controller/'+controller+".js")[viewName](appController);
 				log.info("Current context "+context);
@@ -210,7 +216,11 @@ var mvc = (function () {
 			}
 			//If we can't find a controller as well as a view we are sending a 404 error
 			if(template==undefined && context==undefined){
-				response.sendError(404);
+				try{
+					response.sendError(404);
+				}catch (e) {
+					new Log().debug(e);
+				}
 			}else{
 				var b = template(context);
 				if(layout==undefined){

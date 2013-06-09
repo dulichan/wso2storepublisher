@@ -45,12 +45,13 @@ var goose = (function () {
                 });
         },
 		get: function (route, action) {
-			log.info('Problem');
             this.route(route + "|GET", action);
         },	
 		post: function (route, action) {
-			log.info('Problem');
             this.route(route + "|POST", action);
+	    },
+		put: function (route, action) {
+            this.route(route + "|PUT", action);
 	    },
         process: function (request) {
             for (var i = 0; i < routes.length; i++) {
