@@ -14,13 +14,34 @@ var mvc = new absolute({
 router.get('apps/{id}',function(ctx){
 	
 });
+
 router.get('dev/{id}/apps',function(ctx){
-	var store = require('/modules/publisher.js');
-	assets = store.assets('Android', 1);
+	var publisher = require('/modules/publisher.js');
+	assets = publisher.assets('android', 1, ctx.id);
 	print(assets);
 });
+
 router.post('apps',function(ctx){
-	var appName = ctx.name, description = ctx.description, recentChanges
+	var publisher = require('/modules/publisher.js');
+	var t = "android";
+	publisher.addAsset(t, {
+		       	type:t,
+		        path: "/_system/governance/"+t+"/"+ctx.provider+"/"+ctx.version+"/"+ctx.name,
+		        lifecycle:["CREATED", "REVIEW", "PUBLISH", "REJECT", "REMOVED"],
+		        lifecycleState: "CREATED",
+		        mediaType: "application/vnd.wso2-"+t+"+xml",
+		        attributes: {
+		            overview_status: "CREATED",
+		            overview_name: ctx.name,
+		            overview_version: ctx.version,
+		            overview_url: ctx.url,
+		            overview_provider: ctx.provider
+		        },
+				images :{
+					thumbnail:'http://localhost:9763/portal/gadgets/co2-emission/thumbnail.jpg',
+					banner:'http://localhost:9763/portal/gadgets/electric-power/banner.jpg'
+				}
+	});
 });
 router.put('apps', function(ctx){
 	

@@ -34,7 +34,8 @@ var Manager,
         this.registry = registry;
         this.type = type;
         this.user = require('/modules/user.js');
-        Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.loadGovernanceArtifacts(registry.registry);
+     Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.loadGovernanceArtifacts(registry.registry);
+		new Log().info(registry.registry);
         this.manager = new carbon.registry.ArtifactManager(registry, type);
         this.sorter = new Sorter(registry);
     };
@@ -150,7 +151,9 @@ var Manager,
      */
     Manager.prototype.list = function (paging) {
         var all = this.manager.list(paging);
-        var paginated = this.sorter.paginate(all, paging);
+        // var paginated = this.sorter.paginate(all, paging);
+		// Temporarly remove pagniation
+		var paginated  = all;
         for (var i = 0; i < paginated.length; i++) {
             var asset = paginated[i];
             var user = this.user.current();

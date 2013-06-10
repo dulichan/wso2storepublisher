@@ -23,7 +23,7 @@ var tags, init, assets, asset, assetLinks, tagged, popularAssets, recentAssets, 
             server = require('/modules/server.js'),
             user = require('/modules/user.js').current();
         context = user ? session : application;
-        assetManagers = context.get(ASSET_MANAGERS);
+         assetManagers = {};
         // if (!assetManagers) {
         //     assetManagers = {};
         //     context.put(ASSET_MANAGERS, assetManagers);
@@ -35,7 +35,8 @@ var tags, init, assets, asset, assetLinks, tagged, popularAssets, recentAssets, 
         path = ASSETS_EXT_PATH + type + '/asset.js';
         azzet = new File(path).isExists() ? require(path) : require('/modules/asset.js');
 		var r =registry();
-		log.info(r);
+		log.info(type);
+		//log.info(assetManagers);
         return (assetManagers[type] = new azzet.Manager(r, type));
     };
 
@@ -91,6 +92,7 @@ var tags, init, assets, asset, assetLinks, tagged, popularAssets, recentAssets, 
      * @return {String}
      */
     registry = function () {
+		log.info(require('/modules/user.js').userRegistry());
         return require('/modules/user.js').userRegistry() || require('/modules/server.js').anonRegistry();
     };
 
@@ -157,8 +159,17 @@ var tags, init, assets, asset, assetLinks, tagged, popularAssets, recentAssets, 
      * @param type Asset type
      * @param paging
      */
-    assets = function (type, paging) {
-        return assetManager(type).list(paging);
+    assets = function (type, paging, provider) {
+		var assetlist = assetManager(type).list(paging);
+		var list = [];
+		for (var i = assetlist.length - 1; i >= 0; i--){
+			var ass = assetlist[i];
+			//log.info(ass.attributes.overview_provider);
+			if(ass.attributes.overview_provider==provider){
+				list.push(ass);
+			}
+		};
+        return list;
     };
 
     tagged = function (type, tag, paging) {
