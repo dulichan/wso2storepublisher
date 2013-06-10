@@ -73,13 +73,16 @@ var goose = (function () {
                     log.info("Goose Route -" + route);
                     if (verb != 'GET') {
                         var jResult = request.getContent();
-                        log.info("Goose data - " + jResult);
-                        log.info('Goose String parameters -' + request.getParameter('username'));
+                        log.info(jResult);
+                        //log.info('Goose String parameters -' + request.getParameter('username'));
                         try {
-                            jResult = parse(jResult);
+                            //jResult = parse(jResult);
                         } catch (err) {
+							log.info(err);
                             jResult = request.getAllParameters();
                         }
+						log.info("Goose parsed data ");
+						log.info(jResult);
                         ctx = mergeRecursive(ctx, jResult);
                     }
                     routeAction(ctx);

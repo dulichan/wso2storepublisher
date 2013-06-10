@@ -161,14 +161,17 @@ var tags, init, assets, asset, assetLinks, tagged, popularAssets, recentAssets, 
      */
     assets = function (type, paging, provider) {
 		var assetlist = assetManager(type).list(paging);
-		var list = [];
-		for (var i = assetlist.length - 1; i >= 0; i--){
-			var ass = assetlist[i];
-			//log.info(ass.attributes.overview_provider);
-			if(ass.attributes.overview_provider==provider){
-				list.push(ass);
-			}
-		};
+		var list = assetlist;
+		if(provider!=undefined){
+			list = [];
+			for (var i = assetlist.length - 1; i >= 0; i--){
+				var ass = assetlist[i];
+				//log.info(ass.attributes.overview_provider);
+				if(ass.attributes.overview_provider==provider){
+					list.push(ass);
+				}
+			};	
+		}
         return list;
     };
 

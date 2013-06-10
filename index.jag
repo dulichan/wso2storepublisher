@@ -20,22 +20,22 @@ router.get('dev/{id}/apps',function(ctx){
 	assets = publisher.assets('android', 1, ctx.id);
 	print(assets);
 });
-
+// 
 router.post('apps',function(ctx){
 	var publisher = require('/modules/publisher.js');
 	var t = "android";
 	publisher.addAsset(t, {
-		       	type:t,
-		        path: "/_system/governance/"+t+"/"+ctx.provider+"/"+ctx.version+"/"+ctx.name,
+		        name: ctx.name,
 		        lifecycle:["CREATED", "REVIEW", "PUBLISH", "REJECT", "REMOVED"],
 		        lifecycleState: "CREATED",
-		        mediaType: "application/vnd.wso2-"+t+"+xml",
 		        attributes: {
 		            overview_status: "CREATED",
 		            overview_name: ctx.name,
 		            overview_version: ctx.version,
 		            overview_url: ctx.url,
-		            overview_provider: ctx.provider
+		            overview_provider: ctx.provider,
+					overview_recent_changes: ctx.recentChanges,
+					overview_description:ctx.description
 		        },
 				images :{
 					thumbnail:'http://localhost:9763/portal/gadgets/co2-emission/thumbnail.jpg',
@@ -43,9 +43,30 @@ router.post('apps',function(ctx){
 				}
 	});
 });
-router.put('apps', function(ctx){
-	
+
+router.get('apps', function(ctx){
+	var publisher = require('/modules/publisher.js');
+	assets = publisher.assets('android', 1);
+	print(assets);
 });
+
+router.put('apps', function(ctx){
+	//To implement
+});
+
+router.post('apps/upload',function(ctx){
+	var files = request.getAllFiles();
+	var names = [];
+	for(var name in files) {
+	    if(files.hasOwnProperty(file)) {
+	        var file = files[name];
+	        file.saveAs("images/"+name);
+			names.push(name);
+	    }
+	}
+	print(names);
+});
+
 router.get('apps/{id}/versions',function(ctx){
 	
 });
