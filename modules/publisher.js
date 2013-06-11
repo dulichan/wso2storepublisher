@@ -166,7 +166,6 @@ var tags, init, assets, asset, assetLinks, tagged, popularAssets, recentAssets, 
 			list = [];
 			for (var i = assetlist.length - 1; i >= 0; i--){
 				var ass = assetlist[i];
-				//log.info(ass.attributes.overview_provider);
 				if(ass.attributes.overview_provider==provider){
 					list.push(ass);
 				}

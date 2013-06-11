@@ -1,5 +1,6 @@
 /*
 Routing mediator that enables REST-ful services
+TODO :- How to handle multipart data
 */
 var goose = (function () {
     var configs = {

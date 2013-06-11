@@ -45,13 +45,12 @@ $('#btn-app-upload').click(function(e) {
 	var appUpload = $("#txtAppUpload").val();	
 	$.ajax({
       type: "POST",
-      url: "apps/upload",
-      enctype: 'multipart/form-data',
-      data: {       
-        appUpload: appUpload       
-      },
-      success: function () {
-        alert("Data Uploaded: ");
+      url: "/publisher/api/apps/upload",
+	  processData : false,
+	  contentType : 'multipart/form-data',
+      data: appUpload,
+      success: function (data) {
+        alert("Data Uploaded: "+data);
       }
     });
 });

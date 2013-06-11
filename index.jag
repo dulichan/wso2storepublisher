@@ -11,8 +11,43 @@ var mvc = new absolute({
 	ROUTER: router
 });
 
+router.post('apps/upload',function(ctx){
+	var files = request.getAllFiles();
+	var names = [];
+	log.info(request.getContentType());
+	for(var name in files) {
+	    if(files.hasOwnProperty(file)) {
+	        var file = files[name];
+	        file.saveAs("uploads/"+name);
+			names.push(name);
+	    }
+	}
+	log.info('APPPPP');
+	log.info(names);
+	print(names);
+});
+
 router.get('apps/{id}',function(ctx){
 	
+});
+
+router.get('apps/{id}/publish', function(ctx){
+	var publisher = require('/modules/publisher.js');
+ 	var asset = publisher.asset('android',"/android/wso2mobile/wso2 container/1.0");
+	asset.attributes.overview_status="REVIEW";
+	publisher.updateAsset('android',asset);
+});
+router.get('apps/{id}/accept', function(ctx){
+	var publisher = require('/modules/publisher.js');
+ 	var asset = publisher.asset('android',ctx.id);
+	asset.attributes.overview_status="PUBLISH";
+	publisher.updateAsset('android',asset);
+});
+router.get('apps/{id}/reject', function(ctx){
+	var publisher = require('/modules/publisher.js');
+ 	var asset = publisher.asset('android',ctx.id);
+	asset.attributes.overview_status="REJECT";
+	publisher.updateAsset('android',asset);
 });
 
 router.get('dev/{id}/apps',function(ctx){
@@ -20,7 +55,7 @@ router.get('dev/{id}/apps',function(ctx){
 	assets = publisher.assets('android', 1, ctx.id);
 	print(assets);
 });
-// 
+// Still the lifecycles aren't working. There is noattachlifecyle in genericartifact class
 router.post('apps',function(ctx){
 	var publisher = require('/modules/publisher.js');
 	var t = "android";
@@ -54,18 +89,7 @@ router.put('apps', function(ctx){
 	//To implement
 });
 
-router.post('apps/upload',function(ctx){
-	var files = request.getAllFiles();
-	var names = [];
-	for(var name in files) {
-	    if(files.hasOwnProperty(file)) {
-	        var file = files[name];
-	        file.saveAs("images/"+name);
-			names.push(name);
-	    }
-	}
-	print(names);
-});
+
 
 router.get('apps/{id}/versions',function(ctx){
 	
