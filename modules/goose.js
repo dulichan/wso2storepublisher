@@ -45,12 +45,13 @@ var goose = (function () {
                 });
         },
 		get: function (route, action) {
-			log.info('Problem');
             this.route(route + "|GET", action);
         },	
 		post: function (route, action) {
-			log.info('Problem');
             this.route(route + "|POST", action);
+	    },
+		put: function (route, action) {
+            this.route(route + "|PUT", action);
 	    },
         process: function (request) {
             for (var i = 0; i < routes.length; i++) {
@@ -72,13 +73,16 @@ var goose = (function () {
                     log.info("Goose Route -" + route);
                     if (verb != 'GET') {
                         var jResult = request.getContent();
-                        log.info("Goose data - " + jResult);
-                        log.info('Goose String parameters -' + request.getParameter('username'));
+                        log.info(jResult);
+                        //log.info('Goose String parameters -' + request.getParameter('username'));
                         try {
-                            jResult = parse(jResult);
+                            //jResult = parse(jResult);
                         } catch (err) {
+							log.info(err);
                             jResult = request.getAllParameters();
                         }
+						log.info("Goose parsed data ");
+						log.info(jResult);
                         ctx = mergeRecursive(ctx, jResult);
                     }
                     routeAction(ctx);
