@@ -31,7 +31,10 @@ $('#btn-app-save').click(function(e) {
         screenShot2: screenShot2,
         screenShot3: screenShot3,
         iconfile: iconfile,
-        isMeetGudeLines: isMeetGudeLines
+        isMeetGudeLines: isMeetGudeLines,
+        url: "downloads/agent.apk",
+        provider: "wso2",
+        version: "1.0"
       },
       success: function () {
         alert("Data Uploaded: ");
