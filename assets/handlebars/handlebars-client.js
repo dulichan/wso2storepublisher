@@ -2121,11 +2121,13 @@ Handlebars.precompile = function(input, options) {
 
 
 
-Handlebars.compile = function(input, options) {
-  input = input.replace(/\[{/g,"{{").replace(/}]/g,"}}");	
+Handlebars.compile = function(input, options) { 	
+  
   if (input == null || (typeof input !== 'string' && input.constructor !== Handlebars.AST.ProgramNode)) {
     throw new Handlebars.Exception("You must pass a string or Handlebars AST to Handlebars.compile. You passed " + input);
   }
+  
+  input = input.replace(/\[{/g,"{{").replace(/}]/g,"}}");
 
   options = options || {};
   if (!('data' in options)) {
