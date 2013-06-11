@@ -18,11 +18,11 @@ $(document).ready(function() {
 
 function getServiceURLs(item){
 	
-	var serverURL = "/publisher/apis/"
+	var serverURL = "/publisher/api/"
 	
 	var urls =
 		{
-			"publisherAppList": "publisher_applist.json"			
+			"publisherAppList": "dev/wso2/apps"			
 		};
 	
 	arguments[0] = urls[item];		
