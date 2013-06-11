@@ -17,11 +17,7 @@ $('#btn-app-save').click(function(e) {
 	var iconfile = $("#txtIconfile").val();
 	var isMeetGudeLines = $("#chkMeetGudeLines").val();
 	
-	$.ajax({
-      type: "POST",
-      url: "/publisher/api/apps",
-      enctype: 'multipart/form-data',
-      data: {
+	var params = {
         name: name,
         description: description,
         category: category,
@@ -35,7 +31,14 @@ $('#btn-app-save').click(function(e) {
         url: "downloads/agent.apk",
         provider: "wso2",
         version: "1.0"
-      },
+     };
+	
+	
+	$.ajax({
+      type: "POST",
+      url: "/publisher/api/apps",
+      contentType: "application/json",
+      data: JSON.stringify(params),
       success: function () {
         alert("Data Uploaded: ");
       }

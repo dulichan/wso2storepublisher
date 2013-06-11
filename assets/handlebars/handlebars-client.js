@@ -2127,7 +2127,10 @@ Handlebars.compile = function(input, options) {
     throw new Handlebars.Exception("You must pass a string or Handlebars AST to Handlebars.compile. You passed " + input);
   }
   
-  input = input.replace(/\[{/g,"{{").replace(/}]/g,"}}");
+  if(input){
+  	input = input.replace(/\[{/g,"{{").replace(/}]/g,"}}");
+  }
+  
 
   options = options || {};
   if (!('data' in options)) {
