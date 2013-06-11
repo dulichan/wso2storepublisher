@@ -9,7 +9,32 @@
 				</div>
 			</div>
 			<div class="container-fluid raw-fluid block-body">
-				{{>rowapp}}
+
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>App</th>
+							<th>Price</th>
+							<th>Total Installs</th>
+							<th>Rating</th>
+							<th>Status</th>
+						</tr>
+					</thead>
+					<tbody id="publisher-app-list">
+						<script id="hbs-publisher-app-list" type="text/x-handlebars-template">
+							[{#apps}]
+							<tr>
+							<td><img class="app-icon-small" src="themes/img/angryb.png"> [{name}]</td>
+							<td>Free</td>
+							<td>1234</td>
+							<td>5</td>
+							<td>Live</td>
+							</tr>
+							[{/apps}]
+						</script>
+					</tbody>
+				</table>
+
 			</div>
 		</div>
 	</div>

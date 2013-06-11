@@ -19,7 +19,7 @@ $('#btn-app-save').click(function(e) {
 	
 	$.ajax({
       type: "POST",
-      url: "apps/upload",
+      url: "/publisher/api/apps",
       enctype: 'multipart/form-data',
       data: {
         name: name,
