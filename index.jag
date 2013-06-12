@@ -57,26 +57,36 @@ router.get('dev/{id}/apps',function(ctx){
 });
 // Still the lifecycles aren't working. There is noattachlifecyle in genericartifact class
 router.post('apps',function(ctx){
-	var publisher = require('/modules/publisher.js');
 	var t = "android";
-	publisher.addAsset(t, {
-		        name: ctx.name,
-		        lifecycle:["CREATED", "REVIEW", "PUBLISH", "REJECT", "REMOVED"],
-		        lifecycleState: "CREATED",
-		        attributes: {
-		            overview_status: "CREATED",
-		            overview_name: ctx.name,
-		            overview_version: ctx.version,
-		            overview_url: ctx.url,
-		            overview_provider: ctx.provider,
-					overview_recent_changes: ctx.recentChanges,
-					overview_description:ctx.description
-		        },
-				images :{
-					thumbnail:'http://localhost:9763/portal/gadgets/co2-emission/thumbnail.jpg',
-					banner:'http://localhost:9763/portal/gadgets/electric-power/banner.jpg'
-				}
-	});
+	var carbon = require('carbon'),
+	       server = new carbon.server.Server(),
+	       registry = new carbon.registry.Registry(server, {
+	           username : 'admin',
+	           tenantId : -1234
+	       });
+	var rxtPath = '/_system/governance/android/';
+	var path = rxtPath + ctx.provider + '/' +ctx.name+ '/' +ctx.version;
+		var app = <metadata xmlns="http://www.wso2.org/governance/metadata">
+            <overview>
+                <provider>{ctx.provider}</provider>
+                <name>{ctx.name}</name>
+                <version>{ctx.version}</version>
+                <url>{ctx.url}</url>
+                <status>CREATED</status>
+				<description>{ctx.description}</description>
+				<recent_changes>{ctx.recentChanges}</recent_changes>
+            </overview>
+			<images>
+				<icon>{ctx.icon}</icon>
+				<banner>{ctx.banner}</banner>
+				<screenshots>{ctx.screenshots}</screenshots>
+			</images>
+        </metadata>;
+	log.info(app.toXMLString());
+	registry.put(path, {
+			    mediaType: 'application/vnd.wso2-android+xml',
+			    content: app.toXMLString()
+			});
 });
 
 router.get('apps', function(ctx){
