@@ -32,22 +32,13 @@ router.get('apps/{id}',function(ctx){
 });
 
 router.get('apps/{id}/publish', function(ctx){
-	var publisher = require('/modules/publisher.js');
- 	var asset = publisher.asset('android',"/android/wso2mobile/wso2 container/1.0");
-	asset.attributes.overview_status="REVIEW";
-	publisher.updateAsset('android',asset);
+	change("REVIEW",ctx.id);
 });
 router.get('apps/{id}/accept', function(ctx){
-	var publisher = require('/modules/publisher.js');
- 	var asset = publisher.asset('android',ctx.id);
-	asset.attributes.overview_status="PUBLISH";
-	publisher.updateAsset('android',asset);
+	change("PUBLISHED",ctx.id);
 });
 router.get('apps/{id}/reject', function(ctx){
-	var publisher = require('/modules/publisher.js');
- 	var asset = publisher.asset('android',ctx.id);
-	asset.attributes.overview_status="REJECT";
-	publisher.updateAsset('android',asset);
+	change("REJECTED",ctx.id);
 });
 
 router.get('dev/{id}/apps',function(ctx){
@@ -55,6 +46,7 @@ router.get('dev/{id}/apps',function(ctx){
 	assets = publisher.assets('android', 1, ctx.id);
 	print(assets);
 });
+
 // Still the lifecycles aren't working. There is noattachlifecyle in genericartifact class
 router.post('apps',function(ctx){
 	var t = "android";
@@ -101,9 +93,46 @@ router.put('apps', function(ctx){
 
 
 
-router.get('apps/{id}/versions',function(ctx){
-	
-});
+var change = function(type, id){
+	var carbon = require('carbon'),
+	       server = new carbon.server.Server(),
+	       registry = new carbon.registry.Registry(server, {
+	           username : 'admin',
+	           tenantId : -1234
+	       }),
+	am = new carbon.registry.ArtifactManager(registry, 'android');
+	var items = am.list();
+	for (var i = items.length - 1; i >= 0; i--){
+		var item = items[i];
+		log.info(item.attributes.overview_status + item.id);			
+		if(item.id==id){
+			item.attributes.overview_status = type;
+			log.info(item.attributes.overview_status);
+			var app = <metadata xmlns="http://www.wso2.org/governance/metadata">
+	            <overview>
+	                <provider>{item.attributes.overview_provider}</provider>
+	                <name>{item.attributes.overview_name}</name>
+	                <version>{item.attributes.overview_version}</version>
+	                <url>{item.attributes.overview_url}</url>
+	                <status>{item.attributes.overview_status}</status>
+					<description>{item.attributes.overview_description}</description>
+					<recent_changes>{item.attributes.overview_recentChanges}</recent_changes>
+	            </overview>
+				<images>
+					<icon>{item.attributes.images_icon}</icon>
+					<banner>{item.attributes.images_banner}</banner>
+					<screenshots>{item.attributes.images_screenshots}</screenshots>
+				</images>
+	        </metadata>;
+			registry.put(item.path, {
+					    mediaType: item.mediaType,
+					    content: app.toXMLString()
+					});
+			return;
+		}
+	};
+	response.sendError(404);
+}
 // router.get('apps', function(ctx){
 //    var store = require('/modules/publisher.js');
 //    var type, total, assets,tag = ctx.tag, sort = ctx.sort,paging = store.assetsPaging(request);
