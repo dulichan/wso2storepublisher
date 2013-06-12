@@ -4,6 +4,10 @@ $('#application-tab a').click(function(e) {
 });
 
 
+ $(window).on('load', function () {
+            $('.selectpicker').selectpicker();
+ });
+
 $('#btn-app-save').click(function(e) {
 	
 	var name = $("#txtName").val();
