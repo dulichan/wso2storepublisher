@@ -26,6 +26,9 @@ router.post('apps/upload',function(ctx){
 	log.info(names);
 	print(names);
 });
+router.post('apps/upload1',function(ctx){
+	log.info(request.getContent());
+});
 
 router.get('apps/{id}',function(ctx){
 	
