@@ -70,6 +70,8 @@ router.post('apps',function(ctx){
                 <status>CREATED</status>
 				<description>{ctx.description}</description>
 				<recent_changes>{ctx.recentChanges}</recent_changes>
+				<package_name>{ctx.package_name}</package_name>
+				<category>{ctx.category}</category>
             </overview>
 			<images>
 				<icon>{ctx.icon}</icon>
@@ -136,6 +138,8 @@ var change = function(type, id){
 	                <status>{item.attributes.overview_status}</status>
 					<description>{item.attributes.overview_description}</description>
 					<recent_changes>{item.attributes.overview_recentChanges}</recent_changes>
+					<package_name>{item.attributes.overview_package_name}</package_name>
+					<category>{item.attributes.category}</category>
 	            </overview>
 				<images>
 					<icon>{item.attributes.images_icon}</icon>
