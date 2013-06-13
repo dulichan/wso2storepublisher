@@ -6,5 +6,10 @@ navigation = function(){
 }
 
 index = function(){
+	var user = require('/modules/user.js');
+	if(user.current()==null || user.current() == undefined){
+		response.sendRedirect('/publisher/login.jag');
+		return;
+	}
 	response.sendRedirect('/publisher/console/list');
 }

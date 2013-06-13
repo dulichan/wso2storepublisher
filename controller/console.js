@@ -31,10 +31,6 @@ publish = function(appController){
 }
 
 
-
-
-
-
 manager = function(){
 	//response.sendRedirect('/publisher/console/list');
 	return {name:"Chan", quote:"I was a king I had a gold throne"};
