@@ -76,6 +76,7 @@ router.post('apps',function(ctx){
 			</images>
         </metadata>;
 	log.info(app.toXMLString());
+	log.info(ctx);
 	registry.put(path, {
 			    mediaType: 'application/vnd.wso2-android+xml',
 			    content: app.toXMLString()

@@ -56,7 +56,6 @@ $(document).ready(function(){
        	add: function (e, data) {
 		           $('#btn-app-upload').click(function () {
 		                    //data.context = $('<p/>').text('Uploading...').replaceAll($(this));
-		                    data.submit();
 		                });
 		        },
 		        done: function (e, data) {
@@ -67,21 +66,6 @@ $(document).ready(function(){
 
 });
 
-$('#btn-app-upload').click(function(e) {
-	
-	var appUpload = $("#txtAppUpload").val();	
-	$.ajax({
-      type: "POST",
-      url: "/publisher/api/apps/upload",
-	  processData : false,
-	  contentType : 'multipart/form-data',
-      data: appUpload,
-      success: function (data) {
-        alert("Data Uploaded: "+data);
-      }
-
-    });
-});
 
 // $('#btn-app-upload').click(function(e) {
 // 	alert('see');
