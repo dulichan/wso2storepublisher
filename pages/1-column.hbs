@@ -24,8 +24,9 @@
 		<script src="../assets/bootstrap/js/bootstrap-fileupload.min.js"></script>
 		<script src="../assets/handlebars/handlebars-client.js"></script>
 		<script src= "../assets/bootstrapselect/bootstrap-select.min.js"></script>
-		<script src="../js/publish.js"></script>
-		<script src="../js/list.js"></script>
+		{{#if jsfile}}
+		<script src="../js/{{jsfile}}"></script>
+		{{/if}}		
 	</body>
 </html>
 

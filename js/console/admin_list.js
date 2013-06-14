@@ -22,7 +22,9 @@ function getServiceURLs(item){
 	
 	var urls =
 		{
-			"publisherAppList": "dev/wso2/apps"			
+			"publisherAppList": "apps",
+			"publishApp": "apps/{0}/publish"
+					
 		};
 	
 	arguments[0] = urls[item];		
@@ -39,7 +41,26 @@ function getPublisherAppList(){
 	      success: function(apps) {
 	      	 var template = Handlebars.compile($("#hbs-publisher-app-list").html());
 	      	 $("#publisher-app-list").html(template({apps:apps}));
+	      	 
+	      	 $('.btn-publish').click(function(e) {
+	      	 	
+	      	 	var app = $(this).data("app");
+				$.ajax({
+			      type: "POST",
+			      url: getServiceURLs("publishApp", app),			      
+			      success: function () {
+			       
+			      }
+			    });
+			});
+			
+			
+			$('.btn-remove').click(function(e) {
+				alert('removed');
+			});
   			
 	      }				      
 	});
 }
+
+

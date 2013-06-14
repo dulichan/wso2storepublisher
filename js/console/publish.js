@@ -55,7 +55,7 @@ $('#btn-app-upload').click(function(e) {
 	var appUpload = $("#txtAppUpload").val();	
 	$.ajax({
       type: "POST",
-      url: "/publisher/api/apps/upload1",
+      url: "/publisher/api/apps/upload",
 	  processData : false,
 	  contentType : 'multipart/form-data',
       data: appUpload,
