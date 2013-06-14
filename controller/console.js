@@ -2,6 +2,7 @@ list = function(appController){
 	return {
 		layout:'1-column',
 		title:'Your Apps',
+		jsfile: 'console/list.js',
 		partials:{
 			header:appController.navigation()
 		},
@@ -14,12 +15,12 @@ list = function(appController){
 		}
 	};
 }
-
 
 admin_list = function(appController){
 	return {
 		layout:'1-column',
 		title:'Your Apps',
+		jsfile: 'console/admin_list.js',
 		partials:{
 			header:appController.navigation()
 		},
@@ -32,7 +33,6 @@ admin_list = function(appController){
 		}
 	};
 }
-
 
 
 
@@ -40,6 +40,7 @@ publish = function(appController){
 	return {
 		layout:'1-column',
 		title:'Your Apps',
+		jsfile: 'console/publish.js',
 		partials:{
 			header:appController.navigation()
 		},
@@ -48,6 +49,10 @@ publish = function(appController){
 		}
 	};
 }
+
+
+
+
 
 
 manager = function(){
