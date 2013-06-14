@@ -56,6 +56,24 @@ router.post('apps',function(ctx){
 	           tenantId : -1234
 	       });
 	var rxtPath = '/_system/governance/android/';
+	var files = request.getAllFiles();
+	log.info(files);
+	var banner = files['bannerFile'];
+ 	banner = saveFile(banner);
+
+	var icon = files['iconFile'];
+	icon = saveFile(icon);
+	
+	var screenshot1 = files['screenshot1File'];
+	screenshot1 = saveFile(screenshot1);
+	
+	var screenshot2 = files['screenshot2File'];
+	screenshot2 = saveFile(screenshot2);
+	
+	var screenshot3 = files['screenshot3File'];
+	screenshot3 = saveFile(screenshot3);
+	
+	var screenshots = [screenshot1,screenshot2,screenshot3];
 	var path = rxtPath + ctx.provider + '/' +ctx.name+ '/' +ctx.version;
 		var app = <metadata xmlns="http://www.wso2.org/governance/metadata">
             <overview>
@@ -70,9 +88,9 @@ router.post('apps',function(ctx){
 				<category>{ctx.category}</category>
             </overview>
 			<images>
-				<icon>{ctx.icon}</icon>
-				<banner>{ctx.banner}</banner>
-				<screenshots>{ctx.screenshots}</screenshots>
+				<icon>{icon}</icon>
+				<banner>{banner}</banner>
+				<screenshots>{screenshots}</screenshots>
 			</images>
         </metadata>;
 	log.info(app.toXMLString());
@@ -109,6 +127,14 @@ router.put('apps', function(ctx){
 	//To implement
 });
 
+var saveFile = function(file){
+	log.info(file.getName());
+	if(file.getName()==""){
+		return "";
+	}
+	file.saveAs("/uploads/"+file.getName());
+	return "/uploads/"+file.getName();
+}
 
 
 var change = function(type, id){

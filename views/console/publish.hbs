@@ -19,11 +19,15 @@
 
 					<div class="well-large">
 
+
 						<form class="form-horizontal" action="/publisher/api/apps" method="post">
 							
 							<input type="hidden" name="url" value="http://wso2mobile.com">
 							<input type="hidden" name="version" value="1.0">
 							<input type="hidden" name="provider" value="1WSO2Mobile">
+
+						<form class="form-horizontal" action="/publisher/api/apps" method="post" enctype='multipart/form-data'>
+
 
 							<div class="control-group">
 								<label class="control-label" for="txtName">Name</label>
@@ -45,7 +49,8 @@
 							</div>
 
 							<div class="control-group">
-								<label class="control-label" for="txtRecentChanges">Recent Changes</label>
+								<label class="control-label" for="txtRecentChanges">Recent
+									 Changes</label>
 								<div class="controls">
 									<textarea class="field span6" id="txtRecentChanges" name="recentChanges" rows="6"> </textarea>
 								</div>

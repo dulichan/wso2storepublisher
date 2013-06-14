@@ -75,14 +75,10 @@ var goose = (function () {
                     if (verb != 'GET') {
 						ctx.files = request.getAllFiles();
                         var jResult = request.getContent();
-                        log.info(jResult);
+                        //log.info(jResult);
                         //log.info('Goose String parameters -' + request.getParameter('username'));
-                        try {
-                            //jResult = parse(jResult);
-                        } catch (err) {
-							log.info(err);
-                            jResult = request.getAllParameters();
-                        }
+                        jResult = request.getAllParameters("UTF-8");
+						
 						//log.info("Goose parsed data ");
 						//log.info(jResult);
                         ctx = mergeRecursive(ctx, jResult);
