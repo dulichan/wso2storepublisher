@@ -72,17 +72,17 @@ var goose = (function () {
                     var ctx = elements;
                     log.info("Goose Verb -" + verb);
                     log.info("Goose Route -" + route);
+					var jResult = request.getAllParameters("UTF-8");
                     if (verb != 'GET') {
 						ctx.files = request.getAllFiles();
-                        var jResult = request.getContent();
+                        jResult = request.getContent();
                         //log.info(jResult);
-                        //log.info('Goose String parameters -' + request.getParameter('username'));
-                        jResult = request.getAllParameters("UTF-8");
-						
+                        //log.info('Goose String parameters -' + request.getParameter('username'));                        
 						//log.info("Goose parsed data ");
 						//log.info(jResult);
-                        ctx = mergeRecursive(ctx, jResult);
+                       
                     }
+ 					ctx = mergeRecursive(ctx, jResult);
                     routeAction(ctx);
                     break;
                 }
