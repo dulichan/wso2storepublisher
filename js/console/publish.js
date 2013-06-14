@@ -51,7 +51,7 @@ $('#btn-app-save').click(function(e) {
 
 
 $(document).ready(function(){
-	$('#txtAppUpload').fileupload({
+	$('#txtAppUpload').fileuploadFile({
         dataType: 'json',
        	add: function (e, data) {
 		           $('#btn-app-upload').click(function () {
