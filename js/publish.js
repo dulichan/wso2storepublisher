@@ -49,18 +49,33 @@ $('#btn-app-save').click(function(e) {
     });
 });
 
-
-$('#btn-app-upload').click(function(e) {
-	
-	var appUpload = $("#txtAppUpload").val();	
-	$.ajax({
-      type: "POST",
-      url: "/publisher/api/apps/upload1",
-	  processData : false,
-	  contentType : 'multipart/form-data',
-      data: appUpload,
-      success: function (data) {
-        alert("Data Uploaded: "+data);
-      }
+$(document).ready(function(){
+	$('#txtAppUpload').fileupload({
+        dataType: 'json',
+       	add: function (e, data) {
+		           $('#btn-app-upload').click(function () {
+		                    //data.context = $('<p/>').text('Uploading...').replaceAll($(this));
+		                    data.submit();
+		                });
+		        },
+		        done: function (e, data) {
+		            
+		        }
     });
 });
+
+// $('#btn-app-upload').click(function(e) {
+// 	alert('see');
+// 
+// 	// $.ajax({
+// 	//       type: "POST",
+// 	//       url: "/publisher/api/apps/upload1",
+// 	//   processData : false,
+// 	//   contentType : 'multipart/form-data',
+// 	//       data: appUpload,
+// 	//       success: function (data) {
+// 	//         alert("Data Uploaded: "+data);
+// 	//       }
+// 	//     });
+// });
+

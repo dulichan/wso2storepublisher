@@ -21,6 +21,7 @@ publish = function(appController){
 	return {
 		layout:'1-column',
 		title:'Your Apps',
+		jsfile:'assets/jquery/jquery.fileupload.js',
 		partials:{
 			header:appController.navigation()
 		},

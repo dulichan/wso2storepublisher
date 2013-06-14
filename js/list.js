@@ -22,7 +22,7 @@ function getServiceURLs(item){
 	
 	var urls =
 		{
-			"publisherAppList": "dev/wso2/apps"			
+			"publisherAppList": "apps"			
 		};
 	
 	arguments[0] = urls[item];		

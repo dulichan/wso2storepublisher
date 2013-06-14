@@ -12,23 +12,19 @@ var mvc = new absolute({
 });
 
 router.post('apps/upload',function(ctx){
-	var files = request.getAllFiles();
+	var files = ctx.files;
 	var names = [];
-	log.info(request.getContentType());
 	for(var name in files) {
-	    if(files.hasOwnProperty(file)) {
-	        var file = files[name];
-	        file.saveAs("uploads/"+name);
-			names.push(name);
-	    }
+		var file = files[name];
+		file.saveAs("/uploads/"+file.getName());
+	    names.push(file.getName());
 	}
-	log.info('APPPPP');
-	log.info(names);
 	print(names);
+	log.info(names);
 });
-router.post('apps/upload1',function(ctx){
-	log.info(request.getContent());
-});
+// router.post('apps/upload1',function(ctx){
+// 	log.info(request.getAllFiles());
+// });
 
 router.get('apps/{id}',function(ctx){
 	
