@@ -24,28 +24,33 @@
 							<div class="control-group">
 								<label class="control-label" for="txtName">Name</label>
 								<div class="controls">
-									<input class="field span6" type="text" id="txtName">
+									<input class="field span6" type="text" name="name" id="txtName">
 								</div>
 							</div>
-
+							<div class="control-group">
+								<label class="control-label" for="txtName">Package Name</label>
+								<div class="controls">
+									<input class="field span6" type="text" name="packagename" id="txtPackageName">
+								</div>
+							</div>
 							<div class="control-group">
 								<label class="control-label" for="txtDescription">Description</label>
 								<div class="controls">
-									<textarea class="field span6" id="txtDescription" rows="6"> </textarea>
+									<textarea class="field span6" id="txtDescription" name="description" rows="6"> </textarea>
 								</div>
 							</div>
 
 							<div class="control-group">
 								<label class="control-label" for="txtRecentChanges">Recent Changes</label>
 								<div class="controls">
-									<textarea class="field span6" id="txtRecentChanges" rows="6"> </textarea>
+									<textarea class="field span6" id="txtRecentChanges" name="recentChanges" rows="6"> </textarea>
 								</div>
 							</div>
 
 							<div class="control-group">
 								<label class="control-label" for="txtCategory">Category</label>
 								<div class="controls">
-									<select id="txtCategory" class="selectpicker">
+									<select id="txtCategory" name="category" class="selectpicker">
 										<option>Business</option>
 										<option>Education</option>
 										<option>Games</option>
@@ -60,7 +65,7 @@
 										<div class="fileupload-preview-banner thumbnail"></div>
 										<div>
 											<span class="btn btn-file"><span class="fileupload-new"><i class="icon-plus-sign"></i></span><span class="fileupload-exists"><i class="icon-edit"></i></span>
-												<input type="file" id="txtBanner" />
+												<input type="file" name="bannerFile" id="txtBanner" />
 											</span>
 											<a href="#" class="btn fileupload-exists" data-dismiss="fileupload"><i class="icon-remove"></i></a>
 										</div>
@@ -76,7 +81,7 @@
 										<div class="fileupload-preview thumbnail"></div>
 										<div>
 											<span class="btn btn-file"><span class="fileupload-new"><i class="icon-plus-sign"></i></span><span class="fileupload-exists"><i class="icon-edit"></i></span>
-												<input type="file" id="txtScreenShot1" />
+												<input type="file" name="screenshot1File" id="txtScreenShot1" />
 											</span>
 											<a href="#" class="btn fileupload-exists" data-dismiss="fileupload"><i class="icon-remove"></i></a>
 										</div>
@@ -86,7 +91,7 @@
 										<div class="fileupload-preview thumbnail"></div>
 										<div>
 											<span class="btn btn-file"><span class="fileupload-new"><i class="icon-plus-sign"></i></span><span class="fileupload-exists"><i class="icon-edit"></i></span>
-												<input type="file"  id="txtScreenShot2" />
+												<input type="file" name="screenshot2File" id="txtScreenShot2" />
 											</span>
 											<a href="#" class="btn fileupload-exists" data-dismiss="fileupload"><i class="icon-remove"></i></a>
 										</div>
@@ -96,7 +101,7 @@
 										<div class="fileupload-preview thumbnail"></div>
 										<div>
 											<span class="btn btn-file"><span class="fileupload-new"><i class="icon-plus-sign"></i></span><span class="fileupload-exists"><i class="icon-edit"></i></span>
-												<input type="file"  id="txtScreenShot3" />
+												<input type="file" name="screenshot3File" id="txtScreenShot3" />
 											</span>
 											<a href="#" class="btn fileupload-exists" data-dismiss="fileupload"><i class="icon-remove"></i></a>
 										</div>
@@ -112,7 +117,7 @@
 										<div class="fileupload-preview-icon thumbnail"></div>
 										<div>
 											<span class="btn btn-file"><span class="fileupload-new"><i class="icon-plus-sign"></i></span><span class="fileupload-exists"><i class="icon-edit"></i></span>
-												<input type="file" />
+												<input name="iconFile" type="file" />
 											</span>
 											<a href="#" class="btn fileupload-exists" data-dismiss="fileupload"><i class="icon-remove"></i></a>
 										</div>
@@ -187,7 +192,7 @@
 									<div class="uneditable-input span3">
 										<i class="icon-file fileupload-exists"></i><span class="fileupload-preview"></span>
 									</div><span class="btn btn-file"><span class="fileupload-new"><i class="icon-plus-sign"> </i></span><span class="fileupload-exists"><i class="icon-edit"> </i></span>
-										<input type="file" id="txtAppUpload" />
+										<input id="txtAppUpload" type="file" name="file" data-url="/publisher/api/apps/upload">
 									</span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload"><i class="icon-remove"></i></a>
 								</div>
 							</div>

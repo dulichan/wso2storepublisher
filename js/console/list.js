@@ -24,7 +24,6 @@ function getServiceURLs(item){
 		{
 			"publisherAppList": "apps",
 			"publishApp": "apps/{0}/publish"
-					
 		};
 	
 	arguments[0] = urls[item];		

@@ -12,23 +12,19 @@ var mvc = new absolute({
 });
 
 router.post('apps/upload',function(ctx){
-	var files = request.getAllFiles();
+	var files = ctx.files;
 	var names = [];
-	log.info(request.getContentType());
 	for(var name in files) {
-	    if(files.hasOwnProperty(file)) {
-	        var file = files[name];
-	        file.saveAs("uploads/"+name);
-			names.push(name);
-	    }
+		var file = files[name];
+		file.saveAs("/uploads/"+file.getName());
+	    names.push(file.getName());
 	}
-	log.info('APPPPP');
-	log.info(names);
 	print(names);
+	log.info(names);
 });
-router.post('apps/upload1',function(ctx){
-	log.info(request.getContent());
-});
+// router.post('apps/upload1',function(ctx){
+// 	log.info(request.getAllFiles());
+// });
 
 router.get('apps/{id}',function(ctx){
 	
@@ -70,6 +66,8 @@ router.post('apps',function(ctx){
                 <status>CREATED</status>
 				<description>{ctx.description}</description>
 				<recent_changes>{ctx.recentChanges}</recent_changes>
+				<package_name>{ctx.package_name}</package_name>
+				<category>{ctx.category}</category>
             </overview>
 			<images>
 				<icon>{ctx.icon}</icon>
@@ -136,6 +134,8 @@ var change = function(type, id){
 	                <status>{item.attributes.overview_status}</status>
 					<description>{item.attributes.overview_description}</description>
 					<recent_changes>{item.attributes.overview_recentChanges}</recent_changes>
+					<package_name>{item.attributes.overview_package_name}</package_name>
+					<category>{item.attributes.category}</category>
 	            </overview>
 				<images>
 					<icon>{item.attributes.images_icon}</icon>
