@@ -63,6 +63,9 @@ $(document).ready(function(){
 		            
 		        }
 
+	});
+
+});
 
 $('#btn-app-upload').click(function(e) {
 	
@@ -76,7 +79,7 @@ $('#btn-app-upload').click(function(e) {
       success: function (data) {
         alert("Data Uploaded: "+data);
       }
->>>>>>> 56ef58896bc4a9def18d758022eb46e36c8b4f63:js/console/publish.js
+
     });
 });
 
