@@ -49,6 +49,7 @@ $('#btn-app-save').click(function(e) {
     });
 });
 
+<<<<<<< HEAD:js/publish.js
 $(document).ready(function(){
 	$('#txtAppUpload').fileupload({
         dataType: 'json',
@@ -61,6 +62,21 @@ $(document).ready(function(){
 		        done: function (e, data) {
 		            
 		        }
+=======
+
+$('#btn-app-upload').click(function(e) {
+	
+	var appUpload = $("#txtAppUpload").val();	
+	$.ajax({
+      type: "POST",
+      url: "/publisher/api/apps/upload",
+	  processData : false,
+	  contentType : 'multipart/form-data',
+      data: appUpload,
+      success: function (data) {
+        alert("Data Uploaded: "+data);
+      }
+>>>>>>> 56ef58896bc4a9def18d758022eb46e36c8b4f63:js/console/publish.js
     });
 });
 

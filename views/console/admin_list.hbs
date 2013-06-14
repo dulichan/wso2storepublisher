@@ -5,7 +5,7 @@
 			<div class="block-header">
 				All Applications
 				<div class="pull-right">
-					<a href="#" class="btn btn-info"><i class=" icon-plus-sign icon-white"> </i> Add Application</a>
+					<a href="publish" class="btn btn-info"><i class=" icon-plus-sign icon-white"> </i> Add Application</a> 
 				</div>
 			</div>
 			<div class="container-fluid raw-fluid block-body">
@@ -18,17 +18,22 @@
 							<th>Total Installs</th>
 							<th>Rating</th>
 							<th>Status</th>
+							<th>Action</th>
 						</tr>
 					</thead>
 					<tbody id="publisher-app-list">
 						<script id="hbs-publisher-app-list" type="text/x-handlebars-template">
 							[{#apps}]
 							<tr>
-							<td><img class="app-icon-small" src="themes/img/angryb.png"> [{name}]</td>
+							<td><img class="app-icon-small" src="[{attributes.images_icon}]"> [{attributes.overview_name}]</td>
 							<td>Free</td>
 							<td>1234</td>
 							<td>5</td>
 							<td>Live</td>
+							<td>
+								<input data-app="[{id}]" type="button" class="btn btn-success btn-publish" value="Accept">
+								<input data-app="[{id}]" type="button" class="btn btn-danger btn-remove" value="Reject">
+							</td>
 							</tr>
 							[{/apps}]
 						</script>
