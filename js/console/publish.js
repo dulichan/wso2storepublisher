@@ -61,7 +61,8 @@ $(document).ready(function(){
 		                });
 		        },
 		        done: function (e, data) {
-		            
+		        	$('#url').val(data._response.result[0]);
+		            //alert();
 		        }
 
 	});

@@ -23,7 +23,7 @@ function getServiceURLs(item){
 	var urls =
 		{
 			"publisherAppList": "apps",
-			"publishApp": "apps/{0}/publish"
+			"publishApp": "apps/{0}/{1}"
 		};
 	
 	arguments[0] = urls[item];		
@@ -44,9 +44,10 @@ function getPublisherAppList(){
 	      	 $('.btn-command').click(function(e) {
 	      	 	
 	      	 	var app = $(this).data("app");
+	      	 	var command = $(this).data("type");
 				$.ajax({
 			      type: "POST",
-			      url: getServiceURLs("publishApp", app),			      
+			      url: getServiceURLs("publishApp", app, command),			      
 			      success: function () {
 			       
 			      }
