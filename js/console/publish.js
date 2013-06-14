@@ -56,6 +56,7 @@ $(document).ready(function(){
        	add: function (e, data) {
 		           $('#btn-app-upload').click(function () {
 		                    //data.context = $('<p/>').text('Uploading...').replaceAll($(this));
+		                    data.submit();
 		                });
 		        },
 		        done: function (e, data) {
