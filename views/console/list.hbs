@@ -60,8 +60,8 @@
 							<thead>
 								<tr>
 									<th>App</th>
-									<th>Price</th>
-									<th>Total Installs</th>
+									<th>Provider</th>
+									<th>Version</th>
 									<th>Rating</th>
 									<th>Status</th>
 									<th>Action</th>
@@ -89,14 +89,14 @@
 	[{#apps}]
 	<tr>
 	<td><img class="app-icon-small" src="[{attributes.images_icon}]"> [{attributes.overview_name}]</td>
-	<td>Free</td>
-	<td>1234</td>
+	<td>[{attributes.overview_provider}]</td>
+	<td>[{attributes.overview_version}]</td>
 	<td>5</td>
 	<td>Live</td>
 	<td>
-	<input data-app="[{id}]" data-type="update" type="button" class="btn btn-success btn-info" value="Update">
-	<input data-app="[{id}]" data-type="publish" type="button" class="btn btn-success btn-publish" value="Publish">
-	<input data-app="[{id}]" data-type="remove" type="button" class="btn btn-danger btn-remove" value="Remove">
+	<input data-app="[{id}]" data-type="update" type="button" class="btn btn-info btn-command" value="Update">
+	<input data-app="[{id}]" data-type="publish" type="button" class="btn btn-success btn-command" value="Publish">
+	<input data-app="[{id}]" data-type="remove" type="button" class="btn btn-danger btn-command" value="Remove">
 	</td>
 	</tr>
 	[{/apps}]

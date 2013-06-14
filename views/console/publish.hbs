@@ -20,6 +20,10 @@
 					<div class="well-large">
 
 						<form class="form-horizontal" action="/publisher/api/apps" method="post">
+							
+							<input type="hidden" name="url" value="http://wso2mobile.com">
+							<input type="hidden" name="version" value="1.0">
+							<input type="hidden" name="provider" value="1WSO2Mobile">
 
 							<div class="control-group">
 								<label class="control-label" for="txtName">Name</label>
@@ -30,7 +34,7 @@
 							<div class="control-group">
 								<label class="control-label" for="txtName">Package Name</label>
 								<div class="controls">
-									<input class="field span6" type="text" name="packagename" id="txtPackageName">
+									<input class="field span6" type="text" name="package_name" id="txtPackageName">
 								</div>
 							</div>
 							<div class="control-group">

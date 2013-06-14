@@ -41,7 +41,7 @@ function getPublisherAppList(){
 	      	 var template = Handlebars.compile($("#hbs-publisher-app-list").html());
 	      	 $("#publisher-app-list").html(template({apps:apps}));
 	      	 
-	      	 $('.btn-publish').click(function(e) {
+	      	 $('.btn-command').click(function(e) {
 	      	 	
 	      	 	var app = $(this).data("app");
 				$.ajax({
@@ -51,12 +51,8 @@ function getPublisherAppList(){
 			       
 			      }
 			    });
-			});
+			});			
 			
-			
-			$('.btn-remove').click(function(e) {
-				alert('removed');
-			});
   			
 	      }				      
 	});
