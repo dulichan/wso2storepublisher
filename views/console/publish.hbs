@@ -19,7 +19,7 @@
 
 					<div class="well-large">
 
-						<form class="form-horizontal" action="/publisher/api/apps" method="post">
+						<form class="form-horizontal" action="/publisher/api/apps" method="post" enctype='multipart/form-data'>
 
 							<div class="control-group">
 								<label class="control-label" for="txtName">Name</label>
@@ -41,7 +41,8 @@
 							</div>
 
 							<div class="control-group">
-								<label class="control-label" for="txtRecentChanges">Recent Changes</label>
+								<label class="control-label" for="txtRecentChanges">Recent
+									 Changes</label>
 								<div class="controls">
 									<textarea class="field span6" id="txtRecentChanges" name="recentChanges" rows="6"> </textarea>
 								</div>
