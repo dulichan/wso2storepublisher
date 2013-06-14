@@ -16,8 +16,8 @@ router.post('apps/upload',function(ctx){
 	var names = [];
 	for(var name in files) {
 		var file = files[name];
-		file.saveAs("/uploads/"+file.getName());
-	    names.push("/uploads/"+file.getName());
+		file.saveAs("/publisher/uploads/"+file.getName());
+	    names.push("/publisher/uploads/"+file.getName());
 	}
 	print(names);
 	log.info(names);
