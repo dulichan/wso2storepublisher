@@ -49,7 +49,7 @@ $('#btn-app-save').click(function(e) {
     });
 });
 
-<<<<<<< HEAD:js/publish.js
+
 $(document).ready(function(){
 	$('#txtAppUpload').fileupload({
         dataType: 'json',
@@ -62,7 +62,7 @@ $(document).ready(function(){
 		        done: function (e, data) {
 		            
 		        }
-=======
+
 
 $('#btn-app-upload').click(function(e) {
 	
