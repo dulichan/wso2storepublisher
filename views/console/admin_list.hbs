@@ -3,45 +3,101 @@
 	<div class="raw-fluid">
 		<div id="all-app-list" class="block">
 			<div class="block-header">
-				All Applications
+				<div id="tab" class="btn-group" data-toggle="buttons-radio">
+					<a href="#allapps" class="btn active" data-toggle="tab">All Apps</a>
+					<a href="#allappspublished" class="btn" data-toggle="tab">Published</a>
+					<a href="#allappsrejected" class="btn" data-toggle="tab">Rejected</a>
+				</div>
+
 				<div class="pull-right">
-					<a href="publish" class="btn btn-info"><i class=" icon-plus-sign icon-white"> </i> Add Application</a> 
+				
 				</div>
 			</div>
 			<div class="container-fluid raw-fluid block-body">
 
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th>App</th>
-							<th>Price</th>
-							<th>Total Installs</th>
-							<th>Rating</th>
-							<th>Status</th>
-							<th>Action</th>
-						</tr>
-					</thead>
-					<tbody id="publisher-app-list">
-						<script id="hbs-publisher-app-list" type="text/x-handlebars-template">
-							[{#apps}]
-							<tr>
-							<td><img class="app-icon-small" src="[{attributes.images_icon}]"> [{attributes.overview_name}]</td>
-							<td>Free</td>
-							<td>1234</td>
-							<td>5</td>
-							<td>Live</td>
-							<td>
-								<input data-app="[{id}]" type="button" class="btn btn-success btn-publish" value="Accept">
-								<input data-app="[{id}]" type="button" class="btn btn-danger btn-remove" value="Reject">
-							</td>
-							</tr>
-							[{/apps}]
-						</script>
-					</tbody>
-				</table>
+				<div class="tab-content">
+					
+					<div class="tab-pane active" id="allapps">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>App</th>
+									<th>Price</th>
+									<th>Total Installs</th>
+									<th>Rating</th>
+									<th>Status</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody id="publisher-app-list">
+
+							</tbody>
+						</table>
+					</div>
+					
+					
+					<div class="tab-pane" id="allappspublished">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>App</th>
+									<th>Price</th>
+									<th>Total Installs</th>
+									<th>Rating</th>
+									<th>Status</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody id="publisher-app-list-published">
+
+							</tbody>
+						</table>
+					</div>
+					
+					
+					<div class="tab-pane" id="allappsrejected">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>App</th>
+									<th>Provider</th>
+									<th>Version</th>
+									<th>Rating</th>
+									<th>Status</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody id="publisher-app-list-rejected">
+
+							</tbody>
+						</table>
+					</div>
+					
+					
+					
+					
+					
+				</div>
 
 			</div>
 		</div>
 	</div>
 
 </div>
+
+<script id="hbs-publisher-app-list" type="text/x-handlebars-template">
+	[{#apps}]
+	<tr>
+	<td><img class="app-icon-small" src="[{attributes.images_icon}]"> [{attributes.overview_name}]</td>
+	<td>[{attributes.overview_provider}]</td>
+	<td>[{attributes.overview_version}]</td>
+	<td>5</td>
+	<td>Live</td>
+	<td>	
+	<input data-app="[{id}]" data-type="approve" type="button" class="btn btn-success btn-command" value="Approve">	
+	<input data-app="[{id}]" data-type="reject" type="button" class="btn btn-danger btn-command" value="Reject">	
+	
+	</td>
+	</tr>
+	[{/apps}]
+</script>

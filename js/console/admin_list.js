@@ -23,8 +23,7 @@ function getServiceURLs(item){
 	var urls =
 		{
 			"publisherAppList": "apps",
-			"publishApp": "apps/{0}/publish"
-					
+			"publishApp": "apps/{0}/{1}"
 		};
 	
 	arguments[0] = urls[item];		
@@ -42,25 +41,29 @@ function getPublisherAppList(){
 	      	 var template = Handlebars.compile($("#hbs-publisher-app-list").html());
 	      	 $("#publisher-app-list").html(template({apps:apps}));
 	      	 
-	      	 $('.btn-publish').click(function(e) {
+	      	 $('.btn-command').click(function(e) {
 	      	 	
 	      	 	var app = $(this).data("app");
+	      	 	var command = $(this).data("type");
 				$.ajax({
 			      type: "POST",
-			      url: getServiceURLs("publishApp", app),			      
+			      url: getServiceURLs("publishApp", app, command),			      
 			      success: function () {
 			       
 			      }
 			    });
-			});
+			});			
 			
-			
-			$('.btn-remove').click(function(e) {
-				alert('removed');
-			});
   			
 	      }				      
 	});
 }
 
 
+Handlebars.registerHelper('equal', function(lvalue, rvalue, options) {   
+    if(lvalue==rvalue) {
+        return options.fn(this);
+    }else{
+    	return options.inverse(this);
+    }
+});
