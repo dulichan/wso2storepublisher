@@ -97,7 +97,8 @@
 	<input data-app="[{id}]" data-type="update" type="button" class="btn btn-info btn-command" value="Update">
 	[{#equal attributes.overview_status 'PUBLISHED'}]
 		<input data-app="[{id}]" data-type="remove" type="button" class="btn btn-danger btn-command" value="Remove">
-	[{else}]
+	[{
+		else}]
 		<input data-app="[{id}]" data-type="publish" type="button" class="btn btn-success btn-command" value="Publish">
 	[{/equal}]
 	
