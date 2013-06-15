@@ -75,9 +75,9 @@ var goose = (function () {
 					log.info(elements);
 					var jResult = {};
 					if(verb=="GET"){
-						jResult = request.getAllParameters();
+						jResult = request.getAllParameters("UTF-8");
 					}else{
-						jResult = request.getAllParameters();
+						jResult = request.getAllParameters("UTF-8");
 						if(request.getContentType()=='application/json'){
 							mergeRecursive(jResult,request.getContent());	
 						}

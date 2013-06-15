@@ -16,7 +16,7 @@ router.post('apps/upload',function(ctx){
 	var names = [];
 	for(var name in files) {
 		var file = files[name];
-		file.saveAs("/publisher/uploads/"+file.getName());
+		file.saveAs("/uploads/"+file.getName());
 	    names.push("/publisher/uploads/"+file.getName());
 	}
 	print(names);
@@ -102,6 +102,7 @@ router.post('apps',function(ctx){
 			    mediaType: 'application/vnd.wso2-android+xml',
 			    content: app.toXMLString()
 			});
+	response.sendRedirect('/publisher/console/list');
 });
 
 router.get('apps', function(ctx){
@@ -169,7 +170,7 @@ var saveFile = function(file){
 	if(file.getName()==""){
 		return "";
 	}
-	file.saveAs("/publisher/uploads/"+file.getName());
+	file.saveAs("/uploads/"+file.getName());
 	return "/publisher/uploads/"+file.getName();
 }
 
