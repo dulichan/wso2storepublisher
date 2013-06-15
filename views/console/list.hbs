@@ -95,8 +95,12 @@
 	<td>Live</td>
 	<td>
 	<input data-app="[{id}]" data-type="update" type="button" class="btn btn-info btn-command" value="Update">
-	<input data-app="[{id}]" data-type="publish" type="button" class="btn btn-success btn-command" value="Publish">
-	<input data-app="[{id}]" data-type="remove" type="button" class="btn btn-danger btn-command" value="Remove">
+	[{#equal attributes.overview_status 'PUBLISHED'}]
+		<input data-app="[{id}]" data-type="remove" type="button" class="btn btn-danger btn-command" value="Remove">
+	[{else}]
+		<input data-app="[{id}]" data-type="publish" type="button" class="btn btn-success btn-command" value="Publish">
+	[{/equal}]
+	
 	</td>
 	</tr>
 	[{/apps}]
