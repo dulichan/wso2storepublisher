@@ -74,18 +74,10 @@ function onCommandbuttonClick(templateUI) {
 				type : "POST",
 				url : getServiceURLs("publishApp", app, command),
 				success : function() {					
-					bootbox.alert("App is sent to admin for approval");
-					window.location.reload(true);
-				}
-			});
-		}else if (command == "publish") {
-			
-			$.ajax({
-				type : "POST",
-				url : getServiceURLs("publishApp", app, command),
-				success : function() {					
-					bootbox.alert("App is sent to admin for approval");
-					window.location.reload(true);
+					bootbox.alert("App is sent to admin for approval", function() {
+						window.location.reload(true);
+					});
+					
 				}
 			});
 		}

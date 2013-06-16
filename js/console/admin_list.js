@@ -102,6 +102,9 @@ function onCommandbuttonClick(templateUI) {
 				data: {message: result},
 				success : function() {					
 					window.location.reload(true);
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					window.location.reload(true);
 				}
 				});				
 				
