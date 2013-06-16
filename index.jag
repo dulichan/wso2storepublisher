@@ -17,8 +17,9 @@ router.post('apps/upload',function(ctx){
 	var names = [];
 	for(var name in files) {
 		var file = files[name];
-		file.saveAs("/uploads/"+makeid()+file.getName());
-	    names.push("/publisher/uploads/"+makeid()+file.getName());
+		var uid= makeid();
+		file.saveAs("/uploads/"+uid+file.getName());
+	    names.push("/publisher/uploads/"+uid+file.getName());
 	}
 	print(names);
 });
@@ -114,7 +115,7 @@ router.get('apps', function(ctx){
 	       am = new carbon.registry.ArtifactManager(registry, 'android');
 	var items =am.list();
 	items = sp(items);
-	log.info(items);
+	items = filterById(items);
 	var state = ctx.state;
 	var platform = ctx.platform;
 	var sort = ctx.sort;
@@ -131,21 +132,20 @@ router.get('apps', function(ctx){
 	}
 	if(sort!=undefined){
 		if(sort=="date"){
-			log.info(items);
 			items.sort(function (l, r) {
-				   var date1 =parseDate(l.attributes['overview_'+l.attributes.overview_status+"_date"]);
-				   var date2 = parseDate(r.attributes['overview_'+r.attributes.overview_status+"_date"]);
-				   log.info(l.attributes.overview_name);
-				   				   				   log.info("date1 "+date1);
-				   				   				   log.info(r.attributes.overview_name);
-				   				   				   log.info("date2 "+date2);
-				   				   				log.info(date1.isAfter(date2));
-				   				   				log.info(date1.isBefore(date2));
-				   				   				   log.info("---");				
-		           return  date1.isBefore(date2);
+				   var date1 =parseDate(l.attributes['overview_'+l.attributes.overview_status+"_date"]).toDate();
+				   var date2 = parseDate(r.attributes['overview_'+r.attributes.overview_status+"_date"]).toDate();
+				   // log.info(l.attributes.overview_name);
+				   // 				   				   				   log.info("date1 "+date1);
+				   // 				   				   				   log.info(r.attributes.overview_name);
+				   // 				   				   				   log.info("date2 "+date2);
+				   // 				   				   				log.info(date1.isAfter(date2));
+				   // 				   				   				log.info(date1.isBefore(date2));
+				   // 				   				   				   log.info("---");			
+				   // a = dat;
+				   // 				   b = new Date(b.date);
+				   return date2<date1?-1:date2>date1?1:0;
 		    });
-			log.info("------");
-			log.info(items);
 		}
 	}
 	print(items);
@@ -164,7 +164,17 @@ router.get('test', function(ctx){
 router.put('apps', function(ctx){
 	//To implement
 });
-
+var filterById =function(items, id){
+	var ite=[];
+	for (var i = items.length - 1; i >= 0; i--){
+	   var item = items[i];
+	   if(item.attributes.id==id){
+			ite.push(item);
+		}
+	};
+	log.info(ite);
+	return ite;
+}
 var filterByState = function(items,state){
 	var ite=[];
 	for (var i = items.length - 1; i >= 0; i--){
@@ -191,8 +201,9 @@ var saveFile = function(file){
 	if(file.getName()==""){
 		return "";
 	}
-	file.saveAs("/uploads/"+makeid()+file.getName());
-	return "/publisher/uploads/"+makeid()+file.getName();
+	var uid= makeid();
+	file.saveAs("/uploads/"+uid+file.getName());
+	return "/publisher/uploads/"+uid+file.getName();
 }
 
 
@@ -210,36 +221,34 @@ var change = function(type, id, message){
 		if(item.id==id){
 			item.attributes.overview_status = type;
 			var date= new Date();
-			item.attributes["overview_REJECTED_reason"] = message;
-			item.attributes["overview_"+type+"_date"] = printDate();
-			// og.info(item.attributes.overview_status);
-			// 			var app = <metadata xmlns="http://www.wso2.org/governance/metadata">
-			// 	            <overview>
-			// 	                <provider>{item.attributes.overview_provider}</provider>
-			// 	                <name>{item.attributes.overview_name}</name>
-			// 	                <version>{item.attributes.overview_version}</version>
-			// 	                <url>{item.attributes.overview_url}</url>
-			// 	                <status>{item.attributes.overview_status}</status>
-			// 					<description>{item.attributes.overview_description}</description>
-			// 					<recent_changes>{item.attributes.overview_recent_changes}</recent_changes>
-			// 					<package_name>{item.attributes.overview_package_name}</package_name>
-			// 					<category>{item.attributes.overview_category}</category>
-			// 	            </overview>
-			// 				<images>
-			// 					<icon>{item.attributes.images_icon}</icon>
-			// 					<banner>{item.attributes.images_banner}</banner>
-			// 					<screenshots>{item.attributes.images_screenshots}</screenshots>
-			// 				</images>
-			// 	        </metadata>;
-			// 			app.overview[type+"_date"] = printDate();
-			// 			if(message!=undefined){
-			// 				app.overview["REJECTED_reason"] = message;
-			// 			}
-			// registry.put(item.path, {
-			// 				    mediaType: item.mediaType,
-			// 				    content: app.toXMLString()
-			// 				});
-			am.update(item);
+			log.info(item.attributes.overview_status);
+			var app = <metadata xmlns="http://www.wso2.org/governance/metadata">
+	            <overview>
+	                <provider>{item.attributes.overview_provider}</provider>
+	                <name>{item.attributes.overview_name}</name>
+	                <version>{item.attributes.overview_version}</version>
+	                <url>{item.attributes.overview_url}</url>
+	                <status>{item.attributes.overview_status}</status>
+					<description>{item.attributes.overview_description}</description>
+					<recent_changes>{item.attributes.overview_recent_changes}</recent_changes>
+					<package_name>{item.attributes.overview_package_name}</package_name>
+					<category>{item.attributes.overview_category}</category>
+	            </overview>
+				<images>
+					<icon>{item.attributes.images_icon}</icon>
+					<banner>{item.attributes.images_banner}</banner>
+					<screenshots>{item.attributes.images_screenshots}</screenshots>
+				</images>
+	        </metadata>;
+			app.overview[type+"_date"] = printDate();
+			if(message!=undefined){
+				app.overview["REJECTED_reason"] = message;
+			}
+			registry.put(item.path, {
+			    mediaType: item.mediaType,
+			    content: app.toXMLString()
+			});
+			// am.update(item);
 			return;
 		}
 	response.sendError(404);
