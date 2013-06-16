@@ -29,10 +29,11 @@ function getServiceURLs(item) {
 
 function getPublisherAppList() {
 
+	getAppList("publisherAppListByStatus", "REVIEW", "#publisher-app-list-pending");
 	getAppList("publisherAppList", "ALL", "#publisher-app-list");
 	getAppList("publisherAppListByStatus", "PUBLISHED", "#publisher-app-list-published");
 	getAppList("publisherAppListByStatus", "REJECTED", "#publisher-app-list-rejected");
-	getAppList("publisherAppListByStatus", "PENDING_REVIEW", "#publisher-app-list-pending");
+	
 
 }
 
@@ -78,6 +79,40 @@ function onCommandbuttonClick(templateUI) {
 					window.location.reload(true);
 				}
 			});
+		}else if (command == "accept") {
+			
+			$.ajax({
+				type : "POST",
+				url : getServiceURLs("publishApp", app, command),
+				success : function() {					
+					bootbox.alert("App is accepted, published in the store");
+					window.location.reload(true);
+				}
+			});
+		}else if (command == "reject") {
+			
+			bootbox.prompt("Enter a message", function(result) {				
+			if (result === null) {			
+			} else {
+				
+				$.ajax({
+				type : "POST",
+				url : getServiceURLs("publishApp", app, command),
+				dataType: "json",
+				data: {message: result},
+				success : function() {					
+					window.location.reload(true);
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					window.location.reload(true);
+				}
+				});				
+				
+			}
+			});
+			
+			
+			
 		}
 
 	});
@@ -88,4 +123,9 @@ Handlebars.registerHelper('equal', function(lvalue, rvalue, options) {
 	if (lvalue == rvalue) {
 		return options.fn(this);
 	}
+});
+
+
+Handlebars.registerHelper('lastdate', function(status, attri, options) {
+	return attri["overview_" + status + "_date"];
 });

@@ -4,10 +4,10 @@
 		<div id="all-app-list" class="block">
 			<div class="block-header">
 				<div id="tab" class="btn-group" data-toggle="buttons-radio">
-					<a href="#allapps" class="btn active" data-toggle="tab">All Apps</a>
+					<a href="#allappspending" class="btn active" data-toggle="tab">Pending Review</a>
+					<a href="#allapps" class="btn" data-toggle="tab">All Apps</a>
 					<a href="#allappspublished" class="btn" data-toggle="tab">Published</a>
-					<a href="#allappsrejected" class="btn" data-toggle="tab">Rejected</a>
-					<a href="#allappspending" class="btn" data-toggle="tab">Pending Review</a>
+					<a href="#allappsrejected" class="btn" data-toggle="tab">Rejected</a>					
 				</div>
 
 				<div class="pull-right">
@@ -18,13 +18,36 @@
 
 				<div class="tab-content">
 					
-					<div class="tab-pane active" id="allapps">
+					
+					<div class="tab-pane active" id="allappspending">
 						<table class="table table-striped">
 							<thead>
 								<tr>
 									<th>App</th>
 									<th>Total Installs</th>
 									<th>Rating</th>
+									<th>Status</th>
+									<th>Last Update</th>
+									<th> </th>
+								</tr>
+							</thead>
+							<tbody id="publisher-app-list-pending">
+
+							</tbody>
+						</table>
+					</div>
+					
+					
+					
+					
+					
+					<div class="tab-pane" id="allapps">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>App</th>
+									<th>Total Installs</th>
+									<th>Version</th>
 									<th>Status</th>
 									<th>Last Update</th>
 									<th>Action</th>
@@ -43,7 +66,7 @@
 								<tr>
 									<th>App</th>
 									<th>Total Installs</th>
-									<th>Rating</th>
+									<th>Version</th>
 									<th>Status</th>
 									<th>Last Update</th>
 									<th>Action</th>
@@ -62,7 +85,7 @@
 								<tr>
 									<th>App</th>
 									<th>Total Installs</th>
-									<th>Rating</th>
+									<th>Version</th>
 									<th>Status</th>
 									<th>Last Update</th>
 									<th>Action</th>
@@ -75,23 +98,7 @@
 					</div>
 					
 					
-					<div class="tab-pane" id="allappspending">
-						<table class="table table-striped">
-							<thead>
-								<tr>
-									<th>App</th>
-									<th>Total Installs</th>
-									<th>Rating</th>
-									<th>Status</th>
-									<th>Last Update</th>
-									<th>Action</th>
-								</tr>
-							</thead>
-							<tbody id="publisher-app-list-pending">
-
-							</tbody>
-						</table>
-					</div>
+					
 					
 					
 					
@@ -112,8 +119,15 @@
 	<td>[{attributes.overview_total_installs}]</td>
 	<td>[{attributes.overview_version}]</td>
 	<td>[{attributes.overview_status}]</td>
-	<td>[{attributes.overview_last_update}]</td>
+	<td>[{#lastdate attributes.overview_status attributes}][{/lastdate}]</td>
 	<td>
+	
+	
+	[{#equal attributes.overview_status 'REVIEW'}]
+		<input data-app="[{id}]" data-type="accept" type="button" class="btn btn-info btn-command" value="Accept">
+		<input data-app="[{id}]" data-type="reject" type="button" class="btn btn-danger btn-command" value="Reject">	
+	[{/equal}]
+	
 	
 	[{#equal attributes.overview_status 'PUBLISHED'}]
 		<input data-app="[{id}]" data-type="update" type="button" class="btn btn-info btn-command" value="Update">
@@ -121,10 +135,10 @@
 	[{/equal}]
 	
 	[{#equal attributes.overview_status 'CREATED'}]
-		<input data-app="[{id}]" data-type="update" type="button" class="btn btn-info btn-command" value="Update">
-		<input data-app="[{id}]" data-type="publish" type="button" class="btn btn-success btn-command" value="Publish">
+		<input data-app="[{id}]" data-type="update" type="button" class="btn btn-info btn-command" value="Update">		
 	[{/equal}]
 	
+		
 	</td>
 	</tr>
 	[{/apps}]
