@@ -177,7 +177,7 @@ var saveFile = function(file){
 }
 
 
-var change = function(type, id){
+var change = function(type, id, message){
 	var carbon = require('carbon'),
 	       server = new carbon.server.Server(),
 	       registry = new carbon.registry.Registry(server, {
@@ -211,6 +211,9 @@ var change = function(type, id){
 				</images>
 	        </metadata>;
 			app.overview[type+"_date"] = printDate();
+			if(message!=undefined){
+				app.overview["REJECTED_reason"] = message;
+			}
 			registry.put(item.path, {
 					    mediaType: item.mediaType,
 					    content: app.toXMLString()
