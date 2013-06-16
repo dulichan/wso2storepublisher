@@ -46,6 +46,9 @@ router.post('apps/{id}/reject', function(ctx){
 router.post('apps/{id}/hold', function(ctx){
 	change("ONHOLD",ctx.id);
 });
+router.post('apps/{id}/live', function(ctx){
+	change("LIVE",ctx.id);
+});
 router.get('dev/{id}/apps',function(ctx){
 	var publisher = require('/modules/publisher.js');
 	assets = publisher.assets('android', 1, ctx.id);
