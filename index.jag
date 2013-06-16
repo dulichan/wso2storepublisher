@@ -43,7 +43,7 @@ router.post('apps/{id}/accept', function(ctx){
 router.post('apps/{id}/reject', function(ctx){
 	change("REJECTED",ctx.id, ctx.message);
 });
-router.post('apps/{id}/hold', function(){
+router.post('apps/{id}/hold', function(ctx){
 	change("ONHOLD",ctx.id);
 });
 router.get('dev/{id}/apps',function(ctx){
