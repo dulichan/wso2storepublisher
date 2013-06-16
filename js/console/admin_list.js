@@ -29,7 +29,7 @@ function getServiceURLs(item) {
 
 function getPublisherAppList() {
 
-	getAppList("publisherAppListByStatus", "REVIEW", "#publisher-app-list-pending");
+	getAppList("publisherAppListByStatus", "INREVIEW", "#publisher-app-list-pending");
 	getAppList("publisherAppList", "ALL", "#publisher-app-list");
 	getAppList("publisherAppListByStatus", "PUBLISHED", "#publisher-app-list-published");
 	getAppList("publisherAppListByStatus", "REJECTED", "#publisher-app-list-rejected");

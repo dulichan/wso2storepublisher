@@ -30,9 +30,9 @@ function getServiceURLs(item) {
 function getPublisherAppList() {
 
 	getAppList("publisherAppList", "ALL", "#publisher-app-list");
-	getAppList("publisherAppListByStatus", "PUBLISHED", "#publisher-app-list-published");
+	getAppList("publisherAppListByStatus", "LIVE", "#publisher-app-list-published");
 	getAppList("publisherAppListByStatus", "REJECTED", "#publisher-app-list-rejected");
-	getAppList("publisherAppListByStatus", "REVIEW", "#publisher-app-list-pending");
+	getAppList("publisherAppListByStatus", "INREVIEW", "#publisher-app-list-pending");
 
 }
 
@@ -85,7 +85,7 @@ function onCommandbuttonClick(templateUI) {
 				type : "POST",
 				url : getServiceURLs("publishApp", app, command),
 				success : function() {					
-					
+					window.location.reload(true);
 				}
 			});
 		}
@@ -101,6 +101,6 @@ Handlebars.registerHelper('equal', function(lvalue, rvalue, options) {
 });
 
 Handlebars.registerHelper('lastdate', function(status, attri, options) {
-	return attri["overview_" + status + "_date"];
+	return moment(attri["overview_" + status + "_date"]).format( "DD-MM-YYYY");
 });
 
