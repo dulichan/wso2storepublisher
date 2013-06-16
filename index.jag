@@ -2,6 +2,7 @@
 var absolute = require ('modules/absolute.js').mvc;
 var goose = require('modules/goose.js').goose;
 var router = new goose({CONTEXT: "/publisher/api/"});
+var moment= require('modules/moment.js');
 var log =new Log();
 
 var mvc = new absolute({
@@ -31,19 +32,20 @@ router.get('apps/{id}',function(ctx){
 });
 
 router.post('apps/{id}/publish', function(ctx){
-	log.info('review state');
-	change("REVIEW",ctx.id);
+	change("INREVIEW",ctx.id);
 });
 router.post('apps/{id}/remove', function(ctx){
 	change("REMOVED",ctx.id);
 });
 router.post('apps/{id}/accept', function(ctx){
-	change("PUBLISHED",ctx.id);
+	change("LIVE",ctx.id);
 });
 router.post('apps/{id}/reject', function(ctx){
-	change("REJECTED",ctx.id);
+	change("REJECTED",ctx.id, ctx.message);
 });
-
+router.post('apps/{id}/hold', function(){
+	change("ONHOLD",ctx.id);
+});
 router.get('dev/{id}/apps',function(ctx){
 	var publisher = require('/modules/publisher.js');
 	assets = publisher.assets('android', 1, ctx.id);
@@ -86,7 +88,7 @@ router.post('apps',function(ctx){
                 <version>{ctx.version}</version>
                 <url>{ctx.url}</url>
                 <status>CREATED</status>
-				<CREATED_date>{new Date().getDate()}</CREATED_date>
+				<CREATED_date>{printDate()}</CREATED_date>
 				<description>{ctx.description}</description>
 				<recent_changes>{ctx.recentChanges}</recent_changes>
 				<package_name>{ctx.package_name}</package_name>
@@ -119,15 +121,26 @@ router.get('apps', function(ctx){
 	items = sp(items);
 	var state = ctx.state;
 	var platform = ctx.platform;
+	var sort = ctx.sort;
 	if(state!=undefined){
 		items = filterByState(items,state.toUpperCase());
-	}else if(platform!=undefined){
+	}
+	if(platform!=undefined){
 		if(platform=="android"){
 			platform = "application/vnd.wso2-android+xml";
 		}else if(platform=="ios"){
 			platform = "application/vnd.wso2-ios+xml";
 		}
-		items = filterByPlatform(items, platform);
+		items = filterByType(items, platform);
+	}
+	if(sort!=undefined){
+		if(sort=="date"){
+			items.sort(function (l, r) {
+				   var date1 =parseDate(l.attributes['overview_'+l.attributes.overview_status+"_date"]);
+				   var date2 = parseDate(r.attributes['overview_'+r.attributes.overview_status+"_date"]);
+		           return  date1.isBefore(date2);
+		    });
+		}
 	}
 	print(items);
 });
@@ -265,11 +278,11 @@ var spli = function(item){
 	return item;
 }
 var printDate = function(){
-	var d = new Date();
-    var curr_date = d.getDate();
-    var curr_month = d.getMonth() + 1; //Months are zero based
-    var curr_year = d.getFullYear();
-	return curr_date+"/"+curr_month+"/"+curr_year;
+	var date = new moment();
+	return date.format("YYYY-MM-DD HH:mm:ss.SSS");
+}
+var parseDate = function(string){
+	return moment(string,"YYYY-MM-DD HH:mm:ss.SSS");
 }
 mvc.route(request);
 %>
