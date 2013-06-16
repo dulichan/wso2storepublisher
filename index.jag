@@ -2,7 +2,7 @@
 var absolute = require ('modules/absolute.js').mvc;
 var goose = require('modules/goose.js').goose;
 var router = new goose({CONTEXT: "/publisher/api/"});
-var moment= require('modules/moment.js');
+var moment= require('modules/moment.js').moment;
 var log =new Log();
 
 var mvc = new absolute({
