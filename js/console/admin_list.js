@@ -18,7 +18,7 @@ function getServiceURLs(item) {
 
 	var urls = {
 		"publisherAppList" : "apps",
-		"publisherAppListByStatus" : "apps?status={0}",
+		"publisherAppListByStatus" : "apps?state={0}",
 		"publishApp" : "apps/{0}/{1}"
 	};
 
@@ -63,16 +63,19 @@ function onCommandbuttonClick(templateUI) {
 						type : "POST",
 						url : getServiceURLs("publishApp", app, command),
 						success : function() {
+							window.location.reload(true);
 						}
 					});
 				}
 			});
 		} else if (command == "publish") {
+			
 			$.ajax({
 				type : "POST",
 				url : getServiceURLs("publishApp", app, command),
-				success : function() {
+				success : function() {					
 					bootbox.alert("App is sent to admin for approval");
+					window.location.reload(true);
 				}
 			});
 		}
