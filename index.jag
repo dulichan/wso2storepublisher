@@ -96,6 +96,7 @@ router.post('apps',function(ctx){
 				<recent_changes>{ctx.recentChanges}</recent_changes>
 				<package_name>{ctx.package_name}</package_name>
 				<category>{ctx.category}</category>
+				<status_date>{printDate()}</status_date>
             </overview>
 			<images>
 				<icon>{icon}</icon>
