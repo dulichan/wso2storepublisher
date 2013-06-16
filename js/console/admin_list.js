@@ -18,7 +18,7 @@ function getServiceURLs(item) {
 
 	var urls = {
 		"publisherAppList" : "apps",
-		"publisherAppListByStatus" : "apps?state={0}",
+		"publisherAppListByStatus" : "apps?state={0}&sort=date",
 		"publishApp" : "apps/{0}/{1}"
 	};
 

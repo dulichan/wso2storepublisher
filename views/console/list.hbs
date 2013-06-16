@@ -5,7 +5,7 @@
 			<div class="block-header">
 				<div id="tab" class="btn-group" data-toggle="buttons-radio">
 					<a href="#allapps" class="btn active" data-toggle="tab">All Apps</a>
-					<a href="#allappspublished" class="btn" data-toggle="tab">Published</a>
+					<a href="#allappspublished" class="btn" data-toggle="tab">Live</a>
 					<a href="#allappsrejected" class="btn" data-toggle="tab">Rejected</a>
 					<a href="#allappspending" class="btn" data-toggle="tab">Pending Review</a>
 				</div>
@@ -23,6 +23,7 @@
 							<thead>
 								<tr>
 									<th>App</th>
+									<th>Category</th>
 									<th>Total Installs</th>
 									<th>Version</th>
 									<th>Status</th>
@@ -42,6 +43,7 @@
 							<thead>
 								<tr>
 									<th>App</th>
+									<th>Category</th>
 									<th>Total Installs</th>
 									<th>Version</th>
 									<th>Status</th>
@@ -61,6 +63,7 @@
 							<thead>
 								<tr>
 									<th>App</th>
+									<th>Category</th>
 									<th>Total Installs</th>
 									<th>Version</th>
 									<th>Status</th>
@@ -80,6 +83,7 @@
 							<thead>
 								<tr>
 									<th>App</th>
+									<th>Category</th>
 									<th>Total Installs</th>
 									<th>Rating</th>
 									<th>Status</th>
@@ -109,7 +113,8 @@
 	[{#apps}]
 	<tr>
 	<td><img class="app-icon-small" src="[{attributes.images_icon}]"> [{attributes.overview_name}]</td>
-	<td>[{attributes.overview_total_installs}]</td>
+	<td>[{attributes.overview_category}]</td>
+	<td>[{attributes.overview_total_installs}]0</td>
 	<td>[{attributes.overview_version}]</td>
 	<td>[{attributes.overview_status}]</td>
 	<td>[{#lastdate attributes.overview_status attributes}][{/lastdate}]</td>
