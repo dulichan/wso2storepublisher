@@ -74,7 +74,7 @@ function onCommandbuttonClick(templateUI) {
 				type : "POST",
 				url : getServiceURLs("publishApp", app, command),
 				success : function() {					
-					bootbox.alert("App is sent to admin for approval", function() {
+					bootbox.alert("App submitted for review", function() {
 						window.location.reload(true);
 					});
 					
