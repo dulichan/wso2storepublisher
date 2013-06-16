@@ -272,7 +272,9 @@ var sp = function(items){
 	var arr = [];
 	for (var i = items.length - 1; i >= 0; i--){
 		var item = items[i];
-		arr.push(spli(item));
+		if(item.attributes.overview_status!="REMOVED"){
+			arr.push(spli(item));
+		}
 	};
 	return arr;
 }
