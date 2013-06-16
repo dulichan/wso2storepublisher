@@ -139,8 +139,8 @@ router.get('apps', function(ctx){
 	if(sort!=undefined){
 		if(sort=="date"){
 			items.sort(function (l, r) {
-				   var date1 =parseDate(l.attributes['overview_'+l.attributes.overview_status+"_date"]);
-				   var date2 = parseDate(r.attributes['overview_'+r.attributes.overview_status+"_date"]);
+				   var date1 =parseDate(l.app.overview_status_date);
+				   var date2 = parseDate(r.app.overview_status_date);
 		           return  date1.isBefore(date2);
 		    });
 		}
@@ -227,6 +227,7 @@ var change = function(type, id, message){
 				</images>
 	        </metadata>;
 			app.overview[type+"_date"] = printDate();
+			app.overview_status_date=printDate();
 			if(message!=undefined){
 				app.overview["REJECTED_reason"] = message;
 			}
