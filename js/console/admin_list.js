@@ -127,5 +127,5 @@ Handlebars.registerHelper('equal', function(lvalue, rvalue, options) {
 
 
 Handlebars.registerHelper('lastdate', function(status, attri, options) {
-	return attri["overview_" + status + "_date"];
+	return moment(attri["overview_" + status + "_date"]).format( "DD-MM-YYYY");
 });
