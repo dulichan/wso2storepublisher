@@ -24,7 +24,7 @@
 								<tr>
 									<th>App</th>
 									<th>Total Installs</th>
-									<th>Rating</th>
+									<th>Version</th>
 									<th>Status</th>
 									<th>Last Update</th>
 									<th>Action</th>
@@ -43,7 +43,7 @@
 								<tr>
 									<th>App</th>
 									<th>Total Installs</th>
-									<th>Rating</th>
+									<th>Version</th>
 									<th>Status</th>
 									<th>Last Update</th>
 									<th>Action</th>
@@ -62,7 +62,7 @@
 								<tr>
 									<th>App</th>
 									<th>Total Installs</th>
-									<th>Rating</th>
+									<th>Version</th>
 									<th>Status</th>
 									<th>Last Update</th>
 									<th>Action</th>
@@ -84,7 +84,7 @@
 									<th>Rating</th>
 									<th>Status</th>
 									<th>Last Update</th>
-									<th>Action</th>
+									<th> </th>
 								</tr>
 							</thead>
 							<tbody id="publisher-app-list-pending">
@@ -112,7 +112,7 @@
 	<td>[{attributes.overview_total_installs}]</td>
 	<td>[{attributes.overview_version}]</td>
 	<td>[{attributes.overview_status}]</td>
-	<td>[{attributes.overview_last_update}]</td>
+	<td>[{#lastdate attributes.overview_status attributes}][{/lastdate}]</td>
 	<td>
 	
 	[{#equal attributes.overview_status 'PUBLISHED'}]
@@ -125,6 +125,12 @@
 		<input data-app="[{id}]" data-type="publish" type="button" class="btn btn-success btn-command" value="Publish">
 	[{/equal}]
 	
+	[{#equal attributes.overview_status 'REJECTED'}]
+		<input data-app="[{id}]" data-type="update" type="button" class="btn btn-info btn-command" value="Update">
+		<input data-app="[{id}]" data-type="publish" type="button" class="btn btn-success btn-command" value="Publish">
+	[{/equal}]
+	
+		
 	</td>
 	</tr>
 	[{/apps}]
