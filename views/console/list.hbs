@@ -120,14 +120,20 @@
 	<td>[{#lastdate attributes.overview_status attributes}][{/lastdate}]</td>
 	<td>
 	
-	[{#equal attributes.overview_status 'PUBLISHED'}]
+	[{#equal attributes.overview_status 'ONHOLD'}]
 		<input data-app="[{id}]" data-type="update" type="button" class="btn btn-info btn-command" value="Update">
-		<input data-app="[{id}]" data-type="remove" type="button" class="btn btn-danger btn-command" value="Remove">	
+		<input data-app="[{id}]" data-type="live" type="button" class="btn btn-success btn-command" value="Go Live">
+		<input data-app="[{id}]" data-type="remove" type="button" class="btn btn-danger btn-command" value="Remove">		
+	[{/equal}]
+	
+	[{#equal attributes.overview_status 'LIVE'}]
+		<input data-app="[{id}]" data-type="unpublsh" type="button" class="btn btn-info btn-command" value="Unpublish">			
 	[{/equal}]
 	
 	[{#equal attributes.overview_status 'CREATED'}]
 		<input data-app="[{id}]" data-type="update" type="button" class="btn btn-info btn-command" value="Update">
 		<input data-app="[{id}]" data-type="publish" type="button" class="btn btn-success btn-command" value="Publish">
+		<input data-app="[{id}]" data-type="remove" type="button" class="btn btn-danger btn-command" value="Remove">
 	[{/equal}]
 	
 	[{#equal attributes.overview_status 'REJECTED'}]

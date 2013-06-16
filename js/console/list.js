@@ -80,6 +80,14 @@ function onCommandbuttonClick(templateUI) {
 					
 				}
 			});
+		}else{
+			$.ajax({
+				type : "POST",
+				url : getServiceURLs("publishApp", app, command),
+				success : function() {					
+					
+				}
+			});
 		}
 
 	});
