@@ -17,22 +17,14 @@ router.post('apps/upload',function(ctx){
 	var names = [];
 	for(var name in files) {
 		var file = files[name];
-		file.saveAs("/uploads/"+file.getName());
-	    names.push("/publisher/uploads/"+file.getName());
+		file.saveAs("/uploads/"+makeid()+file.getName());
+	    names.push("/publisher/uploads/"+makeid()+file.getName());
 	}
 	print(names);
-	log.info(names);
-});
-// router.post('apps/upload1',function(ctx){
-// 	log.info(request.getAllFiles());
-// });
-
-router.get('apps/{id}',function(ctx){
-	
 });
 
 router.post('apps/{id}/publish', function(ctx){
-	change("INREVIEW",ctx.id);
+	change("IN-REVIEW",ctx.id);
 });
 router.post('apps/{id}/remove', function(ctx){
 	change("REMOVED",ctx.id);
@@ -90,13 +82,12 @@ router.post('apps',function(ctx){
                 <name>{ctx.name}</name>
                 <version>{ctx.version}</version>
                 <url>{ctx.url}</url>
-                <status>CREATED</status>
-				<CREATED_date>{printDate()}</CREATED_date>
+                <status>PENDING-REVIEW</status>
+				<PENDING-REVIEW_date>{printDate()}</PENDING-REVIEW_date>
 				<description>{ctx.description}</description>
 				<recent_changes>{ctx.recentChanges}</recent_changes>
 				<package_name>{ctx.package_name}</package_name>
 				<category>{ctx.category}</category>
-				<status_date>{printDate()}</status_date>
             </overview>
 			<images>
 				<icon>{icon}</icon>
@@ -123,6 +114,7 @@ router.get('apps', function(ctx){
 	       am = new carbon.registry.ArtifactManager(registry, 'android');
 	var items =am.list();
 	items = sp(items);
+	log.info(items);
 	var state = ctx.state;
 	var platform = ctx.platform;
 	var sort = ctx.sort;
@@ -139,11 +131,21 @@ router.get('apps', function(ctx){
 	}
 	if(sort!=undefined){
 		if(sort=="date"){
+			log.info(items);
 			items.sort(function (l, r) {
-				   var date1 =parseDate(l.app.overview_status_date);
-				   var date2 = parseDate(r.app.overview_status_date);
+				   var date1 =parseDate(l.attributes['overview_'+l.attributes.overview_status+"_date"]);
+				   var date2 = parseDate(r.attributes['overview_'+r.attributes.overview_status+"_date"]);
+				   log.info(l.attributes.overview_name);
+				   				   				   log.info("date1 "+date1);
+				   				   				   log.info(r.attributes.overview_name);
+				   				   				   log.info("date2 "+date2);
+				   				   				log.info(date1.isAfter(date2));
+				   				   				log.info(date1.isBefore(date2));
+				   				   				   log.info("---");				
 		           return  date1.isBefore(date2);
 		    });
+			log.info("------");
+			log.info(items);
 		}
 	}
 	print(items);
@@ -189,8 +191,8 @@ var saveFile = function(file){
 	if(file.getName()==""){
 		return "";
 	}
-	file.saveAs("/uploads/"+file.getName());
-	return "/publisher/uploads/"+file.getName();
+	file.saveAs("/uploads/"+makeid()+file.getName());
+	return "/publisher/uploads/"+makeid()+file.getName();
 }
 
 
@@ -208,34 +210,36 @@ var change = function(type, id, message){
 		if(item.id==id){
 			item.attributes.overview_status = type;
 			var date= new Date();
-			log.info(item.attributes.overview_status);
-			var app = <metadata xmlns="http://www.wso2.org/governance/metadata">
-	            <overview>
-	                <provider>{item.attributes.overview_provider}</provider>
-	                <name>{item.attributes.overview_name}</name>
-	                <version>{item.attributes.overview_version}</version>
-	                <url>{item.attributes.overview_url}</url>
-	                <status>{item.attributes.overview_status}</status>
-					<description>{item.attributes.overview_description}</description>
-					<recent_changes>{item.attributes.overview_recent_changes}</recent_changes>
-					<package_name>{item.attributes.overview_package_name}</package_name>
-					<category>{item.attributes.overview_category}</category>
-	            </overview>
-				<images>
-					<icon>{item.attributes.images_icon}</icon>
-					<banner>{item.attributes.images_banner}</banner>
-					<screenshots>{item.attributes.images_screenshots}</screenshots>
-				</images>
-	        </metadata>;
-			app.overview[type+"_date"] = printDate();
-			app.overview_status_date=printDate();
-			if(message!=undefined){
-				app.overview["REJECTED_reason"] = message;
-			}
-			registry.put(item.path, {
-					    mediaType: item.mediaType,
-					    content: app.toXMLString()
-					});
+			item.attributes["overview_REJECTED_reason"] = message;
+			item.attributes["overview_"+type+"_date"] = printDate();
+			// og.info(item.attributes.overview_status);
+			// 			var app = <metadata xmlns="http://www.wso2.org/governance/metadata">
+			// 	            <overview>
+			// 	                <provider>{item.attributes.overview_provider}</provider>
+			// 	                <name>{item.attributes.overview_name}</name>
+			// 	                <version>{item.attributes.overview_version}</version>
+			// 	                <url>{item.attributes.overview_url}</url>
+			// 	                <status>{item.attributes.overview_status}</status>
+			// 					<description>{item.attributes.overview_description}</description>
+			// 					<recent_changes>{item.attributes.overview_recent_changes}</recent_changes>
+			// 					<package_name>{item.attributes.overview_package_name}</package_name>
+			// 					<category>{item.attributes.overview_category}</category>
+			// 	            </overview>
+			// 				<images>
+			// 					<icon>{item.attributes.images_icon}</icon>
+			// 					<banner>{item.attributes.images_banner}</banner>
+			// 					<screenshots>{item.attributes.images_screenshots}</screenshots>
+			// 				</images>
+			// 	        </metadata>;
+			// 			app.overview[type+"_date"] = printDate();
+			// 			if(message!=undefined){
+			// 				app.overview["REJECTED_reason"] = message;
+			// 			}
+			// registry.put(item.path, {
+			// 				    mediaType: item.mediaType,
+			// 				    content: app.toXMLString()
+			// 				});
+			am.update(item);
 			return;
 		}
 	response.sendError(404);
@@ -290,6 +294,16 @@ var printDate = function(){
 }
 var parseDate = function(string){
 	return moment(string,"YYYY-MM-DD HH:mm:ss.SSS");
+}
+var makeid= function()
+{
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for( var i=0; i < 5; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
 }
 mvc.route(request);
 %>

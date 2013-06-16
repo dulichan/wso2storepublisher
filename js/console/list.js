@@ -32,7 +32,7 @@ function getPublisherAppList() {
 	getAppList("publisherAppList", "ALL", "#publisher-app-list");
 	getAppList("publisherAppListByStatus", "LIVE", "#publisher-app-list-published");
 	getAppList("publisherAppListByStatus", "REJECTED", "#publisher-app-list-rejected");
-	getAppList("publisherAppListByStatus", "INREVIEW", "#publisher-app-list-pending");
+	getAppList("publisherAppListByStatus", "IN-REVIEW", "#publisher-app-list-pending");
 
 }
 
