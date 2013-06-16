@@ -7,6 +7,7 @@
 					<a href="#allapps" class="btn active" data-toggle="tab">All Apps</a>
 					<a href="#allappspublished" class="btn" data-toggle="tab">Published</a>
 					<a href="#allappsrejected" class="btn" data-toggle="tab">Rejected</a>
+					<a href="#allappspending" class="btn" data-toggle="tab">Pending Review</a>
 				</div>
 
 				<div class="pull-right">
@@ -22,10 +23,10 @@
 							<thead>
 								<tr>
 									<th>App</th>
-									<th>Price</th>
 									<th>Total Installs</th>
 									<th>Rating</th>
 									<th>Status</th>
+									<th>Last Update</th>
 									<th>Action</th>
 								</tr>
 							</thead>
@@ -41,10 +42,10 @@
 							<thead>
 								<tr>
 									<th>App</th>
-									<th>Price</th>
 									<th>Total Installs</th>
 									<th>Rating</th>
 									<th>Status</th>
+									<th>Last Update</th>
 									<th>Action</th>
 								</tr>
 							</thead>
@@ -60,14 +61,33 @@
 							<thead>
 								<tr>
 									<th>App</th>
-									<th>Provider</th>
-									<th>Version</th>
+									<th>Total Installs</th>
 									<th>Rating</th>
 									<th>Status</th>
+									<th>Last Update</th>
 									<th>Action</th>
 								</tr>
 							</thead>
 							<tbody id="publisher-app-list-rejected">
+
+							</tbody>
+						</table>
+					</div>
+					
+					
+					<div class="tab-pane" id="allappspending">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>App</th>
+									<th>Total Installs</th>
+									<th>Rating</th>
+									<th>Status</th>
+									<th>Last Update</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody id="publisher-app-list-pending">
 
 							</tbody>
 						</table>
@@ -89,16 +109,19 @@
 	[{#apps}]
 	<tr>
 	<td><img class="app-icon-small" src="[{attributes.images_icon}]"> [{attributes.overview_name}]</td>
-	<td>[{attributes.overview_provider}]</td>
+	<td>[{attributes.overview_total_installs}]</td>
 	<td>[{attributes.overview_version}]</td>
-	<td>5</td>
-	<td>Live</td>
+	<td>[{attributes.overview_status}]</td>
+	<td>[{attributes.overview_last_update}]</td>
 	<td>
-	<input data-app="[{id}]" data-type="update" type="button" class="btn btn-info btn-command" value="Update">
+	
 	[{#equal attributes.overview_status 'PUBLISHED'}]
-		<input data-app="[{id}]" data-type="remove" type="button" class="btn btn-danger btn-command" value="Remove">
-	[{
-		else}]
+		<input data-app="[{id}]" data-type="update" type="button" class="btn btn-info btn-command" value="Update">
+		<input data-app="[{id}]" data-type="remove" type="button" class="btn btn-danger btn-command" value="Remove">	
+	[{/equal}]
+	
+	[{#equal attributes.overview_status 'CREATED'}]
+		<input data-app="[{id}]" data-type="update" type="button" class="btn btn-info btn-command" value="Update">
 		<input data-app="[{id}]" data-type="publish" type="button" class="btn btn-success btn-command" value="Publish">
 	[{/equal}]
 	
