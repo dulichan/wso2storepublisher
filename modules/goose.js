@@ -55,7 +55,6 @@ var goose = (function () {
             this.route(route + "|PUT", action);
 	    },
         process: function (request) {
-			log.info(routes);
             for (var i = 0; i < routes.length; i++) {
                 var routeObject = routes[i];
                 var routeAction = routeObject.action;
@@ -64,7 +63,8 @@ var goose = (function () {
                 var verb = routeVariables[1];
                 var uriMatcher = new URIMatcher(request.getRequestURI());
                 if (uriMatcher.match(route)) {
-                    log.info('--------Goose Match--------');
+					log.info('--------Goose Request--------'+request.getRequestURI()+"|"+request.getMethod());
+                    log.info('--------Goose Match--------'+route+"|"+verb);
                 }
                 if (uriMatcher.match(route) && request.getMethod() == verb) {
                     var elements = uriMatcher.elements();

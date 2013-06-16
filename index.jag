@@ -30,16 +30,17 @@ router.get('apps/{id}',function(ctx){
 	
 });
 
-router.get('apps/{id}/publish', function(ctx){
+router.post('apps/{id}/publish', function(ctx){
+	log.info('review state');
 	change("REVIEW",ctx.id);
 });
-router.get('apps/{id}/remove', function(ctx){
-	change("REVIEW",ctx.id);
+router.post('apps/{id}/remove', function(ctx){
+	change("REMOVED",ctx.id);
 });
-router.get('apps/{id}/accept', function(ctx){
+router.post('apps/{id}/accept', function(ctx){
 	change("PUBLISHED",ctx.id);
 });
-router.get('apps/{id}/reject', function(ctx){
+router.post('apps/{id}/reject', function(ctx){
 	change("REJECTED",ctx.id);
 });
 
@@ -85,6 +86,7 @@ router.post('apps',function(ctx){
                 <version>{ctx.version}</version>
                 <url>{ctx.url}</url>
                 <status>CREATED</status>
+				<CREATED_date>{new Date().getDate()}</CREATED_date>
 				<description>{ctx.description}</description>
 				<recent_changes>{ctx.recentChanges}</recent_changes>
 				<package_name>{ctx.package_name}</package_name>
@@ -184,11 +186,11 @@ var change = function(type, id){
 	       }),
 	am = new carbon.registry.ArtifactManager(registry, 'android');
 	var items = am.list();
-	for (var i = items.length - 1; i >= 0; i--){
-		var item = items[i];
+		var item =	am.get(id);
 		log.info(item.attributes.overview_status + item.id);			
 		if(item.id==id){
 			item.attributes.overview_status = type;
+			var date= new Date();
 			log.info(item.attributes.overview_status);
 			var app = <metadata xmlns="http://www.wso2.org/governance/metadata">
 	            <overview>
@@ -198,9 +200,9 @@ var change = function(type, id){
 	                <url>{item.attributes.overview_url}</url>
 	                <status>{item.attributes.overview_status}</status>
 					<description>{item.attributes.overview_description}</description>
-					<recent_changes>{item.attributes.overview_recentChanges}</recent_changes>
+					<recent_changes>{item.attributes.overview_recent_changes}</recent_changes>
 					<package_name>{item.attributes.overview_package_name}</package_name>
-					<category>{item.attributes.category}</category>
+					<category>{item.attributes.overview_category}</category>
 	            </overview>
 				<images>
 					<icon>{item.attributes.images_icon}</icon>
@@ -208,13 +210,13 @@ var change = function(type, id){
 					<screenshots>{item.attributes.images_screenshots}</screenshots>
 				</images>
 	        </metadata>;
+			app.overview[type+"_date"] = printDate();
 			registry.put(item.path, {
 					    mediaType: item.mediaType,
 					    content: app.toXMLString()
 					});
 			return;
 		}
-	};
 	response.sendError(404);
 }
 // router.get('apps', function(ctx){
@@ -258,6 +260,13 @@ var sp = function(items){
 var spli = function(item){
 	item.attributes.images_screenshots =item.attributes.images_screenshots.split(',');
 	return item;
+}
+var printDate = function(){
+	var d = new Date();
+    var curr_date = d.getDate();
+    var curr_month = d.getMonth() + 1; //Months are zero based
+    var curr_year = d.getFullYear();
+	return curr_date+"/"+curr_month+"/"+curr_year;
 }
 mvc.route(request);
 %>
