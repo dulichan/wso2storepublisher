@@ -32,19 +32,20 @@ router.get('apps/{id}',function(ctx){
 });
 
 router.post('apps/{id}/publish', function(ctx){
-	log.info('review state');
-	change("REVIEW",ctx.id);
+	change("INREVIEW",ctx.id);
 });
 router.post('apps/{id}/remove', function(ctx){
 	change("REMOVED",ctx.id);
 });
 router.post('apps/{id}/accept', function(ctx){
-	change("PUBLISHED",ctx.id);
+	change("LIVE",ctx.id);
 });
 router.post('apps/{id}/reject', function(ctx){
 	change("REJECTED",ctx.id, ctx.message);
 });
-
+router.post('apps/{id}/hold', function(){
+	change("ONHOLD",ctx.id);
+});
 router.get('dev/{id}/apps',function(ctx){
 	var publisher = require('/modules/publisher.js');
 	assets = publisher.assets('android', 1, ctx.id);
