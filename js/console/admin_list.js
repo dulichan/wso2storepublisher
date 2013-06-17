@@ -93,8 +93,7 @@ function onCommandbuttonClick(templateUI) {
 			
 			bootbox.prompt("Enter a message", function(result) {				
 			if (result === null) {			
-			} else {
-				
+			} else {				
 				$.ajax({
 				type : "POST",
 				url : getServiceURLs("publishApp", app, command),

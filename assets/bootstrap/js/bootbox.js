@@ -212,7 +212,7 @@ var bootbox = window.bootbox || (function(document, $) {
 
         // let's keep a reference to the form object for later
         var form = $("<form></form>");
-        form.append("<input autocomplete=off type=text style='width:500px' value='" + defaultVal + "' />");
+        form.append("<textarea rows=4 autocomplete=off type=text style='width:500px' value='" + defaultVal + "' />");
 
         var cancelCallback = function() {
             if (typeof cb === 'function') {
@@ -224,7 +224,7 @@ var bootbox = window.bootbox || (function(document, $) {
 
         var confirmCallback = function() {
             if (typeof cb === 'function') {
-                return cb(form.find("input[type=text]").val());
+                return cb(form.find("textarea").val());
             }
         };
 
