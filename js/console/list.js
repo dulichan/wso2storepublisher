@@ -43,7 +43,8 @@ function getAppList(serviceURL, status, templateUI) {
 		dataType : "json",
 		success : function(apps) {
 			var template = Handlebars.compile($("#hbs-publisher-app-list").html());
-			$(templateUI).html(template({apps : apps}));
+			$(templateUI).html(template({apps : apps}));	
+			$('.rejected-message').tooltip('hide');		
 			onCommandbuttonClick(templateUI);
 		}
 	});
@@ -109,7 +110,7 @@ Handlebars.registerHelper('showStatus', function(status, attri, options) {
 	if(status != 'REJECTED'){
 		return status;
 	}else{
-		return new Handlebars.SafeString('<div style="color:#FF0000" data-toggle="tooltip" title="'+attri['overview_REJECTED_reason']+'">' + status + '</div>');
+		return new Handlebars.SafeString('<div  class="label label-important rejected-message" data-toggle="tooltip" title="'+attri['overview_REJECTED_reason']+'">' + status + '</div>');
 	}
 	
 	
