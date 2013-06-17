@@ -104,3 +104,14 @@ Handlebars.registerHelper('lastdate', function(status, attri, options) {
 	return moment(attri["overview_" + status + "_date"]).format( "DD-MM-YYYY");
 });
 
+
+Handlebars.registerHelper('showStatus', function(status, attri, options) {
+	if(status != 'REJECTED'){
+		return status;
+	}else{
+		return new Handlebars.SafeString('<div style="color:#FF0000" data-toggle="tooltip" title="'+attri['overview_REJECTED_reason']+'">' + status + '</div>');
+	}
+	
+	
+});
+
