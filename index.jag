@@ -86,6 +86,7 @@ router.post('apps',function(ctx){
 	am = new carbon.registry.ArtifactManager(registry, 'android');
 	am.add({
 	    name: ctx.name,
+		lifecycles:["CREATED", "REVIEW"],
 	    attributes: {
 	        overview_status: "PENDING-REVIEW",
 	        overview_name: ctx.name,
