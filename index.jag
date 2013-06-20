@@ -17,9 +17,20 @@ router.post('apps/upload',function(ctx){
 	var names = [];
 	for(var name in files) {
 		var file = files[name];
-		var uid= makeid();
-		file.saveAs("/uploads/"+uid+file.getName());
-	    names.push("/publisher/uploads/"+uid+file.getName());
+		file.saveAs("/uploads/"+makeid()+file.getName());
+		var index = path.lastIndexOf('.');
+	    var ext = index < path.length ? path.substring(index + 1) : '';
+		if(ext=="ipa"){
+			var iosManifest = absolute.compileTemplate("/apis/ios_profile.hbs", {url:"http://10.200.3.163:9763/iostest/Phonebook.ipa", bundleid: "com.wso2mobile.phonebook.Phonebook"});
+			var plistName = '/uploads/'+makeid()+file.substr(ext)[0];
+			var plist = new File(plistName);
+			plist.open("w");
+			plist.write(iosManifest);
+			plist.close();
+			names.push(plistName);
+			continue;
+		}
+	    names.push("/publisher/uploads/"+makeid()+file.getName());
 	}
 	print(names);
 });
