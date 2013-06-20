@@ -79,14 +79,17 @@ router.post('apps',function(ctx){
 	
 	var carbon = require('carbon'),
 	       server = new carbon.server.Server(),
-	       registry = new carbon.registry.Registry(server, {
+	       registry =new carbon.registry.Registry(server, {
 	           username : 'admin',
 	           tenantId : -1234
-	       }),
+	       });
+	//var r = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.getGovernanceUserRegistry(registry.registry, "admin");
+	Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.loadGovernanceArtifacts(registry.registry);
 	am = new carbon.registry.ArtifactManager(registry, 'android');
 	am.add({
 	    name: ctx.name,
-		lifecycles:["CREATED", "REVIEW"],
+		lifecycle:["CREATED", "REVIEW"],
+		path:path,
 	    attributes: {
 	        overview_status: "PENDING-REVIEW",
 	        overview_name: ctx.name,
@@ -228,7 +231,8 @@ var change = function(type, id, message){
 	       registry = new carbon.registry.Registry(server, {
 	           username : 'admin',
 	           tenantId : -1234
-	       }),
+	       });
+	//Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.loadGovernanceArtifacts(registry.registry);
 	am = new carbon.registry.ArtifactManager(registry, 'android');
 	var items = am.list();
 		var item =	am.get(id);
@@ -311,7 +315,9 @@ var sp = function(items){
 	return arr;
 }
 var spli = function(item){
-	item.attributes.images_screenshots =item.attributes.images_screenshots.split(',');
+	if(item.attributes.images_screenshots!=undefined){
+		item.attributes.images_screenshots =item.attributes.images_screenshots.split(',');
+	}
 	return item;
 }
 var printDate = function(){
