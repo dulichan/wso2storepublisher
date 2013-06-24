@@ -83,12 +83,12 @@ router.post('apps',function(ctx){
 	           username : 'admin',
 	           tenantId : -1234
 	       });
-	//var r = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.getGovernanceUserRegistry(registry.registry, "admin");
-	Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.loadGovernanceArtifacts(registry.registry);
-	am = new carbon.registry.ArtifactManager(registry, 'android');
+	var r = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.getGovernanceUserRegistry(registry.registry, "admin");
+	// Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.loadGovernanceArtifacts(registry.registry);
+	am = new carbon.registry.ArtifactManager({registry:r}, 'android');
 	am.add({
 	    name: ctx.name,
-		lifecycle:["CREATED", "REVIEW"],
+		lifecycles:["applifecycle"],
 		path:path,
 	    attributes: {
 	        overview_status: "PENDING-REVIEW",
