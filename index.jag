@@ -88,31 +88,60 @@ router.post('apps',function(ctx){
 	
 	var screenshots = [screenshot1,screenshot2,screenshot3];
 	var path = rxtPath + ctx.provider + '/' +ctx.name+ '/' +ctx.version;
-		var app = <metadata xmlns="http://www.wso2.org/governance/metadata">
-            <overview>
-                <provider>{ctx.provider}</provider>
-                <name>{ctx.name}</name>
-                <version>{ctx.version}</version>
-                <url>{ctx.url}</url>
-                <status>PENDING-REVIEW</status>
-				<PENDING-REVIEW_date>{printDate()}</PENDING-REVIEW_date>
-				<description>{ctx.description}</description>
-				<recent_changes>{ctx.recentChanges}</recent_changes>
-				<package_name>{ctx.package_name}</package_name>
-				<category>{ctx.category}</category>
-            </overview>
-			<images>
-				<icon>{icon}</icon>
-				<banner>{banner}</banner>
-				<screenshots>{screenshots}</screenshots>
-			</images>
-        </metadata>;
-	log.info(app.toXMLString());
-	log.info(ctx);
-	registry.put(path, {
-			    mediaType: 'application/vnd.wso2-android+xml',
-			    content: app.toXMLString()
-			});
+	
+	var carbon = require('carbon'),
+	       server = new carbon.server.Server(),
+	       registry =new carbon.registry.Registry(server, {
+	           username : 'admin',
+	           tenantId : -1234
+	       });
+	var r = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.getGovernanceUserRegistry(registry.registry, "admin");
+	// Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.loadGovernanceArtifacts(registry.registry);
+	am = new carbon.registry.ArtifactManager({registry:r}, 'android');
+	am.add({
+	    name: ctx.name,
+		lifecycles:["applifecycle"],
+		path:path,
+	    attributes: {
+	        overview_status: "PENDING-REVIEW",
+	        overview_name: ctx.name,
+	        overview_version: ctx.version,
+	        overview_url: ctx.url,
+	        overview_provider: ctx.provider,
+			overview_description: ctx.description,
+			// overview_recentChanges:ctx.recentChanges,
+			// overview_packageName:ctx.package_name,
+			overview_category:ctx.category,
+			images_icon:icon,
+			images_banner:banner,
+			images_screenshots:screenshots
+	    }
+	});
+		// var app = <metadata xmlns="http://www.wso2.org/governance/metadata">
+		//             <overview>
+		//                 <provider>{ctx.provider}</provider>
+		//                 <name>{ctx.name}</name>
+		//                 <version>{ctx.version}</version>
+		//                 <url>{ctx.url}</url>
+		//                 <status>PENDING-REVIEW</status>
+		// 			<PENDING-REVIEW_date>{printDate()}</PENDING-REVIEW_date>
+		// 			<description>{ctx.description}</description>
+		// 			<recent_changes>{ctx.recentChanges}</recent_changes>
+		// 			<package_name>{ctx.package_name}</package_name>
+		// 			<category>{ctx.category}</category>
+		//             </overview>
+		// 		<images>
+		// 			<icon>{icon}</icon>
+		// 			<banner>{banner}</banner>
+		// 			<screenshots>{screenshots}</screenshots>
+		// 		</images>
+		//         </metadata>;
+		// log.info(app.toXMLString());
+		// log.info(ctx);
+	// registry.put(path, {
+	// 			    mediaType: 'application/vnd.wso2-android+xml',
+	// 			    content: app.toXMLString()
+	// 			});
 	response.sendRedirect('/publisher/console/list');
 });
 
@@ -224,7 +253,8 @@ var change = function(type, id, message){
 	       registry = new carbon.registry.Registry(server, {
 	           username : 'admin',
 	           tenantId : -1234
-	       }),
+	       });
+	//Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.loadGovernanceArtifacts(registry.registry);
 	am = new carbon.registry.ArtifactManager(registry, 'android');
 	var items = am.list();
 		var item =	am.get(id);
@@ -305,7 +335,9 @@ var sp = function(items){
 	return arr;
 }
 var spli = function(item){
-	item.attributes.images_screenshots =item.attributes.images_screenshots.split(',');
+	if(item.attributes.images_screenshots!=undefined){
+		item.attributes.images_screenshots =item.attributes.images_screenshots.split(',');
+	}
 	return item;
 }
 var printDate = function(){
