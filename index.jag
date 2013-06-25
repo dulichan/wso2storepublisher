@@ -7,7 +7,7 @@ var log =new Log();
 
 var mvc = new absolute({
 	SERVER_URL:"/publisher/",
-	IGNORE:["sso.jag", "login.jag", "logout.jag"],
+	IGNORE:["sso.jag", "login.jag", "logout.jag","test.jag"],
 	API:"api",
 	ROUTER: router
 });
@@ -17,7 +17,8 @@ router.post('apps/upload',function(ctx){
 	var names = [];
 	for(var name in files) {
 		var file = files[name];
-		file.saveAs("/uploads/"+makeid()+file.getName());
+		var path ="/uploads/"+makeid()+file.getName();
+		file.saveAs(path);
 		var index = path.lastIndexOf('.');
 	    var ext = index < path.length ? path.substring(index + 1) : '';
 		if(ext=="ipa"){
@@ -95,53 +96,29 @@ router.post('apps',function(ctx){
 	           username : 'admin',
 	           tenantId : -1234
 	       });
-	var r = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.getGovernanceUserRegistry(registry.registry, "admin");
 	// Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.loadGovernanceArtifacts(registry.registry);
-	am = new carbon.registry.ArtifactManager({registry:r}, 'android');
+	am = new carbon.registry.ArtifactManager(registry, 'android');
+	var attributes ={
+        overview_status: "PENDING-REVIEW",
+        overview_name: ctx.name,
+        overview_version: ctx.version,
+        overview_url: ctx.url,
+        overview_provider: ctx.provider,
+		overview_description: ctx.description,
+		// overview_recentChanges:ctx.recentChanges,
+		// overview_packageName:ctx.package_name,
+		overview_category:ctx.category,
+		images_icon:icon,
+		images_banner:banner,
+		images_screenshots:screenshots
+    };
+	attributes[attributes.overview_status+"_date"]=printDate();
 	am.add({
 	    name: ctx.name,
-		lifecycles:["applifecycle"],
+		lifecycle:["applifecycle"],
 		path:path,
-	    attributes: {
-	        overview_status: "PENDING-REVIEW",
-	        overview_name: ctx.name,
-	        overview_version: ctx.version,
-	        overview_url: ctx.url,
-	        overview_provider: ctx.provider,
-			overview_description: ctx.description,
-			// overview_recentChanges:ctx.recentChanges,
-			// overview_packageName:ctx.package_name,
-			overview_category:ctx.category,
-			images_icon:icon,
-			images_banner:banner,
-			images_screenshots:screenshots
-	    }
+		attributes:attributes 
 	});
-		// var app = <metadata xmlns="http://www.wso2.org/governance/metadata">
-		//             <overview>
-		//                 <provider>{ctx.provider}</provider>
-		//                 <name>{ctx.name}</name>
-		//                 <version>{ctx.version}</version>
-		//                 <url>{ctx.url}</url>
-		//                 <status>PENDING-REVIEW</status>
-		// 			<PENDING-REVIEW_date>{printDate()}</PENDING-REVIEW_date>
-		// 			<description>{ctx.description}</description>
-		// 			<recent_changes>{ctx.recentChanges}</recent_changes>
-		// 			<package_name>{ctx.package_name}</package_name>
-		// 			<category>{ctx.category}</category>
-		//             </overview>
-		// 		<images>
-		// 			<icon>{icon}</icon>
-		// 			<banner>{banner}</banner>
-		// 			<screenshots>{screenshots}</screenshots>
-		// 		</images>
-		//         </metadata>;
-		// log.info(app.toXMLString());
-		// log.info(ctx);
-	// registry.put(path, {
-	// 			    mediaType: 'application/vnd.wso2-android+xml',
-	// 			    content: app.toXMLString()
-	// 			});
 	response.sendRedirect('/publisher/console/list');
 });
 
@@ -173,18 +150,9 @@ router.get('apps', function(ctx){
 	if(sort!=undefined){
 		if(sort=="date"){
 			items.sort(function (l, r) {
-				   var date1 =parseDate(l.attributes['overview_'+l.attributes.overview_status+"_date"]).toDate();
-				   var date2 = parseDate(r.attributes['overview_'+r.attributes.overview_status+"_date"]).toDate();
-				   // log.info(l.attributes.overview_name);
-				   // 				   				   				   log.info("date1 "+date1);
-				   // 				   				   				   log.info(r.attributes.overview_name);
-				   // 				   				   				   log.info("date2 "+date2);
-				   // 				   				   				log.info(date1.isAfter(date2));
-				   // 				   				   				log.info(date1.isBefore(date2));
-				   // 				   				   				   log.info("---");			
-				   // a = dat;
-				   // 				   b = new Date(b.date);
-				   return date2<date1?-1:date2>date1?1:0;
+			   var date1 =parseDate(l.attributes['overview_'+l.attributes.overview_status+"_date"]).toDate();
+			   var date2 = parseDate(r.attributes['overview_'+r.attributes.overview_status+"_date"]).toDate();
+			   return date2<date1?-1:date2>date1?1:0;
 		    });
 		}
 	}
@@ -254,76 +222,21 @@ var change = function(type, id, message){
 	           username : 'admin',
 	           tenantId : -1234
 	       });
-	//Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.loadGovernanceArtifacts(registry.registry);
 	am = new carbon.registry.ArtifactManager(registry, 'android');
-	var items = am.list();
-		var item =	am.get(id);
-		log.info(item.attributes.overview_status + item.id);			
-		if(item.id==id){
-			item.attributes.overview_status = type;
-			var date= new Date();
-			log.info(item.attributes.overview_status);
-			var app = <metadata xmlns="http://www.wso2.org/governance/metadata">
-	            <overview>
-	                <provider>{item.attributes.overview_provider}</provider>
-	                <name>{item.attributes.overview_name}</name>
-	                <version>{item.attributes.overview_version}</version>
-	                <url>{item.attributes.overview_url}</url>
-	                <status>{item.attributes.overview_status}</status>
-					<description>{item.attributes.overview_description}</description>
-					<recent_changes>{item.attributes.overview_recent_changes}</recent_changes>
-					<package_name>{item.attributes.overview_package_name}</package_name>
-					<category>{item.attributes.overview_category}</category>
-	            </overview>
-				<images>
-					<icon>{item.attributes.images_icon}</icon>
-					<banner>{item.attributes.images_banner}</banner>
-					<screenshots>{item.attributes.images_screenshots}</screenshots>
-				</images>
-	        </metadata>;
-			app.overview[type+"_date"] = printDate();
-			if(message!=undefined){
-				app.overview["REJECTED_reason"] = message;
-			}
-			registry.put(item.path, {
-			    mediaType: item.mediaType,
-			    content: app.toXMLString()
-			});
-			// am.update(item);
-			return;
+	var item =	am.get(id);
+	// log.info(item.attributes.overview_status + item.id);			
+	if(item.id==id){
+		item.attributes.overview_status = type;
+		var date= new Date();
+		item.attributes['overview_'+type+"_date"]  = printDate();
+		if(message!=undefined){
+			item.attributes["overview_REJECTED_reason"] = message;
 		}
+		am.update(item);
+		return;
+	}
 	response.sendError(404);
 }
-// router.get('apps', function(ctx){
-//    var store = require('/modules/publisher.js');
-//    var type, total, assets,tag = ctx.tag, sort = ctx.sort,paging = store.assetsPaging(request);
-//    type = ctx.type;
-//    if (tag) {
-//        total = store.assetCount(type, {
-//            tag: tag
-//        });
-//        if (paging.start > total || paging.start < 0) {
-//            response.sendError(404, 'Requested page cannot be found');
-//            return;
-//        }
-//        assets = store.tagged(type, tag, paging);
-//    } else {
-//        total = store.assetCount(type);
-//        if (paging.start > total || paging.start < 0) {
-//            response.sendError(404, 'Requested page cannot be found');
-//            return;
-//        }
-//        assets = store.assets('Android', 1);
-//    }  
-// });
-// 
-// router.post('apps', function(ctx){
-// 	var server = require('/modules/server.js');
-// 	var user = require('/modules/user.js');
-// 	new Log().info(user.userRegistry());
-// 	store.addAsset('android','<metadata xmlns="http://www.wso2.org/governance/metadata"><overview><provider>WSO2Mobile</provider><name>WSO2 Agent</name><version>0.1</version><url>http://sdfsdf.com</url><status>CREATED</status></overview></metadata>');
-// 	
-// });
 var sp = function(items){
 	var arr = [];
 	for (var i = items.length - 1; i >= 0; i--){

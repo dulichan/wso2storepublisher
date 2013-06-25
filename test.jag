@@ -1,0 +1,20 @@
+<%
+    var GenericArtifactManager = Packages.org.wso2.carbon.governance.api.generic.GenericArtifactManager;
+    var carbon = require('carbon'),
+       server = new carbon.server.Server(),
+       registry = new carbon.registry.Registry(server, {
+           username : 'admin',
+           tenantId : -1234
+       });
+	var am = new carbon.registry.ArtifactManager(registry, 'android');
+		// var governanceRegistry = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.getGovernanceUserRegistry(registry.registry, user);
+		//     var  manager = new GenericArtifactManager(governanceRegistry, "android");
+		// 	var item =	manager.getGenericArtifact("f7e571af-5764-459a-bec5-2a7312de9095");
+		// 	item.setAttribute('overview_name', "BBB");
+		// 	manager.updateGenericArtifact(item);
+	
+	item = am.get("f7e571af-5764-459a-bec5-2a7312de9095");
+	new Log().info(item);
+	item.attributes['overview_name']="AAA";
+	am.update(item);
+%>

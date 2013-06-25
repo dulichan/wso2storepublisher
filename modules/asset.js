@@ -34,8 +34,7 @@ var Manager,
         this.registry = registry;
         this.type = type;
         this.user = require('/modules/user.js');
-     Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.loadGovernanceArtifacts(registry.registry);
-//		new Log().info(registry.registry);
+        //Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.loadGovernanceArtifacts(registry.registry);
         this.manager = new carbon.registry.ArtifactManager(registry, type);
         this.sorter = new Sorter(registry);
     };
