@@ -17,13 +17,35 @@ router.post('apps/upload',function(ctx){
 	var names = [];
 	for(var name in files) {
 		var file = files[name];
-		var path ="/uploads/"+makeid()+file.getName();
+		var fileName = file.getName();
+		//Assuming that the extension is of 3 letters
+		var fileDistinctName= fileName.substring(0, fileName.length-4);
+		//Initial file saving
+		var path ="/uploads/"+makeid()+fileName;
 		file.saveAs(path);
-		var index = path.lastIndexOf('.');
-	    var ext = index < path.length ? path.substring(index + 1) : '';
+		var index = fileName.lastIndexOf('.');
+	    var ext = index < fileName.length ? fileName.substring(index + 1) : '';
+	
+	    //Only for IPA files
 		if(ext=="ipa"){
-			var iosManifest = absolute.compileTemplate("/apis/ios_profile.hbs", {url:"http://10.200.3.163:9763/iostest/Phonebook.ipa", bundleid: "com.wso2mobile.phonebook.Phonebook"});
-			var plistName = '/uploads/'+makeid()+file.substr(ext)[0];
+			//Save the zip file
+			var zipLocation = "/uploads/"+makeid()+fileName;
+			file.saveAs(zipLocation+".zip");
+			//Read the mobileconfig file
+			Packages.java.lang.Thread.sleep(6000);
+			log.info(zipLocation+"/Payload/"+fileDistinctName+".app/embedded.mobileprovision");
+ 			var mobileConfig = new File(zipLocation+"/Payload/"+fileDistinctName+".app/embedded.mobileprovision");
+			mobileConfig.open("r");
+			var text = mobileConfig.readAll();
+			mobileConfig.close();
+			var begining = text.indexOf('<?xml version="1.0" encoding="UTF-8"?>');
+			var end = text.indexOf("</plist>");
+			text = text.substring(begining, end);
+			log.info(text);
+			var data = new XML(text);
+			log.info(data.dict.string);
+			var iosManifest = mvc.compileTemplate("/apis/ios_profile.hbs", {url:"http://10.200.3.163:9763/iostest/Phonebook.ipa", bundleid: "com.wso2mobile.phonebook.Phonebook"});
+			var plistName = '/uploads/'+makeid()+file.getName().substr(ext)[0]+".plist";
 			var plist = new File(plistName);
 			plist.open("w");
 			plist.write(iosManifest);
@@ -37,22 +59,28 @@ router.post('apps/upload',function(ctx){
 });
 
 router.post('apps/{id}/publish', function(ctx){
-	change("IN-REVIEW",ctx.id);
+	var platform = ctx.platform||"android";
+	change("IN-REVIEW",ctx.id,platform);
 });
 router.post('apps/{id}/remove', function(ctx){
-	change("REMOVED",ctx.id);
+	var platform = ctx.platform||"android";
+	change("REMOVED",ctx.id,platform);
 });
 router.post('apps/{id}/accept', function(ctx){
-	change("LIVE",ctx.id);
+	var platform = ctx.platform||"android";
+	change("LIVE",ctx.id,platform);
 });
 router.post('apps/{id}/reject', function(ctx){
-	change("REJECTED",ctx.id, ctx.message);
+	var platform = ctx.platform||"android";
+	change("REJECTED",ctx.id,platform,ctx.message);
 });
 router.post('apps/{id}/hold', function(ctx){
-	change("ONHOLD",ctx.id);
+	var platform = ctx.platform||"android";
+	change("ONHOLD",ctx.id,platform);
 });
 router.post('apps/{id}/live', function(ctx){
-	change("LIVE",ctx.id);
+	var platform = ctx.platform||"android";
+	change("LIVE",ctx.id,platform);
 });
 router.get('dev/{id}/apps',function(ctx){
 	var publisher = require('/modules/publisher.js');
@@ -62,7 +90,7 @@ router.get('dev/{id}/apps',function(ctx){
 
 // Still the lifecycles aren't working. There is noattachlifecyle in genericartifact class
 router.post('apps',function(ctx){
-	var t = "android";
+	var t = ctx.platform || "android";
 	var carbon = require('carbon'),
 	       server = new carbon.server.Server(),
 	       registry = new carbon.registry.Registry(server, {
@@ -97,7 +125,7 @@ router.post('apps',function(ctx){
 	           tenantId : -1234
 	       });
 	// Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.loadGovernanceArtifacts(registry.registry);
-	am = new carbon.registry.ArtifactManager(registry, 'android');
+	am = new carbon.registry.ArtifactManager(registry, platform);
 	var attributes ={
         overview_status: "PENDING-REVIEW",
         overview_name: ctx.name,
@@ -129,7 +157,7 @@ router.get('apps', function(ctx){
 	           username : 'admin',
 	           tenantId : -1234
 	       }),
-	       am = new carbon.registry.ArtifactManager(registry, 'android');
+	am = new carbon.registry.ArtifactManager(registry, 'android');
 	var items =am.list();
 	items = sp(items);
 	items = filterById(items);
@@ -164,8 +192,9 @@ router.get('test', function(ctx){
 	       registry = new carbon.registry.Registry(server, {
 	           username : 'admin',
 	           tenantId : -1234
-	       }),
-	am = new carbon.registry.ArtifactManager(registry, 'android');
+	       });
+	var platform = ctx.platform||"android";
+	var am = new carbon.registry.ArtifactManager(registry, platform);
 	log.info(am.get("5e57396c-00ec-47d6-ade7-1ccfe2f7592a"));
 });
 
@@ -215,14 +244,14 @@ var saveFile = function(file){
 }
 
 
-var change = function(type, id, message){
+var change = function(type, id,platform,message){
 	var carbon = require('carbon'),
 	       server = new carbon.server.Server(),
 	       registry = new carbon.registry.Registry(server, {
 	           username : 'admin',
 	           tenantId : -1234
 	       });
-	am = new carbon.registry.ArtifactManager(registry, 'android');
+	am = new carbon.registry.ArtifactManager(registry, platform);
 	var item =	am.get(id);
 	// log.info(item.attributes.overview_status + item.id);			
 	if(item.id==id){
