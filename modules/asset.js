@@ -125,7 +125,6 @@ var Manager,
      */
     Manager.prototype.get = function (options) {
         var resource = this.registry.get(options);
-		log.info(resource.uuid);
         return this.manager.get(resource.uuid);
     };
 
@@ -133,9 +132,6 @@ var Manager,
      * Assets matching the filter
      */
     Manager.prototype.add = function (options) {
-		var log = new Log();
-		log.info("Caught SSS");
-		log.info(this.manager);
         return this.manager.add(options);
     };
 
@@ -143,7 +139,6 @@ var Manager,
      * Assets matching the filter
      */
     Manager.prototype.update = function (options) {
-		log.info(options);
         return this.manager.update(options);
     };
 

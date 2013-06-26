@@ -310,7 +310,6 @@ var tags, init, assets, asset, assetLinks, tagged, popularAssets, recentAssets, 
     };
 
     addAsset = function (type, options) {
-		new Log().info(options);
         assetManager(type).add(options);
     };
 

@@ -1,19 +1,18 @@
 <%
-	    var GenericArtifactManager = Packages.org.wso2.carbon.governance.api.generic.GenericArtifactManager;
-	    var carbon = require('carbon'),
-	       server = new carbon.server.Server(),
-	       registry = new carbon.registry.Registry(server, {
-	           username : 'admin',
-	           tenantId : -1234
-	       });
-	var am = new carbon.registry.ArtifactManager(registry, 'android');
-		var governanceRegistry = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.getGovernanceUserRegistry(registry.registry, user);
-		    var  manager = new GenericArtifactManager(governanceRegistry, "android");
-			var item =	manager.getGenericArtifact("907d752b-626f-4476-949c-6a32740246af");
-			// item.setAttribute('overview_name', "BBB");
-			// 		manager.updateGenericArtifact(item);
-			log.info(item.getAttribute('overview_name'));
-	
+	    // var GenericArtifactManager = Packages.org.wso2.carbon.governance.api.generic.GenericArtifactManager;
+	    // 	    var carbon = require('carbon'),
+	    // 	       server = new carbon.server.Server(),
+	    // 	       registry = new carbon.registry.Registry(server, {
+	    // 	           username : 'admin',
+	    // 	           tenantId : -1234
+	    // 	       });
+	    // 	var am = new carbon.registry.ArtifactManager(registry, 'android');
+	    // 		var governanceRegistry = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.getGovernanceUserRegistry(registry.registry, user);
+	    // 		    var  manager = new GenericArtifactManager(governanceRegistry, "android");
+	    // 			var item =	manager.getGenericArtifact("907d752b-626f-4476-949c-6a32740246af");
+	    // 			// item.setAttribute('overview_name', "BBB");
+	    // 			// 		manager.updateGenericArtifact(item);
+	    // 			log.info(item.getAttribute('overview_name'));
 	// item = am.get("fc9a4b20-47b3-4a45-875a-da5b9765a862");
 	// new Log().info(item);
 	// item.attributes['overview_name']="AAA";
@@ -32,3 +31,4 @@
 	// 	var data = new XML(text);
 	// 	log.info(data.dict.dict.string);
 %>
+<a href="/uploads/">Test</a>

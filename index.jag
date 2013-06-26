@@ -118,14 +118,8 @@ router.post('apps',function(ctx){
 	var screenshots = [screenshot1,screenshot2,screenshot3];
 	var path = rxtPath + ctx.provider + '/' +ctx.name+ '/' +ctx.version;
 	
-	var carbon = require('carbon'),
-	       server = new carbon.server.Server(),
-	       registry =new carbon.registry.Registry(server, {
-	           username : 'admin',
-	           tenantId : -1234
-	       });
 	// Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.loadGovernanceArtifacts(registry.registry);
-	am = new carbon.registry.ArtifactManager(registry, platform);
+	am = new carbon.registry.ArtifactManager(registry, t);
 	var attributes ={
         overview_status: "PENDING-REVIEW",
         overview_name: ctx.name,
@@ -178,8 +172,9 @@ router.get('apps', function(ctx){
 	if(sort!=undefined){
 		if(sort=="date"){
 			items.sort(function (l, r) {
-			   var date1 =parseDate(l.attributes['overview_'+l.attributes.overview_status+"_date"]).toDate();
-			   var date2 = parseDate(r.attributes['overview_'+r.attributes.overview_status+"_date"]).toDate();
+				log.info(l.attributes.overview_name);
+			   var date1 =parseDate(l.attributes[l.attributes.overview_status+"_date"]).toDate();
+			   var date2 = parseDate(r.attributes[r.attributes.overview_status+"_date"]).toDate();
 			   return date2<date1?-1:date2>date1?1:0;
 		    });
 		}
@@ -257,7 +252,7 @@ var change = function(type, id,platform,message){
 	if(item.id==id){
 		item.attributes.overview_status = type;
 		var date= new Date();
-		item.attributes['overview_'+type+"_date"]  = printDate();
+		item.attributes[item.attributes.overview_status+"_date"]=printDate();
 		if(message!=undefined){
 			item.attributes["overview_REJECTED_reason"] = message;
 		}
