@@ -4,6 +4,7 @@ var goose = require('modules/goose.js').goose;
 var router = new goose({CONTEXT: "/publisher/api/"});
 var moment= require('modules/moment.js').moment;
 var log =new Log();
+var dataconf = require('dataconf.json');
 
 var mvc = new absolute({
 	SERVER_URL:"/publisher/",
@@ -29,7 +30,7 @@ router.post('apps/upload',function(ctx){
 	    //Only for IPA files
 		if(ext=="ipa"){
 			//Save the zip file
-			var zipLocation = "/uploads/"+makeid()+fileName;
+			var zipLocation = dataconf.repoURL+makeid()+fileName;
 			file.saveAs(zipLocation+".zip");
 			//Read the mobileconfig file
 			Packages.java.lang.Thread.sleep(6000);
@@ -38,14 +39,16 @@ router.post('apps/upload',function(ctx){
 			mobileConfig.open("r");
 			var text = mobileConfig.readAll();
 			mobileConfig.close();
+			//Find the xml part in the file
 			var begining = text.indexOf('<?xml version="1.0" encoding="UTF-8"?>');
 			var end = text.indexOf("</plist>");
 			text = text.substring(begining, end);
 			log.info(text);
 			var data = new XML(text);
+			//Get the Package name
 			log.info(data.dict.string);
-			var iosManifest = mvc.compileTemplate("/apis/ios_profile.hbs", {url:"http://10.200.3.163:9763/iostest/Phonebook.ipa", bundleid: "com.wso2mobile.phonebook.Phonebook"});
-			var plistName = '/uploads/'+makeid()+file.getName().substr(ext)[0]+".plist";
+			var iosManifest = mvc.compileTemplate("/apis/ios_profile.hbs", {url:repoURL+fileName, bundleid: "com.wso2mobile.phonebook.Phonebook"});
+			var plistName = dataconf.repoURL+makeid()+file.getName().substr(ext)[0]+".plist";
 			var plist = new File(plistName);
 			plist.open("w");
 			plist.write(iosManifest);
