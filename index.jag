@@ -22,7 +22,8 @@ router.post('apps/upload',function(ctx){
 		//Assuming that the extension is of 3 letters
 		var fileDistinctName= fileName.substring(0, fileName.length-4);
 		//Initial file saving
-		var path ="/uploads/"+makeid()+fileName;
+		var fileID=makeid();
+		var path ="/uploads/"+fileID+fileName;
 		file.saveAs(path);
 		var index = fileName.lastIndexOf('.');
 	    var ext = index < fileName.length ? fileName.substring(index + 1) : '';
@@ -30,30 +31,30 @@ router.post('apps/upload',function(ctx){
 	    //Only for IPA files
 		if(ext=="ipa"){
 			//Save the zip file
-			var zipLocation = dataconf.repoURL+makeid()+fileName;
+			var zipLocation = "/uploads/"+makeid()+fileName;
 			file.saveAs(zipLocation+".zip");
 			//Read the mobileconfig file
-			Packages.java.lang.Thread.sleep(6000);
+			Packages.java.lang.Thread.sleep(10000);
 			log.info(zipLocation+"/Payload/"+fileDistinctName+".app/embedded.mobileprovision");
  			var mobileConfig = new File(zipLocation+"/Payload/"+fileDistinctName+".app/embedded.mobileprovision");
 			mobileConfig.open("r");
 			var text = mobileConfig.readAll();
 			mobileConfig.close();
 			//Find the xml part in the file
-			var begining = text.indexOf('<?xml version="1.0" encoding="UTF-8"?>');
+			var begining = text.indexOf('<plist version="1.0">');
 			var end = text.indexOf("</plist>");
 			text = text.substring(begining, end);
-			log.info(text);
-			var data = new XML(text);
+			log.info(text+"</plist>");
+			var data = new XML(text+"</plist>");
 			//Get the Package name
 			log.info(data.dict.string);
-			var iosManifest = mvc.compileTemplate("/apis/ios_profile.hbs", {url:repoURL+fileName, bundleid: "com.wso2mobile.phonebook.Phonebook"});
-			var plistName = dataconf.repoURL+makeid()+file.getName().substr(ext)[0]+".plist";
+			var iosManifest = mvc.compileTemplate("/apis/ios_profile.hbs", {url:dataconf.mam.server+fileID+fileName, bundleid: "com.wso2mobile.phonebook.Phonebook"});
+			var plistName = "/uploads/"+makeid()+file.getName().substr(ext)[0]+".plist";
 			var plist = new File(plistName);
 			plist.open("w");
 			plist.write(iosManifest);
 			plist.close();
-			names.push(plistName);
+			names.push("/publisher"+plistName);
 			continue;
 		}
 	    names.push("/publisher/uploads/"+makeid()+file.getName());
@@ -62,33 +63,27 @@ router.post('apps/upload',function(ctx){
 });
 
 router.post('apps/{id}/publish', function(ctx){
-	var platform = ctx.platform||"android";
-	change("IN-REVIEW",ctx.id,platform);
+	change("IN-REVIEW",ctx.id);
 });
 router.post('apps/{id}/remove', function(ctx){
-	var platform = ctx.platform||"android";
-	change("REMOVED",ctx.id,platform);
+	change("REMOVED",ctx.id);
 });
 router.post('apps/{id}/accept', function(ctx){
-	var platform = ctx.platform||"android";
-	change("LIVE",ctx.id,platform);
+	change("LIVE",ctx.id);
 });
 router.post('apps/{id}/reject', function(ctx){
-	var platform = ctx.platform||"android";
-	change("REJECTED",ctx.id,platform,ctx.message);
+	change("REJECTED",ctx.id,ctx.message);
 });
 router.post('apps/{id}/hold', function(ctx){
-	var platform = ctx.platform||"android";
-	change("ONHOLD",ctx.id,platform);
+	change("ONHOLD",ctx.id);
 });
 router.post('apps/{id}/live', function(ctx){
-	var platform = ctx.platform||"android";
-	change("LIVE",ctx.id,platform);
+	change("LIVE",ctx.id);
 });
 router.get('dev/{id}/apps',function(ctx){
-	var publisher = require('/modules/publisher.js');
-	assets = publisher.assets('android', 1, ctx.id);
-	print(assets);
+	// var publisher = require('/modules/publisher.js');
+	// assets = publisher.assets('android', 1, ctx.id);
+	// print(assets);
 });
 
 // Still the lifecycles aren't working. There is noattachlifecyle in genericartifact class
@@ -122,10 +117,11 @@ router.post('apps',function(ctx){
 	var path = rxtPath + ctx.provider + '/' +ctx.name+ '/' +ctx.version;
 	
 	// Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.loadGovernanceArtifacts(registry.registry);
-	am = new carbon.registry.ArtifactManager(registry, t);
+	am = new carbon.registry.ArtifactManager(registry, "app");
 	var attributes ={
         overview_status: "PENDING-REVIEW",
         overview_name: ctx.name,
+		overview_platform:t,
         overview_version: ctx.version,
         overview_url: ctx.url,
         overview_provider: ctx.provider,
@@ -154,7 +150,7 @@ router.get('apps', function(ctx){
 	           username : 'admin',
 	           tenantId : -1234
 	       }),
-	am = new carbon.registry.ArtifactManager(registry, 'android');
+	am = new carbon.registry.ArtifactManager(registry, 'app');
 	var items =am.list();
 	items = sp(items);
 	items = filterById(items);
@@ -165,11 +161,6 @@ router.get('apps', function(ctx){
 		items = filterByState(items,state.toUpperCase());
 	}
 	if(platform!=undefined){
-		if(platform=="android"){
-			platform = "application/vnd.wso2-android+xml";
-		}else if(platform=="ios"){
-			platform = "application/vnd.wso2-ios+xml";
-		}
 		items = filterByType(items, platform);
 	}
 	if(sort!=undefined){
@@ -191,8 +182,7 @@ router.get('test', function(ctx){
 	           username : 'admin',
 	           tenantId : -1234
 	       });
-	var platform = ctx.platform||"android";
-	var am = new carbon.registry.ArtifactManager(registry, platform);
+	var am = new carbon.registry.ArtifactManager(registry, "app");
 	log.info(am.get("5e57396c-00ec-47d6-ade7-1ccfe2f7592a"));
 });
 
@@ -225,7 +215,7 @@ var filterByType = function(items,type){
 	var ite=[];
 	for (var i = items.length - 1; i >= 0; i--){
 	   var item = items[i];
-	   if(item.mediaType==type){
+	   if(item.attributes.overview_platform==type){
 			ite.push(item);
 		}
 	};
@@ -242,14 +232,14 @@ var saveFile = function(file){
 }
 
 
-var change = function(type, id,platform,message){
+var change = function(type, id,message){
 	var carbon = require('carbon'),
 	       server = new carbon.server.Server(),
 	       registry = new carbon.registry.Registry(server, {
 	           username : 'admin',
 	           tenantId : -1234
 	       });
-	am = new carbon.registry.ArtifactManager(registry, platform);
+	am = new carbon.registry.ArtifactManager(registry, "app");
 	var item =	am.get(id);
 	// log.info(item.attributes.overview_status + item.id);			
 	if(item.id==id){

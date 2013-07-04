@@ -31,4 +31,9 @@
 	// 	var data = new XML(text);
 	// 	log.info(data.dict.dict.string);
 %>
-<a href="/uploads/">Test</a>
+<html>
+	<header></header>
+	<body>
+		<a href="itms-services://?action=download-manifest&url=http://192.168.1.8:9763/publisher/uploads/p6foGP.plist">Install App</a>
+	</body>
+</html>
