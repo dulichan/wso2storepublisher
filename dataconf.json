@@ -44,6 +44,6 @@
         }
     },
 	"mam":{
-		"server" : "https://192.168.1.8:9443/publisher/uploads/"
+		"server" : "http://10.200.1.144:9763/publisher/uploads/"
 	}
 }
