@@ -34,6 +34,6 @@
 <html>
 	<header></header>
 	<body>
-		<a href="itms-services://?action=download-manifest&url=http://192.168.1.8:9763/publisher/uploads/p6foGP.plist">Install App</a>
+		<a href="itms-services://?action=download-manifest&url=http://10.200.1.144:9763/publisher/uploads/p6foGP.plist">Install App</a>
 	</body>
 </html>

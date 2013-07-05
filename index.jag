@@ -1,6 +1,7 @@
 <%
 var absolute = require ('modules/absolute.js').mvc;
 var goose = require('modules/goose.js').goose;
+var PlistParser = require('modules/plist-parser.js').PlistParser;
 var router = new goose({CONTEXT: "/publisher/api/"});
 var moment= require('modules/moment.js').moment;
 var log =new Log();
@@ -46,9 +47,8 @@ router.post('apps/upload',function(ctx){
 			text = text.substring(begining, end);
 			log.info(text+"</plist>");
 			var data = new XML(text+"</plist>");
-			//Get the Package name
-			log.info(data.dict.string);
-			var iosManifest = mvc.compileTemplate("/apis/ios_profile.hbs", {url:dataconf.mam.server+fileID+fileName, bundleid: "com.wso2mobile.phonebook.Phonebook"});
+			//log.info(result);
+			var iosManifest = mvc.compileTemplate("/apis/ios_profile.hbs", {url:dataconf.mam.server+fileID+fileName, bundleid: "com.wso2mobile.phonebook.Phonebook", appname:"WSO2Phone App"});
 			var plistName = "/uploads/"+makeid()+file.getName().substr(ext)[0]+".plist";
 			var plist = new File(plistName);
 			plist.open("w");
@@ -126,6 +126,7 @@ router.post('apps',function(ctx){
         overview_url: ctx.url,
         overview_provider: ctx.provider,
 		overview_description: ctx.description,
+		overview_market:ctx.markettype,
 		// overview_recentChanges:ctx.recentChanges,
 		// overview_packageName:ctx.package_name,
 		overview_category:ctx.category,
