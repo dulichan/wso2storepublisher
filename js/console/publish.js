@@ -6,7 +6,7 @@ $('#application-tab a').click(function(e) {
 
  $(window).on('load', function () {
             $('.selectpicker').selectpicker();
-            $('#modal-upload').modal('show');
+          //  $('#modal-upload').modal('show');
  });
  
  
