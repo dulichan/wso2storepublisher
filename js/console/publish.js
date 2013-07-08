@@ -8,6 +8,15 @@ $('#application-tab a').click(function(e) {
             $('.selectpicker').selectpicker();
             $('#modal-upload').modal('show');
  });
+ 
+ 
+$('#txtOS').on("change",function() {
+	  if($('#txtOS').val() == 'webapp'){
+		  $('#control-webapp').show();
+	  }else{
+		  $('#control-webapp').hide();
+	  }
+});
 
 $('#btn-app-save').click(function(e) {
 	
