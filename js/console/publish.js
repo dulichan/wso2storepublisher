@@ -18,6 +18,16 @@ $('#txtOS').on("change",function() {
 	  }
 });
 
+
+$('#txtMarket').on("change",function() {
+	  if($('#txtMarket').val() == 'Market'){
+		  $('#control-packagename').show();
+	  }else{
+		  $('#control-packagename').hide();
+	  }
+});
+
+
 $('#btn-app-save').click(function(e) {
 	
 	var name = $("#txtName").val();
