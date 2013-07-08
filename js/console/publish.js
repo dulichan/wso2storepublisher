@@ -6,7 +6,7 @@ $('#application-tab a').click(function(e) {
 
  $(window).on('load', function () {
             $('.selectpicker').selectpicker();
-            $('#modal-upload').modal('show');
+          //  $('#modal-upload').modal('show');
  });
  
  
@@ -17,6 +17,16 @@ $('#txtOS').on("change",function() {
 		  $('#control-webapp').hide();
 	  }
 });
+
+
+$('#txtMarket').on("change",function() {
+	  if($('#txtMarket').val() == 'Market'){
+		  $('#control-packagename').show();
+	  }else{
+		  $('#control-packagename').hide();
+	  }
+});
+
 
 $('#btn-app-save').click(function(e) {
 	

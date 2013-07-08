@@ -92,12 +92,22 @@
 							<div class="control-group">
 								<label class="control-label" for="txtOS">Market Type</label>
 								<div class="controls">
-									<select id="txtOS" name="markettype" class="selectpicker">
+									<select id="txtMarket" name="markettype" class="selectpicker">
 										<option value="Enterprise">Enterprise</option>
 										<option value="Market">Market</option>										
 									</select>
 								</div>
 							</div>
+							
+							
+							
+							<div id="control-packagename" style="display: none;" class="control-group">
+								<label class="control-label" for="txtName">Package Name</label>
+								<div class="controls">
+									<input class="field span6" type="text" name="packagename" id="txtPackagename">
+								</div>
+							</div>
+							
 							<div class="control-group">
 								<label class="control-label" for="txtBanner">Banner</label>
 								<div class="controls">
@@ -198,11 +208,13 @@
 								</tr>
 							</thead>
 							<tbody>
+							<!--  
 								<tr>
 									<td>1</td>
 									<td>10/June</td>
 									<td>Published</td>
 								</tr>
+								-->
 							</tbody>
 						</table>
 					</div>
