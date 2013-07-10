@@ -128,7 +128,7 @@ router.post('apps',function(ctx){
 		overview_description: ctx.description,
 		overview_market:ctx.markettype,
 		// overview_recentChanges:ctx.recentChanges,
-		// overview_packageName:ctx.package_name,
+		overview_packageName:ctx.packagename,
 		overview_category:ctx.category,
 		images_icon:icon,
 		images_banner:banner,

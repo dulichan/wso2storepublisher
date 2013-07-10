@@ -130,6 +130,9 @@ var mvc = (function () {
         route: function (req) {
 			var reqURL = req.getRequestURI();
 			var pageURL = reqURL.replace(configs.SERVER_URL, '');
+			// if(pageURL.charAt(pageURL.length-1)){
+			// 	pageURL = pageURL.substring(0, pageURL.length-2);
+			// }
 			//Ignore the specified URIs
 			for (var i=0; i < configs.IGNORE.length; i++) {
 				if(pageURL==configs.IGNORE[i]){
@@ -219,6 +222,9 @@ var mvc = (function () {
 		compileTemplate: function(templatePath, context){
 			var template = Handle.compile(getResource(templatePath));
 			return template(context);
+		},
+		getConfigValue: function(key){
+			return configs[key];
 		}
     };
 // return module
