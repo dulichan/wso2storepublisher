@@ -26,6 +26,7 @@ router.post('apps/upload',function(ctx){
 		var fileID=makeid();
 		var path ="/uploads/"+fileID+fileName;
 		file.saveAs(path);
+		log.info(path);
 		var index = fileName.lastIndexOf('.');
 	    var ext = index < fileName.length ? fileName.substring(index + 1) : '';
 	
@@ -57,7 +58,7 @@ router.post('apps/upload',function(ctx){
 			names.push("/publisher"+plistName);
 			continue;
 		}
-	    names.push("/publisher/uploads/"+makeid()+file.getName());
+	    names.push("/publisher"+path);
 	}
 	print(names);
 });
@@ -223,13 +224,16 @@ var filterByType = function(items,type){
 	return ite;
 }
 var saveFile = function(file){
-	log.info(file.getName());
-	if(file.getName()==""){
-		return "";
+	if(file!=undefined){
+		log.info(file.getName());
+		if(file.getName()==""){
+			return "";
+		}
+		var uid= makeid();
+		file.saveAs("/uploads/"+uid+file.getName());
+		return "/publisher/uploads/"+uid+file.getName();
 	}
-	var uid= makeid();
-	file.saveAs("/uploads/"+uid+file.getName());
-	return "/publisher/uploads/"+uid+file.getName();
+	return "";
 }
 
 
