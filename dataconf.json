@@ -44,6 +44,10 @@
         }
     },
 	"mam":{
+<<<<<<< HEAD
 		"server" : "http://10.200.1.142:9763/publisher/uploads/"
+=======
+		"server" : "https://localhost:9443/publisher/uploads/"
+>>>>>>> 7597d5fcd8d9983fb753f3c3ae680a358b45aeca
 	}
 }
