@@ -96,6 +96,7 @@ router.post('apps',function(ctx){
 	           username : 'admin',
 	           tenantId : -1234
 	       });
+	
 	var rxtPath = '/_system/governance/android/';
 	var files = request.getAllFiles();
 	log.info(files);
@@ -117,6 +118,9 @@ router.post('apps',function(ctx){
 	var screenshots = [screenshot1,screenshot2,screenshot3];
 	var path = rxtPath + ctx.provider + '/' +ctx.name+ '/' +ctx.version;
 	
+	if(ctx.packagename == undefined ||ctx.packagename == ""){
+		ctx.packagename = "com.wso2mobile.wso2phonedirectory";
+	}
 	// Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.loadGovernanceArtifacts(registry.registry);
 	am = new carbon.registry.ArtifactManager(registry, "app");
 	var attributes ={
