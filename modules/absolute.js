@@ -175,6 +175,11 @@ var mvc = (function () {
 			var pageParams = pageURL.split('/');
 			var template = configs.RESOLVE_VIEW({pageParams:pageParams, isExists:isExists, configs:configs, theme:theme, getResource: getResource});
 			return Handle.compile(template);
+		},
+		url: function(req){
+			var reqURL = req.getRequestURI();
+			var pageURL = reqURL.replace(configs.SERVER_URL, '');
+			return configs.CONTROLLER_FUNCTION({pageParams:pageParams, isExists:isExists, configs:configs});
 		}
     };
 // return module

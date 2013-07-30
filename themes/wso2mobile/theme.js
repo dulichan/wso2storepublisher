@@ -7,10 +7,11 @@ var engine;
 			absolute = application.get("absolute");
         return absolute.findView(request, "themes/wso2mobile");
     };
-
     engine = {
         render: function (data, meta) {
-            print(template(meta.request)(data));
+			var layout = data.layout;
+			layout = Handle.compile(getResource("themes/wso2mobile/layouts/"+layout+"/"+logics.viewName]));
+            print(layout({body:template(meta.request)(data)}));
         }
     };
 }());
