@@ -1,37 +1,52 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>{{title}}</title>
+		<title>{{title}}</title>		
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-		<link href="../assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
-		<link href="../assets/bootstrap/css/bootstrap-fileupload.min.css" rel="stylesheet" media="screen">
-		<link href="../assets/css/main.css" rel="stylesheet">
-		<link href="../assets/jcarousel/jcarousel.css" rel="stylesheet" media="screen">		
-		<link href="../themes/css/main.css" rel="stylesheet" media="screen">
-		<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
-		<link href="../assets/bootstrapselect/bootstrap-combined.min.css" rel="stylesheet" media="screen">		
-		<link href="../assets/bootstrapselect/bootstrap-select.min.css" rel="stylesheet" media="screen">
+		<!-- Bootstrap -->
+		<link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<link href="/assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+		<link href="/assets/boostrapext/selectpicker/bootstrap-select.min.css" rel="stylesheet" media="screen">
+		<link href="/assets/boostrapext/duallistbox/bootstrap-duallistbox.css" rel="stylesheet" media="screen">
+		<link href="/assets/bxslider/jquery.bxslider.css" rel="stylesheet" media="screen">
+		<link href="/assets/jqueryext/tooltip/jquery.tooltip.css" rel="stylesheet" media="screen">				
+		
+		<link href="../themes/{{theme.name}}/css/main.css" rel="stylesheet" media="screen">
 	</head>
 	<body>
-		{{>header}}
-		<div class="container">
-			{{{body}}}
-		</div>
-		{{>footer}}
-		<script src="../assets/jquery/jquery-min.js"></script>		
-		<script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-		<script src="../assets/bootstrap/js/bootstrap-fileupload.min.js"></script>
-		<script src="../assets/jquery/jquery.fileupload.js"></script>
-		<script src="../assets/handlebars/handlebars-client.js"></script>
-		<script src= "../assets/bootstrapselect/bootstrap-select.min.js"></script>
-		<script src= "../assets/bootstrap/js/bootbox.js"></script>		
-		<script src="../assets/moments/moment.min.js"></script>
+
+		{{>header}}		
 		
-		{{#if jsfile}}
-		<script src="../js/{{jsfile}}"></script>
-		{{/if}}
+			{{{body}}}		
+		
+		{{>footer}}	
+
+		<script src="/assets/jquery/jquery-min.js"></script>
+		<script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+		<script src="/assets/boostrapext/selectpicker/bootstrap-select.min.js"></script>			
+		<script src="/assets/handlebars/handlebars.js"></script>
+		<script src="/assets/jqueryext/datatables/jquery.datatables.js"></script>
+		<script src="/assets/boostrapext/duallistbox/bootstrap-duallistbox.js"></script>	
+		<script src="/assets/boostrapext/datatables/datatables.js"></script>
+		<script src="/assets/bxslider/jquery.bxslider.min.js"></script>
+		<script src="/assets/jqueryext/ui/jquery-ui-min.js"></script>
+		<script src="/assets/noty/jquery.noty.js"></script>
+		<script src="/assets/noty/layouts/center.js"></script>
+		<script src="/assets/noty/themes/default.js"></script>		
+		<script src="/assets/charts/highcharts.js"></script>
+		<script src="/assets/charts/exporting.js"></script>		
+		<script src="/assets/jqueryext/tooltip/jquery.tooltip.js"></script>				
+		<script  src="http://maps.google.com/maps/api/js?sensor=true"></script>
+		<script src="/assets/maps/jquery-maps.js"></script>
+		
+		
+		
+		
+		<script src="../client/js/common.js"></script>					
+		{{#if jsFile}}
+			<script src="../client/js/{{jsFile}}"></script>	
+		{{/if}}			
+		
 	</body>
 </html>
-
 

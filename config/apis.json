@@ -1,0 +1,8 @@
+{ "APIS": {
+         "appList": "apps?&sort=date",        
+        "getUserAuthenticate": "users/authenticate",
+        "getCurrentUser": "users/current"
+        
+    }
+
+}

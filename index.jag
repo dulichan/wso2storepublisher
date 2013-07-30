@@ -1,300 +1,240 @@
 <%
-var absolute = require ('modules/absolute.js').mvc;
-var goose = require('modules/goose.js').goose;
-var PlistParser = require('modules/plist-parser.js').PlistParser;
-var router = new goose({CONTEXT: "/publisher/api/"});
 var moment= require('modules/moment.js').moment;
-var log =new Log();
-var dataconf = require('dataconf.json');
+var log = new Log();
+var Absolute = require('modules/absolute.js').mvc;
+var Goose = require('modules/goose.js').goose;
+caramel = require('caramel');
 
-var mvc = new absolute({
-	SERVER_URL:"/publisher/",
-	IGNORE:["sso.jag", "login.jag", "logout.jag","test.jag"],
-	API:"api",
-	ROUTER: router
-});
-
-router.post('apps/upload',function(ctx){
-	var files = ctx.files;
-	var names = [];
-	for(var name in files) {
-		var file = files[name];
-		var fileName = file.getName();
-		//Assuming that the extension is of 3 letters
-		var fileDistinctName= fileName.substring(0, fileName.length-4);
-		//Initial file saving
-		var fileID=makeid();
-		var path ="/uploads/"+fileID+fileName;
-		file.saveAs(path);
-		log.info(path);
-		var index = fileName.lastIndexOf('.');
-	    var ext = index < fileName.length ? fileName.substring(index + 1) : '';
-	
-	    //Only for IPA files
-		if(ext=="ipa"){
-			//Save the zip file
-			var zipLocation = "/uploads/"+makeid()+fileName;
-			file.saveAs(zipLocation+".zip");
-			//Read the mobileconfig file
-			Packages.java.lang.Thread.sleep(10000);
-			log.info(zipLocation+"/Payload/"+fileDistinctName+".app/embedded.mobileprovision");
- 			var mobileConfig = new File(zipLocation+"/Payload/"+fileDistinctName+".app/embedded.mobileprovision");
-			mobileConfig.open("r");
-			var text = mobileConfig.readAll();
-			mobileConfig.close();
-			//Find the xml part in the file
-			var begining = text.indexOf('<plist version="1.0">');
-			var end = text.indexOf("</plist>");
-			text = text.substring(begining, end);
-			log.info(text+"</plist>");
-			var data = new XML(text+"</plist>");
-			//log.info(result);
-			var iosManifest = mvc.compileTemplate("/apis/ios_profile.hbs", {url:dataconf.mam.server+fileID+fileName, bundleid: "com.wso2mobile.phonebook.Phonebook", appname:"WSO2Phone App"});
-			var plistName = "/uploads/"+makeid()+file.getName().substr(ext)[0]+".plist";
-			var plist = new File(plistName);
-			plist.open("w");
-			plist.write(iosManifest);
-			plist.close();
-			names.push("/publisher"+plistName);
-			continue;
-		}
-	    names.push("/publisher"+path);
+var layouts = {
+	"main/index" : "1-columns.hbs"
+};
+var caramelLessFunc = function(logics, resolve){
+	//Extracting the template from the view
+	var template;
+	if(isExists(logics.view)){
+		template = Handle.compile(resolve(getResource(logics.view)));
 	}
-	print(names);
-});
 
-router.post('apps/{id}/publish', function(ctx){
-	change("IN-REVIEW",ctx.id);
-});
-router.post('apps/{id}/remove', function(ctx){
-	change("REMOVED",ctx.id);
-});
-router.post('apps/{id}/accept', function(ctx){
-	change("LIVE",ctx.id);
-});
-router.post('apps/{id}/reject', function(ctx){
-	change("REJECTED",ctx.id,ctx.message);
-});
-router.post('apps/{id}/hold', function(ctx){
-	change("ONHOLD",ctx.id);
-});
-router.post('apps/{id}/live', function(ctx){
-	change("LIVE",ctx.id);
-});
-router.get('dev/{id}/apps',function(ctx){
-	// var publisher = require('/modules/publisher.js');
-	// assets = publisher.assets('android', 1, ctx.id);
-	// print(assets);
-});
-
-// Still the lifecycles aren't working. There is noattachlifecyle in genericartifact class
-router.post('apps',function(ctx){
-	var t = ctx.platform || "android";
-	var carbon = require('carbon'),
-	       server = new carbon.server.Server(),
-	       registry = new carbon.registry.Registry(server, {
-	           username : 'admin',
-	           tenantId : -1234
-	       });
-	
-	var rxtPath = '/_system/governance/android/';
-	var files = request.getAllFiles();
-	log.info(files);
-	var banner = files['bannerFile'];
- 	banner = saveFile(banner);
-
-	var icon = files['iconFile'];
-	icon = saveFile(icon);
-	
-	var screenshot1 = files['screenshot1File'];
-	screenshot1 = saveFile(screenshot1);
-	
-	var screenshot2 = files['screenshot2File'];
-	screenshot2 = saveFile(screenshot2);
-	
-	var screenshot3 = files['screenshot3File'];
-	screenshot3 = saveFile(screenshot3);
-	
-	var screenshots = [screenshot1,screenshot2,screenshot3];
-	var path = rxtPath + ctx.provider + '/' +ctx.name+ '/' +ctx.version;
-	
-	if(ctx.packagename == undefined ||ctx.packagename == ""){
-		ctx.packagename = "com.wso2mobile.wso2phonedirectory";
-	}
-	// Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.loadGovernanceArtifacts(registry.registry);
-	am = new carbon.registry.ArtifactManager(registry, "app");
-	var attributes ={
-        overview_status: "PENDING-REVIEW",
-        overview_name: ctx.name,
-		overview_platform:t,
-        overview_version: ctx.version,
-        overview_url: ctx.url,
-        overview_provider: ctx.provider,
-		overview_description: ctx.description,
-		overview_market:ctx.markettype,
-		// overview_recentChanges:ctx.recentChanges,
-		overview_packageName:ctx.packagename,
-		overview_category:ctx.category,
-		images_icon:icon,
-		images_banner:banner,
-		images_screenshots:screenshots
-    };
-	attributes[attributes.overview_status+"_date"]=printDate();
-	am.add({
-	    name: ctx.name,
-		lifecycle:["applifecycle"],
-		path:path,
-		attributes:attributes 
-	});
-	response.sendRedirect('/publisher/console/list');
-});
-
-router.get('apps', function(ctx){
-	var carbon = require('carbon'),
-	       server = new carbon.server.Server(),
-	       registry = new carbon.registry.Registry(server, {
-	           username : 'admin',
-	           tenantId : -1234
-	       }),
-	am = new carbon.registry.ArtifactManager(registry, 'app');
-	var items =am.list();
-	items = sp(items);
-	items = filterById(items);
-	var state = ctx.state;
-	var platform = ctx.platform;
-	var sort = ctx.sort;
-	if(state!=undefined){
-		items = filterByState(items,state.toUpperCase());
-	}
-	if(platform!=undefined){
-		items = filterByType(items, platform);
-	}
-	if(sort!=undefined){
-		if(sort=="date"){
-			items.sort(function (l, r) {
-				log.info(l.attributes.overview_name);
-			   var date1 =parseDate(l.attributes[l.attributes.overview_status+"_date"]).toDate();
-			   var date2 = parseDate(r.attributes[r.attributes.overview_status+"_date"]).toDate();
-			   return date2<date1?-1:date2>date1?1:0;
-		    });
+	var context;
+	//If controller is empty the request is for the app index page
+	if(logics.isIndex){
+		if(appController.index!=undefined){
+			context = appController.index();	
 		}
 	}
-	print(items);
-});
-router.get('test', function(ctx){
-	var carbon = require('carbon'),
-	       server = new carbon.server.Server(),
-	       registry = new carbon.registry.Registry(server, {
-	           username : 'admin',
-	           tenantId : -1234
-	       });
-	var am = new carbon.registry.ArtifactManager(registry, "app");
-	log.info(am.get("5e57396c-00ec-47d6-ade7-1ccfe2f7592a"));
-});
-
-router.put('apps', function(ctx){
-	//To implement
-});
-var filterById =function(items, id){
-	var ite=[];
-	for (var i = items.length - 1; i >= 0; i--){
-	   var item = items[i];
-	   if(item.attributes.id==id){
-			ite.push(item);
-		}
-	};
-	log.info(ite);
-	return ite;
-}
-var filterByState = function(items,state){
-	var ite=[];
-	for (var i = items.length - 1; i >= 0; i--){
-	   var item = items[i];
-	   if(item.attributes.overview_status==state){
-			ite.push(item);
-		}
-	};
-	log.info(ite);
-	return ite;
-}
-var filterByType = function(items,type){
-	var ite=[];
-	for (var i = items.length - 1; i >= 0; i--){
-	   var item = items[i];
-	   if(item.attributes.overview_platform==type){
-			ite.push(item);
-		}
-	};
-	return ite;
-}
-var saveFile = function(file){
-	if(file!=undefined){
-		log.info(file.getName());
-		if(file.getName()==""){
-			return "";
-		}
-		var uid= makeid();
-		file.saveAs("/uploads/"+uid+file.getName());
-		return "/publisher/uploads/"+uid+file.getName();
+	if(isExists(logics.controller) && require(logics.controller)[logics.viewName] !=undefined){
+		context = require(logics.controller)[logics.viewName](appController);
+		log.info("Current context "+context);
+	}		
+	//Extracting the layout from the controller
+	var layout;
+	if(context!=undefined && layouts[logics.controllerName+"/"+logics.viewName]!=undefined){
+		layout = Handle.compile(getResource(resolve("layouts/"+layouts[logics.controllerName+"/"+logics.viewName])));
 	}
-	return "";
-}
-
-
-var change = function(type, id,message){
-	var carbon = require('carbon'),
-	       server = new carbon.server.Server(),
-	       registry = new carbon.registry.Registry(server, {
-	           username : 'admin',
-	           tenantId : -1234
-	       });
-	am = new carbon.registry.ArtifactManager(registry, "app");
-	var item =	am.get(id);
-	// log.info(item.attributes.overview_status + item.id);			
-	if(item.id==id){
-		item.attributes.overview_status = type;
-		var date= new Date();
-		item.attributes[item.attributes.overview_status+"_date"]=printDate();
-		if(message!=undefined){
-			item.attributes["overview_REJECTED_reason"] = message;
+	//If we can't find a controller as well as a view we are sending a 404 error
+	if(template==undefined && context==undefined){
+		try{
+			response.sendError(404);
+		}catch (e) {
+			new Log().debug(e);
 		}
-		am.update(item);
-		return;
-	}
-	response.sendError(404);
-}
-var sp = function(items){
-	var arr = [];
-	for (var i = items.length - 1; i >= 0; i--){
-		var item = items[i];
-		if(item.attributes.overview_status!="REMOVED"){
-			arr.push(spli(item));
+	}else{
+		var b = template(context);
+		if(layout==undefined){
+			//If the controller hasn't specified a layout
+			print(b);
+		}else{
+			//Now mixing the controller context with generated body template
+			print(layout(mergeRecursive({body:b}, context)));
 		}
-	};
-	return arr;
-}
-var spli = function(item){
-	if(item.attributes.images_screenshots!=undefined){
-		item.attributes.images_screenshots =item.attributes.images_screenshots.split(',');
 	}
-	return item;
+};
+function isExists(filename){
+	var f = new File(filename);
+	return f.isExists();
 }
-var printDate = function(){
-	var date = new moment();
-	return date.format("YYYY-MM-DD HH:mm:ss.SSS");
-}
-var parseDate = function(string){
-	return moment(string,"YYYY-MM-DD HH:mm:ss.SSS");
-}
-var makeid= function()
-{
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+var mvController = new Absolute({
+	SERVER_URL :"/publisher-1/",
+	IGNORE :["sso.jag", "login.jag", "logout.jag","test.jag"],
+	CONTROLLER_FUNCTION : function(ab){
+		var pageParams = ab.pageParams;
+		var configs = ab.configs;
+		var isExists = ab.isExists;
+		var asset = pageParams[0];
+		//Checking if the current request is for asset or whole
+		var controller;
+		var view;
+		var viewName;
+		var controllerName;
+		var appController;
+		var isIndex;
+		if(isExists("controllers/"+asset)){
+			controller = pageParams[1];
+			isIndex = controller=='';
+			view = "index";
+			if(pageParams.length>1 && pageParams[2]!=''){
+				view = pageParams[2];	
+			}
+			viewName = view;
+			controllerName = controller;		
+			view = "views/"+asset+"/"+controller+"/"+view;
+			controller = "controllers/"+asset+"/"+controller+".js";
+			if(isExists('/controllers/'+asset+'/app.js')){
+				appController =require('/controllers/'+asset+'/app.js');
+			}
+		}else{
+			controller = pageParams[0];
+			isIndex = controller=='';
+			view = "index";
+			if(pageParams.length>1 && pageParams[1]!=''){
+				view = pageParams[1];	
+			}
+			viewName = view;
+			controllerName = controller;
+			view = "views/"+controller+"/"+view;
+			controller = "controllers/"+controller+".js";
+			if(isExists('/controllers/app.js')){
+				appController =require('/controllers/app.js');
+			}
+		}
+		view = view+"."+configs.ENGINE;
+		return {viewName: viewName, controllerName : controllerName, controller: controller, view: view, appController:appController, isIndex: isIndex};
+	},
+	RENDER_FUNCTION: function(logics, resolve){
+		log.info(logics);
+		var context;
+		//If controller is empty the request is for the app index page
+		if(logics.isIndex){
+			if(logics.appController.index!=undefined){
+				context = logics.appController.index();	
+			}
+		}
+		if(isExists(logics.controller) && require(logics.controller)[logics.viewName] !=undefined){
+			context = require(logics.controller)[logics.viewName](caramel);
+			log.info("Current context "+context);
+		}
+	},
+	RESOLVE_VIEW: function(ab){
+		var pageParams = ab.pageParams;
+		var configs = ab.configs;
+		var isExists = ab.isExists;
+		var getResource = ab.getResource;
+		var theme = ab.theme;
+		var asset = pageParams[0];
+		//Checking if the current request is for asset or whole
+		var controller;
+		var view;
+		var viewName;
+		var isIndex;
+		if(pageParams.length==3){
+			controller = pageParams[1];
+			isIndex = controller=='';
+			view = "index";
+			if(pageParams.length>1 && pageParams[2]!=''){
+				view = pageParams[2];	
+			}
+			viewName = view;		
+			view = "views/"+asset+"/"+controller+"/"+view+"."+configs.ENGINE;
+			//overidding
+			if(!isExists(theme+"/"+view)){
+				view = "views/"+controller+"/"+viewName+"."+configs.ENGINE;
+			}
+		}else{
+			controller = pageParams[0];
+			isIndex = controller=='';
+			view = "index";
+			if(pageParams.length>1 && pageParams[1]!=''){
+				view = pageParams[1];	
+			}
+			viewName = view;
+			view = "views/"+controller+"/"+view+"."+configs.ENGINE;
+		}
+		return ab.getResource(theme+"/"+view);
+	},
+	RESOLVE : function(path){
+		return path;
+	}
+});
 
-    for( var i=0; i < 5; i++ )
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
+mvController.registerHelper('showActive', function(currentPage, page, options) {
+  if(currentPage == page){
+  	return "active";
+  }else{
+  	return "";
+  }
+});
 
-    return text;
-}
-mvc.route(request);
+
+mvController.registerHelper('stringify', function(context) {
+    return JSON.stringify(context);
+});
+
+
+
+mvController.registerHelper('compare', function(lvalue, rvalue, options) {
+
+    if (arguments.length < 3)
+        throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
+
+    operator = options.hash.operator || "==";
+
+    var operators = {
+        '==':       function(l,r) { return l == r; },
+        '===':      function(l,r) { return l === r; },
+        '!=':       function(l,r) { return l != r; },
+        '<':        function(l,r) { return l < r; },
+        '>':        function(l,r) { return l > r; },
+        '<=':       function(l,r) { return l <= r; },
+        '>=':       function(l,r) { return l >= r; },
+        'typeof':   function(l,r) { return typeof l == r; }
+    }
+
+    if (!operators[operator])
+        throw new Error("Handlerbars Helper 'compare' doesn't know the operator "+operator);
+
+    var result = operators[operator](lvalue,rvalue);
+
+    if( result ) {
+        return options.fn(this);
+    } else {
+        return options.inverse(this);
+    }
+
+});
+
+
+
+mvController.registerHelper('eachkeys', function(context, options) {
+  var fn = options.fn, inverse = options.inverse;
+  var ret = "";
+
+  var empty = true;
+  for (key in context) { empty = false; break; }
+
+  if (!empty) {
+    for (key in context) {
+        ret = ret + fn({ 'key': key.toUpperCase(), 'value': context[key]});
+    }
+  } else {
+    ret = inverse(this);
+  }
+  return ret;
+});
+
+
+mvController.registerHelper('elipsis', function(maxLength, context, options) {
+  if(context.length > maxLength) {
+    context = context.substring(0, maxLength)+"...";
+  }
+  
+  return context;
+});
+
+
+mvController.registerHelper('lastdate', function(status, attri, options) {
+	return moment(attri["overview_" + status + "_date"]).format( "DD-MM-YYYY");
+});
+
+application.put("absolute", mvController);
+mvController.route(request);
 %>
