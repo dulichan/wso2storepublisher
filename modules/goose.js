@@ -69,10 +69,10 @@ var goose = (function () {
                 if (uriMatcher.match(route) && request.getMethod() == verb) {
                     var elements = uriMatcher.elements();
                     var ctx = elements;
-                    log.info("--------Goose Verb --------" + verb);
-                    log.info("--------Goose Route --------" + route);
-					log.info("--------Goose Elements --------");
-					log.info(elements);
+                    // log.info("--------Goose Verb --------" + verb);
+                    //                     log.info("--------Goose Route --------" + route);
+                    // 					log.info("--------Goose Elements --------");
+                    // 					log.info(elements);
 					var jResult = {};
 					if(verb=="GET"){
 						jResult = request.getAllParameters("UTF-8");
@@ -82,13 +82,13 @@ var goose = (function () {
 							mergeRecursive(jResult,request.getContent());	
 						}
 					}
-					log.info("--------Goose file parsing--------- ");
+					// log.info("--------Goose file parsing--------- ");
 					ctx.files = request.getAllFiles();
-					log.info("--------Goose parsed data--------- ");
-					log.info(jResult);
+					// log.info("--------Goose parsed data--------- ");
+					// log.info(jResult);
                     ctx = mergeRecursive(jResult,ctx);
-					log.info("--------Goose final data--------- ");
-					log.info(jResult);
+					// log.info("--------Goose final data--------- ");
+					// log.info(jResult);
                     routeAction(ctx);
                     break;
                 }

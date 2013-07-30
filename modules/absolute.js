@@ -1,4 +1,4 @@
-var Handle = require("/modules/handlebars.js").Handlebars;
+var Handle = require('handlebars').Handlebars;
 var mvc = (function () {
 	var configs= {
 		SERVER_URL: "/",
@@ -38,7 +38,7 @@ var mvc = (function () {
 		var f = new File(filename);
 		return f.isExists();
 	}
-	function isImage(mime){
+	function isBinaryResource(mime){
 		switch (mime) {
 	        case 'image/png':
 	            return true;
@@ -58,10 +58,11 @@ var mvc = (function () {
 		//log.info("Resource URL"+resourceURL);
 		var m = mime(resourceURL);
 		response.addHeader('Content-Type', m);
-		if(isImage(m)){
+		if(isBinaryResource(m)){
 			var f = new File(resourceURL);
 			f.open('r');
 		    print(f.getStream());
+			f.close();
 		}else{
 			print(getResource(resourceURL));
 		}
@@ -75,6 +76,7 @@ var mvc = (function () {
 			partial.open('r');
 			Handle.registerPartial(partial.getName().split('.')[0], partial.readAll());
 			log.info("Handle registered template -"+partial.getName().split('.')[0]);
+			partial.close();
 		}
 	}
 	
@@ -130,9 +132,7 @@ var mvc = (function () {
         route: function (req) {
 			var reqURL = req.getRequestURI();
 			var pageURL = reqURL.replace(configs.SERVER_URL, '');
-			// if(pageURL.charAt(pageURL.length-1)){
-			// 	pageURL = pageURL.substring(0, pageURL.length-2);
-			// }
+			
 			//Ignore the specified URIs
 			for (var i=0; i < configs.IGNORE.length; i++) {
 				if(pageURL==configs.IGNORE[i]){
@@ -156,62 +156,8 @@ var mvc = (function () {
 				routeAsset(pageURL);
 				return;
 			}
-			
-			var controller = pageParams[0];
-			var view = "index";
-			if(pageParams.length>1 && pageParams[1]!=''){
-				view = pageParams[1];	
-			}
-			var viewName = view;
-			view = view+"."+configs.ENGINE;
-			log.info("View "+ view);
-			
-			//App controller
-			var appController;
-			if(isExists('/controller/app.js')){
-				appController =require('/controller/app.js');
-			}
-			
-			//Extracting the template from the view
-			var template;
-			var templateURI = '/views/'+controller+"/"+view;
-			if(isExists(templateURI)){
-				template = Handle.compile(getResource(templateURI));
-			}
-			
-			var context;
-			//If controller is empty the request is for the app index page
-			if(controller==''){
-				if(appController.index!=undefined){
-					context = appController.index();	
-				}
-			}
-			if(isExists('/controller/'+controller+".js") && require('/controller/'+controller+".js")[viewName] !=undefined){
-				context = require('/controller/'+controller+".js")[viewName](appController);
-				log.info("Current context "+context);
-			}		
-			//Extracting the layout from the controller
-			var layout;
-			if(context!=undefined && context.layout!=undefined){
-				layout = Handle.compile(getResource("/pages/"+context.layout+".hbs"));
-			}
-			//If we can't find a controller as well as a view we are sending a 404 error
-			if(template==undefined && context==undefined){
-				try{
-					response.sendError(404);
-				}catch (e) {
-					new Log().debug(e);
-				}
-			}else{
-				var b = template(context);
-				if(layout==undefined){
-					//If the controller hasn't specified a layout
-					print(b);
-				}else{
-					//Now mixing the controller context with generated body template
-					print(layout(mergeRecursive({body:b}, context)));
-				}
-			}
+			var logics = configs.CONTROLLER_FUNCTION({pageParams:pageParams, isExists:isExists,configs:configs});
+			configs.RENDER_FUNCTION(logics, configs.RESOLVE);
         },
 		registerHelper: function(helperName, helperFunction){
 			Handle.registerHelper(helperName, helperFunction);
@@ -223,8 +169,12 @@ var mvc = (function () {
 			var template = Handle.compile(getResource(templatePath));
 			return template(context);
 		},
-		getConfigValue: function(key){
-			return configs[key];
+		findView: function(req, theme){
+			var reqURL = req.getRequestURI();
+			var pageURL = reqURL.replace(configs.SERVER_URL, '');
+			var pageParams = pageURL.split('/');
+			var template = configs.RESOLVE_VIEW({pageParams:pageParams, isExists:isExists, configs:configs, theme:theme, getResource: getResource});
+			return Handle.compile(template);
 		}
     };
 // return module

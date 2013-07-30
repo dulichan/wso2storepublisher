@@ -1,5 +1,5 @@
-publisher.tmproj
-.idea
-publisher.iml
 apps
-uploads
+store.tmproj
+*~
+/.project
+/dataconf.json
