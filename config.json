@@ -1,8 +1,0 @@
-{
-    "HTTPS_URL": "https://localhost:9443",
-    "HTTP_URL": "http://localhost:9763",
-    "RUBY_SERVER_URL": "https://10.200.1.145:8443",
-    "MDM_UI_URI": "/publisher/",
-    "MDM_API_URI": "/publisher/api/",
-    "MDM_THEME": "wso2mobile"   
-}
