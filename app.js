@@ -18,7 +18,7 @@ process.setProperty('http.port', httpPort.toString());
 process.setProperty('https.port', httpsPort.toString());
 
 caramel.configs({
-    context: '/store',
+    context: '/publisher',
     cache: true,
     negotiation: true,
     themer: function () {
