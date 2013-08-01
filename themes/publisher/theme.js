@@ -1,7 +1,8 @@
 var cache = false;
 
 var engine = caramel.engine('handlebars', (function () {
-    return {
+    new Log().info("sfsdf");
+	return {
         partials: function (Handlebars) {
             var theme = caramel.theme();
             var partials = function (file) {

@@ -1,8 +1,9 @@
-var goose = require('modules/goose.js').goose;
+<% 
+var goose = require('/modules/goose.js').goose;
 var router = new goose({CONTEXT: "/publisher/api/"});
-var moment= require('modules/moment.js').moment;
+var moment= require('/modules/moment.js').moment;
 var log =new Log();
-var dataconf = require('dataconf.json');
+var dataconf = require('/dataconf.json');
 
 router.post('apps/upload',function(ctx){
 	var files = ctx.files;
@@ -112,7 +113,7 @@ router.post('apps',function(ctx){
 		ctx.packagename = "com.wso2mobile.wso2phonedirectory";
 	}
 	// Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.loadGovernanceArtifacts(registry.registry);
-	am = new carbon.registry.ArtifactManager(registry, "app");
+	am = new carbon.registry.ArtifactManager(registry, "mobileapp");
 	var attributes ={
         overview_status: "PENDING-REVIEW",
         overview_name: ctx.name,
@@ -146,7 +147,7 @@ router.get('apps', function(ctx){
 	           username : 'admin',
 	           tenantId : -1234
 	       }),
-	am = new carbon.registry.ArtifactManager(registry, 'app');
+	am = new carbon.registry.ArtifactManager(registry, 'mobileapp');
 	var items =am.list();
 	items = sp(items);
 	items = filterById(items);
@@ -178,7 +179,7 @@ router.get('test', function(ctx){
 	           username : 'admin',
 	           tenantId : -1234
 	       });
-	var am = new carbon.registry.ArtifactManager(registry, "app");
+	var am = new carbon.registry.ArtifactManager(registry, "mobileapp");
 	log.info(am.get("5e57396c-00ec-47d6-ade7-1ccfe2f7592a"));
 });
 
@@ -238,7 +239,7 @@ var change = function(type, id,message){
 	           username : 'admin',
 	           tenantId : -1234
 	       });
-	am = new carbon.registry.ArtifactManager(registry, "app");
+	am = new carbon.registry.ArtifactManager(registry, "mobileapp");
 	var item =	am.get(id);
 	// log.info(item.attributes.overview_status + item.id);			
 	if(item.id==id){
@@ -287,4 +288,5 @@ var makeid= function()
     return text;
 }
 router.process(request);
+%>
 %>
