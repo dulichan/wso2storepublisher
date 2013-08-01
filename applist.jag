@@ -1,0 +1,414 @@
+<%
+
+var caramel = require('caramel');
+ 
+
+caramel.render({
+		
+	apps: [
+    {
+        "id": "22813d87-8cf2-439a-90a6-8296bbc0d3ff",
+        "type": "app",
+        "name": "First app",
+        "path": "/_system/governance/app/1WSO2Mobile/android/First app/1.0",
+        "lifecycle": null,
+        "lifecycleState": null,
+        "mediaType": "application/vnd.wso2-app+xml",
+        "attributes": {
+            "LIVE_date": "2013-07-25 10:49:47.968",
+            "IN-REVIEW_date": "2013-07-25 10:49:29.289",
+            "overview_status": "LIVE",
+            "overview_name": "First app",
+            "overview_url": "/publisher/uploads/kO1ebapp.apk",
+            "overview_market": "Enterprise",
+            "images_icon": "/publisher/uploads/oIH0vicon.png",
+            "PENDING-REVIEW_date": "2013-07-25 10:49:20.668",
+            "overview_category": "Finance",
+            "overview_description": "New description ",
+            "overview_version": "1.0",
+            "images_screenshots": [
+                "/publisher/uploads/BG3CWscreenshot1.jpg"
+            ],
+            "overview_packageName": "com.wso2mobile.wso2phonedirectory",
+            "overview_provider": "1WSO2Mobile",
+            "images_banner": "/publisher/uploads/tcnGVbanner.jpg",
+            "overview_platform": "android"
+        }
+    },
+    {
+        "id": "6d2b4717-037e-4753-817b-5bd81b2aaa2c",
+        "type": "app",
+        "name": "Mobile app",
+        "path": "/_system/governance/app/1WSO2Mobile/android/Mobile app/1.0",
+        "lifecycle": null,
+        "lifecycleState": null,
+        "mediaType": "application/vnd.wso2-app+xml",
+        "attributes": {
+            "LIVE_date": "2013-07-24 15:42:49.067",
+            "IN-REVIEW_date": "2013-07-24 15:37:36.674",
+            "overview_status": "LIVE",
+            "overview_name": "Mobile app",
+            "overview_url": "/publisher/uploads/OEDMEapp.apk",
+            "overview_market": "Enterprise",
+            "images_icon": "/publisher/uploads/HrQEIicon.png",
+            "PENDING-REVIEW_date": "2013-07-24 15:37:30.525",
+            "overview_category": "Utilities",
+            "overview_description": "Appp ",
+            "overview_version": "1.0",
+            "images_screenshots": [
+                "/publisher/uploads/jOeTbscreenshot2.jpg"
+            ],
+            "overview_packageName": "com.wso2mobile.wso2phonedirectory",
+            "overview_provider": "1WSO2Mobile",
+            "images_banner": "/publisher/uploads/oRO9Vbanner.jpg",
+            "ONHOLD_date": "2013-07-24 15:42:32.410",
+            "overview_platform": "android"
+        }
+    },
+    {
+        "id": "0ea403b4-cddc-42b6-a9b4-55618053a80f",
+        "type": "app",
+        "name": "iBooks",
+        "path": "/_system/governance/app/1WSO2Mobile/ios/iBooks/1.0",
+        "lifecycle": null,
+        "lifecycleState": null,
+        "mediaType": "application/vnd.wso2-app+xml",
+        "attributes": {
+            "LIVE_date": "2013-07-16 13:51:20.320",
+            "IN-REVIEW_date": "2013-07-16 13:50:52.071",
+            "overview_status": "LIVE",
+            "overview_name": "iBooks",
+            "overview_market": "Market",
+            "images_icon": "/publisher/uploads/4U6HMUnknown-3.jpeg",
+            "PENDING-REVIEW_date": "2013-07-16 13:50:45.880",
+            "overview_category": "Utilities",
+            "overview_description": " wwrrr",
+            "overview_version": "1.0",
+            "images_screenshots": [
+                "/publisher/uploads/fPU7Zmzl.nscokkaq.320x480-75.jpg"
+            ],
+            "overview_packageName": "364709193",
+            "overview_provider": "1WSO2Mobile",
+            "overview_platform": "ios"
+        }
+    },
+    {
+        "id": "ecb904e7-6581-4504-89d8-157ba4b48478",
+        "type": "app",
+        "name": "Cal Your life. Your Calendar",
+        "path": "/_system/governance/app/1WSO2Mobile/ios/Cal Your life. Your Calendar/1.0",
+        "lifecycle": null,
+        "lifecycleState": null,
+        "mediaType": "application/vnd.wso2-app+xml",
+        "attributes": {
+            "LIVE_date": "2013-07-16 13:51:14.662",
+            "IN-REVIEW_date": "2013-07-16 13:50:59.266",
+            "overview_status": "LIVE",
+            "overview_name": "Cal Your life. Your Calendar",
+            "overview_market": "Market",
+            "images_icon": "/publisher/uploads/chKlEUnknown.jpeg",
+            "PENDING-REVIEW_date": "2013-07-16 13:48:37.014",
+            "overview_category": "Tools",
+            "overview_description": " ss",
+            "overview_version": "1.0",
+            "images_screenshots": [
+                "/publisher/uploads/3HQZLmzl.slgipjpl.320x480-75.jpg"
+            ],
+            "overview_packageName": "648287824",
+            "overview_provider": "1WSO2Mobile",
+            "overview_platform": "ios"
+        }
+    },
+    {
+        "id": "2256e404-e192-4eb5-b907-606ec9223991",
+        "type": "app",
+        "name": "Facebook",
+        "path": "/_system/governance/app/1WSO2Mobile/android/Facebook/1.0",
+        "lifecycle": null,
+        "lifecycleState": null,
+        "mediaType": "application/vnd.wso2-app+xml",
+        "attributes": {
+            "LIVE_date": "2013-07-16 13:45:17.872",
+            "IN-REVIEW_date": "2013-07-16 13:44:57.960",
+            "overview_status": "LIVE",
+            "overview_name": "Facebook",
+            "overview_market": "Market",
+            "images_icon": "/publisher/uploads/YV7Jy_XklY7dK6yGsYt53X15RIp7-tbdjWMwQwl_iUAcW-uSq_8zAprmywdn5DQfBHvxZurs1=w300.png",
+            "PENDING-REVIEW_date": "2013-07-16 13:44:35.124",
+            "overview_category": "Utilities",
+            "overview_description": " Facebook app",
+            "overview_version": "1.0",
+            "images_screenshots": [
+                "/publisher/uploads/x0rSoO06WlRwAeQVJOoNlKi_vyD-EzF2LBjiQTge_Qh-XwuADTrBOoTyrXtE51DoQAFjL0v8=h310.jpg"
+            ],
+            "overview_packageName": "com.facebook.katana",
+            "overview_provider": "1WSO2Mobile",
+            "overview_platform": "android"
+        }
+    },
+    {
+        "id": "60ed62ee-69eb-46e2-9ebd-ac11b9ac10a7",
+        "type": "app",
+        "name": "Remember the Milk",
+        "path": "/_system/governance/app/1WSO2Mobile/webapp/Remember the Milk/1.0",
+        "lifecycle": null,
+        "lifecycleState": null,
+        "mediaType": "application/vnd.wso2-app+xml",
+        "attributes": {
+            "LIVE_date": "2013-07-16 13:45:16.022",
+            "IN-REVIEW_date": "2013-07-16 13:45:04.492",
+            "overview_status": "LIVE",
+            "overview_name": "Remember the Milk",
+            "overview_url": "http://www.rememberthemilk.com/",
+            "overview_market": "Enterprise",
+            "images_icon": "/publisher/uploads/3B6AyRTM-iTunes-icon-150x150.png",
+            "PENDING-REVIEW_date": "2013-07-16 13:42:29.201",
+            "overview_category": "Utilities",
+            "overview_description": "s ",
+            "overview_version": "1.0",
+            "images_screenshots": [
+                "/publisher/uploads/GmQ7NcZeqKdj6ho26IFkgSDtocBePobF90i8PsvsUxg10NhOuUsWPIx4fJT FWqSBFtxJCLXPK7Pv Hc s640 h400 e365 rw  640�400 .png"
+            ],
+            "overview_packageName": "com.wso2mobile.wso2phonedirectory",
+            "overview_provider": "1WSO2Mobile",
+            "images_banner": "/publisher/uploads/nKEpmunnamed.png",
+            "overview_platform": "webapp"
+        }
+    },
+    {
+        "id": "99e69c5f-ff87-4dfb-8be5-f41e7f87165f",
+        "type": "app",
+        "name": "ZipArchiever",
+        "path": "/_system/governance/app/1WSO2Mobile/android/ZipArchiever/1.0",
+        "lifecycle": null,
+        "lifecycleState": null,
+        "mediaType": "application/vnd.wso2-app+xml",
+        "attributes": {
+            "LIVE_date": "2013-07-16 13:45:14.254",
+            "IN-REVIEW_date": "2013-07-16 13:45:01.177",
+            "overview_status": "LIVE",
+            "overview_name": "ZipArchiever",
+            "overview_url": "/publisher/uploads/S31Weapp.apk",
+            "overview_market": "Enterprise",
+            "images_icon": "/publisher/uploads/A01W8icon.png",
+            "PENDING-REVIEW_date": "2013-07-16 13:43:07.010",
+            "overview_category": "Utilities",
+            "overview_description": "sdf ",
+            "overview_version": "1.0",
+            "images_screenshots": [
+                "/publisher/uploads/l5Cc0screenshot1.jpg"
+            ],
+            "overview_packageName": "com.wso2mobile.wso2phonedirectory",
+            "overview_provider": "1WSO2Mobile",
+            "images_banner": "/publisher/uploads/q710Ubanner.png",
+            "overview_platform": "android"
+        }
+    },
+    {
+        "id": "3376fa43-2e75-4f49-8689-c4cb71d05882",
+        "type": "app",
+        "name": "Anti-virus for Android",
+        "path": "/_system/governance/app/1WSO2Mobile/android/Anti-virus for Android/1.0",
+        "lifecycle": null,
+        "lifecycleState": null,
+        "mediaType": "application/vnd.wso2-app+xml",
+        "attributes": {
+            "LIVE_date": "2013-07-16 13:45:12.528",
+            "IN-REVIEW_date": "2013-07-16 13:45:07.841",
+            "overview_status": "LIVE",
+            "overview_name": "Anti-virus for Android",
+            "overview_url": "/publisher/uploads/YuDEnapp.apk",
+            "overview_market": "Enterprise",
+            "images_icon": "/publisher/uploads/fddaJicon.png",
+            "PENDING-REVIEW_date": "2013-07-16 13:41:45.793",
+            "overview_category": "Utilities",
+            "overview_description": "Antivirus for android ",
+            "overview_version": "1.0",
+            "images_screenshots": [
+                "/publisher/uploads/sRKoWscreenshot2.jpg"
+            ],
+            "overview_packageName": "com.wso2mobile.wso2phonedirectory",
+            "overview_provider": "1WSO2Mobile",
+            "images_banner": "/publisher/uploads/99FKMbanner.jpg",
+            "overview_platform": "android"
+        }
+    },
+    {
+        "id": "0cbcda3d-24c7-4ebe-9f99-990d94c73da8",
+        "type": "app",
+        "name": "Smore",
+        "path": "/_system/governance/app/1WSO2Mobile/webapp/Smore/1.0",
+        "lifecycle": null,
+        "lifecycleState": null,
+        "mediaType": "application/vnd.wso2-app+xml",
+        "attributes": {
+            "LIVE_date": "2013-07-16 12:26:48.346",
+            "IN-REVIEW_date": "2013-07-16 12:26:38.476",
+            "overview_status": "LIVE",
+            "overview_name": "Smore",
+            "overview_url": "https://www.smore.com",
+            "overview_market": "Enterprise",
+            "images_icon": "/publisher/uploads/bM2i42.png",
+            "PENDING-REVIEW_date": "2013-07-16 12:26:34.905",
+            "overview_category": "Finance",
+            "overview_description": "Flyer creation ",
+            "overview_version": "1.0",
+            "overview_packageName": "com.wso2mobile.wso2phonedirectory",
+            "overview_provider": "1WSO2Mobile",
+            "images_banner": "/publisher/uploads/sl1121.png",
+            "overview_platform": "webapp"
+        }
+    },
+    {
+        "id": "4679604a-1336-4cfe-a922-876936c9ba86",
+        "type": "app",
+        "name": "File Manager",
+        "path": "/_system/governance/app/1WSO2Mobile/android/File Manager/1.0",
+        "lifecycle": null,
+        "lifecycleState": null,
+        "mediaType": "application/vnd.wso2-app+xml",
+        "attributes": {
+            "LIVE_date": "2013-07-16 12:26:46.374",
+            "IN-REVIEW_date": "2013-07-16 12:26:42.134",
+            "overview_status": "LIVE",
+            "overview_name": "File Manager",
+            "overview_market": "Market",
+            "images_icon": "/publisher/uploads/WR2FVy5ARYH-11B6gyG9B4V_XvRjR09Psy385VzUheUDw-I6EffnYGl0AOsFTiXznlzVDyw=w300.png",
+            "PENDING-REVIEW_date": "2013-07-16 12:25:37.919",
+            "overview_category": "Utilities",
+            "overview_description": "File Manager ",
+            "overview_version": "1.0",
+            "images_screenshots": [
+                "/publisher/uploads/AIv9PBhptLbiF6gNVDhTuMcIECNba6_Wi7kfjpsdHp1cHfFz2QS4_rx51VTwBr_3aQSih2A=h310.jpg"
+            ],
+            "overview_packageName": "com.rhmsoft.fm",
+            "overview_provider": "1WSO2Mobile",
+            "overview_platform": "android"
+        }
+    },
+    {
+        "id": "f45cb2b6-074b-4f3d-b3a4-6c2d79c29010",
+        "type": "app",
+        "name": "Gmail",
+        "path": "/_system/governance/app/1WSO2Mobile/ios/Gmail/1.0",
+        "lifecycle": null,
+        "lifecycleState": null,
+        "mediaType": "application/vnd.wso2-app+xml",
+        "attributes": {
+            "LIVE_date": "2013-07-16 12:16:05.029",
+            "IN-REVIEW_date": "2013-07-16 12:15:59.575",
+            "overview_status": "LIVE",
+            "overview_name": "Gmail",
+            "overview_market": "Market",
+            "images_icon": "/publisher/uploads/BIMKTUnknown-1.jpeg",
+            "PENDING-REVIEW_date": "2013-07-16 12:15:57.799",
+            "overview_category": "Utilities",
+            "overview_description": "Get the official Gmail app for your iPhone or iPad. The newly redesigned app brings the best of Gmail with real-time notifications, multiple account support and search across your entire inbox. With the Gmail app, you can: ",
+            "overview_version": "1.0",
+            "images_screenshots": [
+                "/publisher/uploads/pL8lTmzl.vnwrlaza.320x480-75.jpg"
+            ],
+            "overview_packageName": "422689480",
+            "overview_provider": "1WSO2Mobile",
+            "overview_platform": "ios"
+        }
+    },
+    {
+        "id": "da0287f8-7598-4254-a2c1-78bf9ff2ed3c",
+        "type": "app",
+        "name": "Youtube",
+        "path": "/_system/governance/app/1WSO2Mobile/ios/Youtube/1.0",
+        "lifecycle": null,
+        "lifecycleState": null,
+        "mediaType": "application/vnd.wso2-app+xml",
+        "attributes": {
+            "LIVE_date": "2013-07-16 12:14:59.598",
+            "IN-REVIEW_date": "2013-07-16 12:14:46.711",
+            "overview_status": "LIVE",
+            "overview_name": "Youtube",
+            "overview_market": "Market",
+            "images_icon": "/publisher/uploads/TME4hUnknown.jpeg",
+            "PENDING-REVIEW_date": "2013-07-16 12:14:43.739",
+            "overview_category": "Finance",
+            "overview_description": " Get the official YouTube app for iPhone and iPad. Stay up-to-date with trending videos and connected with your favorite YouTube channels. Learn and enrich yourself on any topic. Sign in to personalize your experience: get the latest videos from your subscriptions, personalized recommendations, access your playlists, uploads and easily",
+            "overview_version": "1.0",
+            "images_screenshots": [
+                "/publisher/uploads/0qtj1mzl.deatptel.320x480-75.jpg"
+            ],
+            "overview_packageName": "544007664",
+            "overview_provider": "1WSO2Mobile",
+            "overview_platform": "ios"
+        }
+    },
+    {
+        "id": "c840d058-e682-495a-a581-1381d8767dc6",
+        "type": "app",
+        "name": "WSO2Phone directory",
+        "path": "/_system/governance/app/1WSO2Mobile/ios/WSO2Phone directory/1.0",
+        "lifecycle": null,
+        "lifecycleState": null,
+        "mediaType": "application/vnd.wso2-app+xml",
+        "attributes": {
+            "LIVE_date": "2013-07-16 12:05:36.809",
+            "IN-REVIEW_date": "2013-07-16 12:05:32.273",
+            "overview_status": "LIVE",
+            "overview_name": "WSO2Phone directory",
+            "overview_url": "/publisher/uploads/7hgwtP.plist",
+            "overview_market": "Enterprise",
+            "images_icon": "/publisher/uploads/ny3Aephone_icon.png",
+            "PENDING-REVIEW_date": "2013-07-16 12:05:30.183",
+            "overview_category": "Utilities",
+            "overview_description": "Phone ",
+            "overview_version": "1.0",
+            "images_screenshots": [
+                "/publisher/uploads/Mt53fScreenshot_2013-06-15-11-17-59.png"
+            ],
+            "overview_packageName": "com.wso2mobile.wso2phonedirectory",
+            "overview_provider": "1WSO2Mobile",
+            "images_banner": "/publisher/uploads/VOHOMbanner.jpg",
+            "overview_platform": "ios"
+        }
+    },
+    {
+        "id": "292e5a8b-85d3-42d2-be2b-06badb646efb",
+        "type": "app",
+        "name": "WSO2Phone directory",
+        "path": "/_system/governance/app/1WSO2Mobile/android/WSO2Phone directory/1.0",
+        "lifecycle": null,
+        "lifecycleState": null,
+        "mediaType": "application/vnd.wso2-app+xml",
+        "attributes": {
+            "LIVE_date": "2013-07-16 11:57:52.395",
+            "IN-REVIEW_date": "2013-07-16 11:57:45.332",
+            "overview_status": "LIVE",
+            "overview_name": "WSO2Phone directory",
+            "overview_url": "/publisher/uploads/vKJdUWSO2PhoneDirectory.apk",
+            "overview_market": "Enterprise",
+            "images_icon": "/publisher/uploads/RY93Iphone_icon.png",
+            "PENDING-REVIEW_date": "2013-07-16 11:57:41.954",
+            "overview_category": "Utilities",
+            "overview_description": "Phone ",
+            "overview_version": "1.0",
+            "images_screenshots": [
+                "/publisher/uploads/SiowpScreenshot_2013-06-15-11-18-13.png"
+            ],
+            "overview_packageName": "com.wso2mobile.wso2phonedirectory",
+            "overview_provider": "1WSO2Mobile",
+            "images_banner": "/publisher/uploads/8Aj0Xbanner.jpg",
+            "overview_platform": "android"
+        }
+    }
+]
+	
+	
+	
+	
+	
+	
+	
+
+});
+
+
+
+%>

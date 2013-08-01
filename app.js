@@ -26,7 +26,7 @@ caramel.configs({
         if(meta.request.getRequestURI().indexOf('gadget') != -1) {
             return 'modern';
         }*/
-        return 'store';
+        return 'publisher';
     }/*,
     languagesDir: '/i18n',
     language: function() {
