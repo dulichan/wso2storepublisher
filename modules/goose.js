@@ -76,7 +76,9 @@ var goose = (function () {
 					var jResult = {};
 					if(verb=="GET"){
 						jResult = request.getAllParameters();
-					}else{
+					}else{	
+						request.getParameter("action");
+						new Log().info("TEST TEST TEST");
 						jResult = request.getAllParameters();
 						if(request.getContentType()=='application/json'){
 							mergeRecursive(jResult,request.getContent());	

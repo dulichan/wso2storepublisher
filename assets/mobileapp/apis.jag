@@ -289,4 +289,3 @@ var makeid= function()
 }
 router.process(request);
 %>
-%>
