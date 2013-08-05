@@ -1,0 +1,36 @@
+{{#apps}}
+	<tr>
+	<td><img class="app-icon-small" src="{{attributes.images_icon}}"> {{attributes.overview_name}}</td>
+	<td>{{attributes.overview_category}}</td>
+	<td>{{attributes.overview_total_installs}}0</td>
+	<td>{{attributes.overview_version}}</td>
+     <td>{{attributes.overview_platform}}</td>
+	<td>{{showStatus attributes.overview_status attributes}}</td>
+	<td>{{#lastdate attributes.overview_status attributes}}{{/lastdate}}</td>
+	<td>
+	
+	{{#equal attributes.overview_status 'ONHOLD'}}
+		<input data-app="{{id}}" data-type="update" type="button" class="btn btn-info btn-command" value="Update">
+		<input data-app="{{id}}" data-type="live" type="button" class="btn btn-success btn-command" value="Publish">
+		<input data-app="{{id}}" data-type="remove" type="button" class="btn btn-danger btn-command" value="Remove">		
+	{{/equal}}
+	
+	{{#equal attributes.overview_status 'LIVE'}}
+		<input data-app="{{id}}" data-type="hold" type="button" class="btn btn-info btn-command" value="Unpublish">			
+	{{/equal}}
+	
+	{{#equal attributes.overview_status 'PENDING-REVIEW'}}
+		<input data-app="{{id}}" data-type="publish" type="button" class="btn btn-success btn-command" value="Submit">
+		<input data-app="{{id}}" data-type="update" type="button" class="btn btn-info btn-command" value="Update">		
+		<input data-app="{{id}}" data-type="remove" type="button" class="btn btn-danger btn-command" value="Remove">		
+	{{/equal}}
+	
+	{{#equal attributes.overview_status 'REJECTED'}}
+		<input data-app="{{id}}" data-type="update" type="button" class="btn btn-info btn-command" value="Update">
+		<input data-app="{{id}}" data-type="remove" type="button" class="btn btn-danger btn-command" value="Remove">		
+	{{/equal}}
+	
+		
+	</td>
+	</tr>
+{{/apps}}

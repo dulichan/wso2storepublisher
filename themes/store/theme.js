@@ -3,6 +3,10 @@ var cache = false;
 var engine = caramel.engine('handlebars', (function () {
     return {
         partials: function (Handlebars) {
+        	
+              	    	
+        	
+        	
             var theme = caramel.theme();
             var partials = function (file) {
                 (function register(prefix, file) {
