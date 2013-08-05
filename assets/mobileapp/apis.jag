@@ -37,13 +37,22 @@ router.post('apps/upload', function(ctx){
 		var path ="/uploads/"+fileID+fileName;
 		file.saveAs(path);
 		meta.path = path;
-		var zipFileReading = new Packages.com.dchan.research.zipfile.ZipFileReading();
-		log.info(process.getEnv("JAVA_HOME"));
-		var path = process.getEnv("CARBON_HOME")+"/repository/deployment/server/jaggeryapps/publisher"+path;
-		log.info(zipFileReading.readiOSManifestFile(path));
-		var information = JSON.stringify(zipFileReading.readiOSManifestFile(path));
-		mergeRecursive(meta,information);
+		var index = fileName.lastIndexOf('.');
+		var ext = index < fileName.length ? fileName.substring(index + 1) : '';
+	    //Only for IPA files
+		// if(ext=="ipa"){
+		// 			var zipFileReading = new Packages.com.dchan.research.zipfile.ZipFileReading();
+		// 			
+		// 			var path = process.getEnv("PWD")+"/repository/deployment/server/jaggeryapps/publisher"+path;
+		// 			log.info(path);
+		// 			log.info(zipFileReading.readiOSManifestFile(path));
+		// 			var information = JSON.stringify(zipFileReading.readiOSManifestFile(path));
+		// 			mergeRecursive(meta,information);
+		// 		}else if(ext=="apk"){
+		// 			
+		// 		}
 	}
+	log.info(meta);
 	print(meta);
 });
 
