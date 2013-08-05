@@ -250,7 +250,7 @@ textarea:focus,input[type="text"]:focus,input[type="password"]:focus,input[type=
 }
 
 .btn-blue {
-	background-color: hsl(211, 58%, 1%) !important;
+	background-color: hsl(218, 52%, 1%) !important;
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#4E7AC7",
 		endColorstr="#3C6CBF");
@@ -515,4 +515,10 @@ textarea:focus,input[type="text"]:focus,input[type="password"]:focus,input[type=
 
 .form-buttons{
 	padding-top: 10px;
+}
+
+
+
+.app-icon-small{
+	width:40px;
 }

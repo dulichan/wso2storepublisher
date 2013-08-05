@@ -1,7 +1,7 @@
 var render = function (theme, data, meta, require) {
-    theme('default-layout', {
-        app: data.app,
-        
+	
+	
+    theme('default-layout', {      
         header: [
                  {
                      partial: 'header'
@@ -12,7 +12,7 @@ var render = function (theme, data, meta, require) {
         body: [
                  {
                      partial: 'applist',
-                     apps: data
+                     context: data.apps
                  }
         ]
     });
