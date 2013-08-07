@@ -1,11 +1,8 @@
 <%
 
-var caramel = require('caramel');
+var caramel = require('caramel'); 
 
- 
-
-caramel.render({
-	
+caramel.render({	
 
 });
 
