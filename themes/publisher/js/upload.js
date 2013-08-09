@@ -1,3 +1,5 @@
+var appMetaData = null;
+
 $('#application-tab a').click(function(e) {
 	e.preventDefault();
 	$(this).tab('show');
@@ -54,7 +56,8 @@ $('#btn-app-save').click(function(e) {
         isMeetGudeLines: isMeetGudeLines,
         url: "downloads/agent.apk",
         provider: "wso2",
-        version: "1.0"
+        version: "1.0",
+        metadata : appMetaData	
      };
 	
 	
@@ -81,7 +84,8 @@ $(document).ready(function(){
 		                });
 		        },
 		        done: function (e, data) {
-		        	$('#txtWebapp').val(data._response.result[0]);
+		        	appMetaData = data._response;
+		        	//$('#txtWebapp').val(data._response.result[0]);
 		            //alert();
 		        }
 

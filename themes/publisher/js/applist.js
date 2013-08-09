@@ -92,8 +92,23 @@ function onCommandbuttonClick(templateUI) {
 					noty({
 						text : 'App submitted for review',
 						'layout' : 'center',
-						'modal': false
+						'modal': false,
+						
+						buttons: [
+						  		{addClass: 'btn btn-primary', text: 'Ok', onClick: function($noty) {
+						  				$noty.close();
+						  				window.location.reload(true);
+						  				
+						  			}
+						  		}
+						  	]
+						
+						
 					});
+					
+					
+					
+					
 					
 				}
 			});
