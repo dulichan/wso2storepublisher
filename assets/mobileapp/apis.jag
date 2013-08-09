@@ -39,18 +39,17 @@ router.post('apps/upload', function(ctx){
 		meta.path = path;
 		var index = fileName.lastIndexOf('.');
 		var ext = index < fileName.length ? fileName.substring(index + 1) : '';
-	    //Only for IPA files
-		// if(ext=="ipa"){
-		// 			var zipFileReading = new Packages.com.dchan.research.zipfile.ZipFileReading();
-		// 			
-		// 			var path = process.getEnv("PWD")+"/repository/deployment/server/jaggeryapps/publisher"+path;
-		// 			log.info(path);
-		// 			log.info(zipFileReading.readiOSManifestFile(path));
-		// 			var information = JSON.stringify(zipFileReading.readiOSManifestFile(path));
-		// 			mergeRecursive(meta,information);
-		// 		}else if(ext=="apk"){
-		// 			
-		// 		}
+	    // Only for IPA files
+		if(ext=="ipa"){
+					var zipFileReading = new Packages.com.dchan.research.zipfile.ZipFileReading();
+					var path = process.getEnv("PWD")+"/repository/deployment/server/jaggeryapps/publisher"+path;
+					log.info(path);
+					log.info(zipFileReading.readiOSManifestFile(path));
+					var information = JSON.stringify(zipFileReading.readiOSManifestFile(path));
+					mergeRecursive(meta,information);
+				}else if(ext=="apk"){
+					
+				}
 	}
 	log.info(meta);
 	print(meta);
@@ -82,15 +81,14 @@ router.get('dev/{id}/apps',function(ctx){
 
 // Still the lifecycles aren't working. There is noattachlifecyle in genericartifact class
 router.post('apps',function(ctx){
-	var t = ctx.platform || "android";
+	var t = ctx.platform || "mobileapps";
 	var carbon = require('carbon'),
 	       server = new carbon.server.Server(),
 	       registry = new carbon.registry.Registry(server, {
 	           username : 'admin',
 	           tenantId : -1234
-	       });
-
-	var rxtPath = '/_system/governance/android/';
+	       }), um = require('/modules/server.js').userManager();
+	var rxtPath = '/_system/governance/mobileapp/';
 	var files = request.getAllFiles();
 	log.info(files);
 	var banner = files['bannerFile'];
@@ -108,9 +106,9 @@ router.post('apps',function(ctx){
 	var screenshot3 = files['screenshot3File'];
 	screenshot3 = saveFile(screenshot3);
 
-	var screenshots = [screenshot1,screenshot2,screenshot3];
+	var screenshots = screenshot1+","+screenshot2+","+screenshot3;
 	var path = rxtPath + ctx.provider + '/' +ctx.name+ '/' +ctx.version;
-
+	
 	if(ctx.packagename == undefined ||ctx.packagename == ""){
 		ctx.packagename = "com.wso2mobile.wso2phonedirectory";
 	}
@@ -134,11 +132,15 @@ router.post('apps',function(ctx){
     };
 	attributes[attributes.overview_status+"_date"]=printDate();
 	am.add({
-	    name: ctx.name,
-		lifecycle:["applifecycle"],
-		path:path,
-		attributes:attributes 
-	});
+		    name: ctx.name,
+			lifecycle:["applifecycle"],
+			path:path,
+			attributes:attributes 
+		});
+	// while(!registry.exists(path)){
+	// 		log.info(registry.exists(path));
+	// 	}
+	// 	um.authorizeRole(carbon.user.anonRole, "/_system/governance/mobileapp/1WSO2Mobile/android/oooooo/1.0", carbon.registry.actions.GET);
 	response.sendRedirect('/publisher/console/list');
 });
 
