@@ -60,7 +60,7 @@ $('#btn-app-save').click(function(e) {
         metadata : appMetaData	
      };
 	
-	
+	alert(params);
 	$.ajax({
       type: "POST",
       url: "/publisher/api/apps",
@@ -84,7 +84,8 @@ $(document).ready(function(){
 		                });
 		        },
 		        done: function (e, data) {
-		        	appMetaData = data._response;
+		        	//appMetaData = data._response.result;
+					$('#appmeta').val(JSON.stringify(data._response.result));
 		        	//$('#txtWebapp').val(data._response.result[0]);
 		            //alert();
 		        }
