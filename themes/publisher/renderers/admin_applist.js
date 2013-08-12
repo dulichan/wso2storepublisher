@@ -11,7 +11,7 @@ var render = function (theme, data, meta, require) {
         
         body: [
                  {
-                     partial: 'applist',
+                     partial: 'admin_applist',
                      context: data.apps
                  }
         ]

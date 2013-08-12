@@ -72,17 +72,36 @@ function onCommandbuttonClick(templateUI) {
 		var command = $(this).data("type");
 
 		if (command == "remove") {
-			bootbox.confirm("Are you sure you want to delete this app?", function(result) {
-				if (result == true) {
-					$.ajax({
-						type : "POST",
-						url : getServiceURLs("publishApp", app, command),
-						success : function() {
-							window.location.reload(true);
-						}
-					});
-				}
-			});
+				noty({
+				text : 'Are you sure you want to delete this app?',
+				layout: 'center',
+				buttons : [
+						{
+							addClass : 'btn btn-cancel',
+							text : 'Cancel',
+							onClick : function($noty) {
+								$noty.close();
+		
+							}
+		
+						},
+						{
+		
+							addClass : 'btn btn-orange',
+							text : 'Ok',
+							onClick : function($noty) {
+								$.ajax({
+									type : "POST",
+									url : getServiceURLs("publishApp", app, command),
+									success : function() {
+										window.location.reload(true);
+									}
+								});
+		
+							}
+		
+						} ]
+			});	
 		} else if (command == "publish") {
 			
 			$.ajax({
@@ -90,7 +109,7 @@ function onCommandbuttonClick(templateUI) {
 				url : getServiceURLs("publishApp", app, command),
 				success : function() {					
 					noty({
-						text : 'App submitted for review',
+						text : 'App is sent to admin for approval',
 						'layout' : 'center',
 						'modal': false,
 						
