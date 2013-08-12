@@ -89,7 +89,7 @@ router.post('apps',function(ctx){
 	       }), um = require('/modules/server.js').userManager();
 	var rxtPath = '/_system/governance/mobileapp/';
 	var files = request.getAllFiles();
-	log.info(files);
+	
 	var banner = files['bannerFile'];
  	banner = saveFile(banner);
 
@@ -107,10 +107,7 @@ router.post('apps',function(ctx){
 
 	var screenshots = screenshot1+","+screenshot2+","+screenshot3;
 	var path = rxtPath + ctx.provider + '/' + t+ "/"+ctx.name+ '/' +ctx.version;
-	
-	if(ctx.packagename == undefined ||ctx.packagename == ""){
-		ctx.packagename = "com.wso2mobile.wso2phonedirectory";
-	}
+
 	// Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.loadGovernanceArtifacts(registry.registry);
 	am = new carbon.registry.ArtifactManager(registry, "mobileapp");
 	var attributes ={
@@ -118,18 +115,26 @@ router.post('apps',function(ctx){
         overview_name: ctx.name,
 		overview_platform:t,
         overview_version: ctx.version,
-        overview_url: ctx.url,
+        overview_url: ctx.appmeta.url,
         overview_provider: ctx.provider,
 		overview_description: ctx.description,
 		overview_market:ctx.markettype,
 		// overview_recentChanges:ctx.recentChanges,
-		overview_packageName:ctx.packagename,
 		overview_category:ctx.category,
 		images_icon:icon,
 		images_banner:banner,
 		images_screenshots:screenshots
     };
 	attributes[attributes.overview_status+"_date"]=printDate();
+
+	//Due to uncommon extraction types
+	if(ctx.platform.toUpperCase()=='IOS'){
+		attributes.overview_packageName = ctx.appmeta.package;
+		attributes.overview_bundleVersion = ctx.appmeta.version;
+	}else if(ctx.platform.toUpperCase()=='ANDROID'){
+		attributes.overview_packageName = ctx.appmeta.package;
+		attributes.overview_bundleVersion = ctx.appmeta.version;
+	}
 	am.add({
 		    name: ctx.name,
 			lifecycle:["applifecycle"],
