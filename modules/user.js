@@ -7,7 +7,7 @@ var USER_OPTIONS = 'server.user.options';
 var USER_SPACE = 'server.user.space';
 
 var USER_ROLE_PREFIX = 'private_';
-
+var log=new Log();
 var init = function (options) {
     var role, roles, user,
         server = require('/modules/server.js'),
@@ -94,6 +94,7 @@ var userRegistry = function () {
     try {
         return session.get(USER_REGISTRY);
     } catch (e) {
+        log.debug('user registry not loaded: '+e);
         return null;
     }
 };
@@ -134,6 +135,7 @@ var register = function (username, password) {
         'http://www.wso2.org/projects/registry/actions/delete',
         'authorize'
     ];
+
     p = opts.permissions.login;
     for (r in p) {
         if (p.hasOwnProperty(r)) {
@@ -191,11 +193,18 @@ var loginWithSAML = function (username) {
         username: username,
         tenantId: carbon.server.tenantId()
     }));
-	new Log().info('Login with SAML');
-	new Log().info(session.get(USER_REGISTRY));
     session.put(USER_SPACE, new carbon.user.Space(username, opts.userSpace.space, opts.userSpace.options));
     if (opts.login) {
         opts.login(user, "", session);
     }
+
+    var permission = {};
+    permission[opts.userSpace.options.path + '/' + username ] = [
+        carbon.registry.actions.GET,
+        carbon.registry.actions.PUT,
+        carbon.registry.actions.DELETE
+    ];
+    um.authorizeRole(privateRole(username), permission);
+
     return true;
 };
